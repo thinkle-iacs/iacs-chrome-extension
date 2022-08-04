@@ -1,0 +1,45 @@
+{
+
+  "manifest_version": 3,
+  "name": "IACS Home Screen",
+  "version": "0.0.1",
+  "action": {},  
+  "description": "Welcome to IACS!",
+  "icons": {},  
+  "author": "Tom Hinkle",  
+  "background": {        
+  },  
+  "cross_origin_embedder_policy": {"value": "require-corp"},
+  "cross_origin_opener_policy": {"value": "same-origin"},    
+  "devtools_page": "devtools.html",  
+  "externally_connectable": {
+
+  },  
+  "file_system_provider_capabilities": {
+    "configurable": true,
+    "multiple_mounts": true,
+    "source": "network"
+  },
+  "homepage_url": "https://path/to/homepage",    
+  "incognito": "not_allowed",  
+  
+  "offline_enabled": true,
+  "omnibox": {
+    "keyword": "String"
+  },  
+  "optional_permissions": ["tabs"],  
+  "permissions": ["tabs"],
+  "short_name": "IACS Start Screen",
+  "storage": {
+    
+  },    
+  "update_url": "https://path/to/updateInfo.xml",
+  "version_name": "Pre-Beta-Beta",
+  "chrome_url_overrides": {
+    "newtab": "svelte/public/index.html"
+  },
+  
+  "host_permissions" : [
+    "https://www.innovationcharter.org/"
+  ]
+}
