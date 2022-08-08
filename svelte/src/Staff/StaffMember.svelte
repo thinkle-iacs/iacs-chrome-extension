@@ -81,7 +81,7 @@
     gap: var(--pad);
   }
   img {
-    border-bottom: var(--pad) solid var(--lightgrey);
+    border-radius: 5px;
   }
   .image-placeholder {
     width: 200px;
