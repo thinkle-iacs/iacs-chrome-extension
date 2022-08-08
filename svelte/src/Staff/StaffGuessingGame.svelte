@@ -13,12 +13,13 @@
     return member;
   }
 
-  let NUMBER = 9;
+  let NUMBER = 16;
 
   let secret: StaffData;
   let all: StaffData[] = [];
 
   function resetGame() {
+    allStaff = [...staff];
     tries = 0;
     victory = false;
     revealed = {};
@@ -67,6 +68,7 @@
   }
   let victory = false;
   resetGame();
+  let cols = Math.floor(Math.sqrt(NUMBER));
 </script>
 
 {#if victory}
@@ -93,7 +95,7 @@
         >{/if}
       {#if showRole}(their title is {secret.acf.staff_title}){/if}
     {/if}
-    <div class="grid">
+    <div class="grid" style:--cols={cols}>
       {#each all as sm}
         {#key sm.acf.email_address}
           <div
@@ -128,7 +130,7 @@
     display: grid;
     justify-content: center;
     grid-template-rows: auto auto auto;
-    grid-template-columns: 220px 220px 220px;
+    grid-template-columns: repeat(var(--cols), 180px);
   }
   .victory {
     position: fixed;

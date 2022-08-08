@@ -12,10 +12,21 @@
     if (imageCache[id]) {
       imageUrl = imageCache[id];
     } else {
-      let response = await fetch(
-        `https://www.innovationcharter.org/wp-json/wp/v2/media/${id}`
-      );
-      let json = await response.json();
+      let json;
+      try {
+        let response = await fetch(
+          `https://www.innovationcharter.org/wp-json/wp/v2/media/${id}`
+        );
+        json = await response.json();
+        if (json.code == "rest_forbidden") {
+          console.log("Forbidden???");
+          throw "oops";
+        }
+      } catch (err) {
+        console.log("Unable to fetch media details for id", id);
+        console.log("Have staff data: ", staffMember);
+        return;
+      }
       console.log("Fetched media!");
       console.log(json);
       let originalUrl = json.source_url;
