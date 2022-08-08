@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="typescript">
   import TitleBar from "./TitleBar.svelte";
   import Card from "./Card.svelte";
   import Menu from "./Menu.svelte";
@@ -6,6 +6,7 @@
   import TipCard from "./TipCard.svelte";
   import type { Tip } from "./types";
   import { tips } from "./tips";
+  /* import CalendarCard from "./Calendar/CalendarCard.svelte"; */
   let tipIndex = 0;
 </script>
 
@@ -40,6 +41,7 @@
     align-items: start;
   }
   :root {
+    --darkgrey: #373737;
     --lightgrey: #aaa;
     --blue: #0033a0;
     --red: #c6093b;
