@@ -23,6 +23,20 @@
             'More info on kiosk mode etc. <a href="https://sites.google.com/innovationcharter.org/teacher-tech/e-hallpass">here</a>',
           icon: "./icons/ehallpass.ico",
         },
+        {
+          title: "Systems Thinking",
+          items: [
+            {
+              title: "Loopy",
+              link: "https://ncase.me/loopy/",
+              detail: "A very simple tool for drawing loops",
+            },
+            {
+              title: "Stella",
+              link: "https://www.iseesystems.com/store/products/stella-online.aspx",
+            },
+          ],
+        },
       ],
     },
     {
@@ -43,6 +57,16 @@
           title: "Drive",
           link: "https://drive.google.com",
           icon: "./icons/drive.png",
+        },
+        {
+          title: "Other Apps",
+          items: [
+            {
+              title: "LucidPress",
+              link: "https://lucid.app/documents",
+              detail: "Graphic design/Layout software",
+            },
+          ],
         },
       ],
     },
