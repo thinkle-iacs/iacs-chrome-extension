@@ -21,8 +21,7 @@
     <ul>
       {#each menuitem.items as mi}
         {#if mi.items}
-          <li>
-            Recursive! {JSON.stringify(mi)}
+          <li class="sub">
             <svelte:self menuitem={mi} />
           </li>
         {:else}
@@ -71,5 +70,14 @@
     align-items: center;
     justify-content: start;
     gap: 2px;
+  }
+
+  .sub {
+    border-top: 1px solid var(--lightgrey);
+    padding-top: var(--pad);
+  }
+  .sub:first-child {
+    border-top: 0px;
+    padding-top: inherit;
   }
 </style>

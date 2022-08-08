@@ -37,6 +37,9 @@
     -webkit-filter: grayscale(0.7) invert(1);
     filter: grayscale(0.7) invert(1);
   }
+  a img {
+    transition: filter, -webkit-filter 350ms;
+  }
   .detail {
     font-size: var(--small);
     font-weight: var(--skinny);
@@ -67,6 +70,6 @@
     justify-content: start;
     gap: 2px;
     padding: var(--pad);
-    transition: background-color 300ms;
+    transition: background-color 350ms;
   }
 </style>
