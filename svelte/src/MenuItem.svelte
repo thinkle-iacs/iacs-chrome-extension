@@ -1,5 +1,5 @@
 <script lang="typescript">
-  import type Menuitem from "./types";
+  import type { Menuitem } from "./types";
   export let mi: Menuitem;
 </script>
 
