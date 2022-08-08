@@ -1,4 +1,5 @@
 <script lang="typescript">
+  import { fade, fly } from "svelte/transition";
   import type { StaffData } from "./types";
   import StaffMember from "./StaffMember.svelte";
   export let staff: StaffData[];
@@ -69,13 +70,13 @@
 </script>
 
 {#if victory}
-  <div class="victory">
+  <div class="victory" in:fly={{ x: -1200, y: -1200 }} out:fade>
     <div>
       <b
         >You got it in only {tries} attempt{#if tries > 1}s{/if}!</b
       >
       <StaffMember staffMember={secret} />
-      <button on:click={resetGame}>Play Again</button>
+      <button on:click={resetGame}>Go me!</button>
     </div>
   </div>
 {/if}

@@ -19,9 +19,16 @@
       console.log("Fetched media!");
       console.log(json);
       let originalUrl = json.source_url;
-      let imageDataResponse = await fetch(originalUrl);
-      let imageData = await imageDataResponse.blob();
-      console.log("Got image data!", imageData);
+      let imageData;
+      try {
+        let imageDataResponse = await fetch(originalUrl);
+        imageData = await imageDataResponse.blob();
+      } catch (err) {
+        console.log("Unable to fetch image, try setting directly...");
+        imageUrl = originalUrl;
+        imageCache[id] = imageUrl;
+        return;
+      }
       imageUrl = URL.createObjectURL(imageData);
       imageCache[id] = imageUrl;
     }
