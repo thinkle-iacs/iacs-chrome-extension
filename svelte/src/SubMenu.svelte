@@ -13,7 +13,7 @@
 
 <nav>
   {#if menuitem.link}
-    <a href={menuitem.link}>{menuitem.title}</a>
+    <MenuItem mi={menuitem} />
   {:else}
     <h2>{menuitem.title}</h2>
   {/if}
