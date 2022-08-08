@@ -1,5 +1,5 @@
 <script lang="typescript">
-  import type Menuitem from "./types";
+  import type { Menuitem } from "./types";
   import SubMenu from "./SubMenu.svelte";
   let menuItems: Menuitem[] = [
     {
@@ -9,6 +9,7 @@
           title: "Aspen",
           link: "https://ma-innovation.myfollett.com/",
           detail: "Gradebook and Student Information System",
+          icon: "./icons/aspen.ico",
         },
         {
           title: "Classroom",
@@ -41,25 +42,41 @@
     {
       title: "HR",
       items: [
-        { title: "ADP", link: "https://workforcenow.adp.com/" },
-        { title: "Employee Navigator", link: "aaa" },
+        {
+          title: "ADP",
+          link: "https://workforcenow.adp.com/",
+          detail: "Time Off and Paycheck Info",
+          icon: "./icons/adp.png",
+        },
+        {
+          title: "Employee Navigator",
+          link: "https://fredcchurch.employeenavigator.com/",
+          detail: "Benefits",
+        },
       ],
     },
     {
       title: "Resources",
       items: [
         {
+          title: "Facilities Request Form",
+          link: "https://docs.google.com/forms/d/e/1FAIpQLScl-fZa2mfc1DQXlyo0fMGY2l6w0He3xdVxWJeZ6U5dqw4yEg/viewform",
+          icon: "./icons/hammer.png",
+        },
+        {
           title: "Tech Support",
           link: "https://support.innovationcharter.org",
           detail: "IACS Tech How-To's and support",
+          icon: "./icons/help.png",
         },
         {
           title: "School Website",
-          link: "www.innovationcharter.org",
+          link: "https://www.innovationcharter.org",
+          icon: "./icons/iacs-icon.png",
         },
         {
           title: "Library",
-          link: "iacs.library.site",
+          link: "https://iacs.library.site",
         },
         {
           title: "Staff Directory",
@@ -73,6 +90,7 @@
         {
           title: "Procurify",
           detail: "Ordering stuff",
+          icon: "./icons/procurify.png",
           link: "https://iacs.procurify.com",
         },
         {

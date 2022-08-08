@@ -37,8 +37,8 @@
     font-size: var(--big);
   }
   .icon {
-    width: 32px;
-    height: 32px;
+    max-width: 32px;
+    max-height: 32px;
   }
   .icon-placeholder {
     width: 32px;
