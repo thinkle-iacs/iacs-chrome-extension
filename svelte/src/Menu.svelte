@@ -3,7 +3,7 @@
   import SubMenu from "./SubMenu.svelte";
   let menuItems: Menuitem[] = [
     {
-      title: "Teaching & Grading",
+      title: "Teaching",
       items: [
         {
           title: "Aspen",
@@ -15,6 +15,13 @@
           title: "Classroom",
           link: "https://classroom.google.com",
           icon: "./icons/classroom.png",
+        },
+        {
+          title: "E-Hallpass",
+          link: "https://www.e-hallpass.com/login",
+          detail:
+            'More info on kiosk mode etc. <a href="https://sites.google.com/innovationcharter.org/teacher-tech/e-hallpass">here</a>',
+          icon: "./icons/ehallpass.ico",
         },
       ],
     },
@@ -52,6 +59,12 @@
           title: "Employee Navigator",
           link: "https://fredcchurch.employeenavigator.com/",
           detail: "Benefits",
+        },
+        {
+          link: "https://www.ezschoolapps.com/",
+          title: "EZ Substitute",
+          detail:
+            'More info <a href="https://sites.google.com/innovationcharter.org/teacher-tech/staff-absences-ez-substitute-management">here</a>',
         },
       ],
     },

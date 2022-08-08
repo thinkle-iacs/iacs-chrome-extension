@@ -13,7 +13,7 @@
     <div class="title">{mi.title}</div>
     {#if mi.detail}
       <div class="detail">
-        {mi.detail}
+        {@html mi.detail}
       </div>
     {/if}
   </div>
@@ -26,7 +26,16 @@
   }
   a:hover {
     background-color: var(--blue);
-    color: white;
+    color: #ffffff;
+  }
+  a:hover :global(a) {
+    font-weight: bold;
+    color: rgb(184, 184, 217);
+  }
+
+  a:hover img {
+    -webkit-filter: grayscale(0.7) invert(1);
+    filter: grayscale(0.7) invert(1);
   }
   .detail {
     font-size: var(--small);
