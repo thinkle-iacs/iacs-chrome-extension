@@ -15,8 +15,15 @@
     second: "numeric",
   });
 
-  let currentBlock: ScheduleBlock, previousBlock: ScheduleBlock;
-  let nextBlocks: ScheduleBlock[] = [];
+  let {
+    currentBlock,
+    previousBlock,
+    nextBlocks,
+  }: {
+    currentBlock: ScheduleBlock;
+    previousBlock: ScheduleBlock;
+    nextBlocks: ScheduleBlock[];
+  } = getHSBlock(new Date());
 
   onMount(() => {
     setInterval(() => {
