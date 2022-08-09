@@ -9,10 +9,12 @@
 <div class="block" class:bold>
   <div class="block-title">{block.name}</div>
   <div class="time">
-    <span class="day">{days[block.day]}</span>
-    <span class="times">
-      {formatTime(block.start)}&ndash;{formatTime(block.end)}
-    </span>
+    {#if block.day}<span class="day">{days[block.day]}</span>{/if}
+    {#if block.start && block.end}
+      <span class="times">
+        {formatTime(block.start)}&ndash;{formatTime(block.end)}
+      </span>
+    {/if}
   </div>
 </div>
 

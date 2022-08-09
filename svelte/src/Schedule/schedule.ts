@@ -1,7 +1,7 @@
 export type ScheduleBlock = {
-  day: number;
-  start: string;
-  end: string;
+  day?: number;
+  start?: string;
+  end?: string;
   name: string;
 };
 
@@ -34,13 +34,13 @@ let hs_schedule: ScheduleBlock[] = [
     day: M,
     start: "12:29",
     end: "12:53",
-    name: "9/10 Lunch, 11/12 Advisory",
+    name: "9/10L, 11/12Adv",
   },
   {
     day: M,
     start: "12:58",
     end: "13:22",
-    name: "11/12 Lunch, 9/10 Advisory",
+    name: "11/12 L, 9/10 Adv",
   },
   {
     day: M,
@@ -71,13 +71,13 @@ let hs_schedule: ScheduleBlock[] = [
     day: T,
     start: "12:29",
     end: "12:53",
-    name: "9/10 Lunch, 11/12 Advisory",
+    name: "9/10 L, 11/12 Adv",
   },
   {
     day: T,
     start: "12:58",
     end: "13:22",
-    name: "11/12 Lunch, 9/10 Advisory",
+    name: "11/12 L, 9/10 Adv",
   },
   {
     day: T,
@@ -108,13 +108,13 @@ let hs_schedule: ScheduleBlock[] = [
     day: W,
     start: "12:29",
     end: "12:53",
-    name: "9/10 Lunch, 11/12 Advisory",
+    name: "9/10 L, 11/12 Adv",
   },
   {
     day: W,
     start: "12:58",
     end: "13:22",
-    name: "11/12 Lunch, 9/10 Advisory",
+    name: "11/12 L, 9/10 Adv",
   },
   {
     day: W,
@@ -145,13 +145,13 @@ let hs_schedule: ScheduleBlock[] = [
     day: R,
     start: "12:29",
     end: "12:53",
-    name: "9/10 Lunch, 11/12 Advisory",
+    name: "9/10 L, 11/12 Adv",
   },
   {
     day: R,
     start: "12:58",
     end: "13:22",
-    name: "11/12 Lunch, 9/10 Advisory",
+    name: "11/12 L, 9/10 Adv",
   },
   {
     day: R,
@@ -182,13 +182,13 @@ let hs_schedule: ScheduleBlock[] = [
     day: F,
     start: "12:29",
     end: "12:53",
-    name: "9/10 Lunch, 11/12 Advisory",
+    name: "9/10 L, 11/12 Adv",
   },
   {
     day: F,
     start: "12:58",
     end: "13:22",
-    name: "11/12 Lunch, 9/10 Advisory",
+    name: "11/12 L, 9/10 Adv",
   },
   {
     day: F,
@@ -225,55 +225,89 @@ export function formatTime(timestring) {
 }
 
 export function getHSBlock(date: Date) {
+  return getBlock(date, hs_schedule);
+}
+
+export function getBlock(date: Date, schedule) {
   let weekday = date.getDay();
   let hour = date.getHours();
   let minutes = date.getMinutes();
   let minute_offset = minutes + hour * 60;
-  for (let idx = 0; idx < hs_schedule.length; idx++) {
-    let block = hs_schedule[idx];
+
+  let ret: {
+    currentBlock: ScheduleBlock;
+    previousBlock: ScheduleBlock;
+    nextBlocks: ScheduleBlock[];
+  } = {
+    currentBlock: null,
+    previousBlock: null,
+    nextBlocks: [],
+  };
+
+  for (let idx = 0; idx < schedule.length; idx++) {
+    let block = schedule[idx];
     if (block.day < weekday) {
       continue;
     } else if (block.day == weekday) {
       // TODAY!
       let start = parseTime(block.start);
       let end = parseTime(block.end);
+      if (start.minute_offset > minute_offset) {
+        // We are before the block...
+        if (idx > 0) {
+          ret.previousBlock = schedule[idx - 1];
+          if (ret.previousBlock.day == block.day) {
+            ret.currentBlock = { name: "Passing Time" };
+          } else {
+            ret.currentBlock = {
+              name: "Before School",
+            };
+          }
+        } else {
+          ret.currentBlock = {
+            name: "Before School",
+          };
+        }
+        ret.nextBlocks = gatherNextBlocks(idx);
+        return ret;
+      }
       if (
         start.minute_offset < minute_offset &&
         end.minute_offset > minute_offset
       ) {
         // This is the block!!!
-        let currentBlock = block;
-        let previousBlock = null;
-        let nextBlock = null;
+        ret.currentBlock = block;
         if (idx > 0) {
-          previousBlock = hs_schedule[idx - 1];
+          ret.previousBlock = schedule[idx - 1];
         }
-        if (idx < hs_schedule.length - 1) {
-          nextBlock = hs_schedule[idx + 1];
+        if (idx < schedule.length - 1) {
+          ret.nextBlocks = gatherNextBlocks(idx + 1);
         }
-        return {
-          currentBlock,
-          nextBlock,
-          previousBlock,
-        };
+        return ret;
       }
     } else if (block.day > weekday) {
       let previousBlock = null;
       if (idx > 0) {
-        previousBlock = hs_schedule[idx - 1];
+        ret.previousBlock = schedule[idx - 1];
       }
-      let nextBlocks = [block];
-      for (let i = idx + 1; i < hs_schedule.length; i++) {
-        let candidateBlock = hs_schedule[i];
-        if (candidateBlock.day == block.day) {
-          nextBlocks.push(candidateBlock);
-        }
-      }
-      return {
-        nextBlocks,
-        previousBlock,
-        currentBlock: null,
-      };
+      ret.nextBlocks = gatherNextBlocks(idx);
+      ret.currentBlock = { name: "After school" };
+      return ret;
     }
+  }
+
+  function gatherNextBlocks(idx) {
+    if (idx > schedule.length - 1) {
+      return [];
+    }
+    let block = schedule[idx];
+    let nextBlocks = [block];
+    for (let i = idx + 1; i < schedule.length; i++) {
+      let candidateBlock = schedule[i];
+      if (candidateBlock.day == block.day) {
+        nextBlocks.push(candidateBlock);
+      }
+    }
+    return nextBlocks;
   }
 }
