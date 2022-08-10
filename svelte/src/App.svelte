@@ -6,7 +6,9 @@
   import TipCard from "./TipCard.svelte";
   import type { Tip } from "./types";
   import { tips } from "./tips";
-  /* import CalendarCard from "./Calendar/CalendarCard.svelte"; */
+  import CalendarCard from "./Calendar/CalendarCard.svelte";
+  import RemoteCards from "./CardFetcher/RemoteCards.svelte";
+
   let tipIndex = 0;
 </script>
 
@@ -14,6 +16,8 @@
   <TitleBar />
   <Menu />
   <div class="card-container">
+    <RemoteCards />
+    <CalendarCard />
     {#key tipIndex}
       <TipCard
         tip={tips[tipIndex]}
@@ -53,17 +57,5 @@
     --bold: 900;
     --space: 8px;
     --pad: 4px;
-  }
-  main {
-    text-align: center;
-    padding: 1em;
-    max-width: 240px;
-    margin: 0 auto;
-  }
-
-  @media (min-width: 640px) {
-    main {
-      max-width: none;
-    }
   }
 </style>
