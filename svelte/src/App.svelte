@@ -17,7 +17,6 @@
   <Menu />
   <div class="card-container">
     <RemoteCards />
-    <CalendarCard />
     {#key tipIndex}
       <TipCard
         tip={tips[tipIndex]}
@@ -33,6 +32,7 @@
       <h2 slot="head">How well do you know our staff?</h2>
       <div slot="body"><StaffMembers /></div>
     </Card>
+    <CalendarCard />
   </div>
 </main>
 
