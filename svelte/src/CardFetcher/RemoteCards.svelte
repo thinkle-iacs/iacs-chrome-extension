@@ -14,9 +14,17 @@
     <h2 slot="head">{card.title}</h2>
     <div slot="body">
       {@html card.html}
+    </div>
+    <div slot="footer">
       {#if card.url}
-        <a href={card.url}>Original</a>
+        <a style="margin-left: auto" href={card.url}>See original</a>
       {/if}
     </div>
   </Card>
 {/each}
+
+<style>
+  h2 {
+    margin: 0;
+  }
+</style>
