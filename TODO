@@ -1,0 +1,8 @@
+Features to Implement
+---------------------
+- Implement fetching data from public URL so we can update screen without updating chrome extension.
+- Implementing google API or using google apps script workaround (e.g. create a public URL/API for stuff we want)
+  - Grabbing google docs (e.g. staff memo)
+  - Grabbing calendar events (e.g. birthdays)
+- Implement time-bound "cards" for information that should appear then disappear
+- Implement "settings" for MS/HS/etc.
