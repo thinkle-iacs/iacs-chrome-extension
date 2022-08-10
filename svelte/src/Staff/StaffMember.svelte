@@ -29,6 +29,9 @@
       }
       console.log("Fetched media!");
       console.log(json);
+      imageUrl = json.source_url;
+      imageCache[id] = imageUrl;
+      /*
       let originalUrl = json.source_url;
       let imageData;
       try {
@@ -42,6 +45,7 @@
       }
       imageUrl = URL.createObjectURL(imageData);
       imageCache[id] = imageUrl;
+      */
     }
   }
 

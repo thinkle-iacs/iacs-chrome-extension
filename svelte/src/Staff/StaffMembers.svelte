@@ -44,12 +44,16 @@
 </script>
 
 {#if !staffMembers.length}
-  <button on:click={getStaff}>Load Staff...</button>
+  <button on:click={getStaff}>Play Guess-that-Staff Game...</button>
 {:else if !playGame}
   <button on:click={() => (playGame = true)}>Play the Staff Game!</button>
 {/if}
 {#if playGame}
   <StaffGuessingGame
+    closeGame={() => {
+      console.log("Closing game");
+      playGame = false;
+    }}
     staff={staffMembers.filter((sm) => sm.acf.profile_image)}
   />
 {/if}
@@ -63,3 +67,19 @@
     )}
     <hr />
   {/each} -->
+<style>
+  button {
+    border: none;
+    border-radius: 15px;
+    transition: all 300ms;
+    background-color: var(--blue);
+    color: white;
+    font-weight: bold;
+    padding: var(--pad);
+  }
+  button:hover {
+    box-shadow: 3px 3px var(--dark-overlay);
+    background-color: white;
+    color: var(--blue);
+  }
+</style>

@@ -1,4 +1,5 @@
 <script lang="typescript">
+  export let closeGame;
   import { fade, fly } from "svelte/transition";
   import type { StaffData } from "./types";
   import StaffMember from "./StaffMember.svelte";
@@ -7,6 +8,30 @@
 
   let options: StaffData[] = [];
   let tries = 0;
+  let totalTries = 0;
+  let totalCorrect = 0;
+
+  let praisewords = [
+    "Go you!",
+    "Way to go!",
+    "Nice one!",
+    "Excellent!",
+    "Sweet!",
+    "I'm so proud of you!",
+    "Alright!",
+    "That's the way!",
+  ];
+  let praise = "Yes!";
+
+  $: if (victory) {
+    praise = getRandom(praisewords);
+  }
+
+  function getRandom(array) {
+    let i = Math.floor(Math.random() * array.length);
+    return array[i];
+  }
+
   function getRandomStaff() {
     let i = Math.floor(Math.random() * allStaff.length);
     let member = allStaff.splice(i, 1)[0];
@@ -60,10 +85,12 @@
 
   function revealMember(sm) {
     tries += 1;
+    totalTries += 1;
     console.log("Reveal", sm);
     revealed[sm.acf.email_address] = true;
     if (sm === secret) {
       victory = true;
+      totalCorrect += 1;
     }
   }
   let victory = false;
@@ -74,27 +101,39 @@
 {#if victory}
   <div class="victory" in:fly={{ x: -1200, y: -1200 }} out:fade>
     <div>
+      <h1>{praise}</h1>
       <b
         >You got it in only {tries} attempt{#if tries > 1}s{/if}!</b
       >
       <StaffMember staffMember={secret} />
-      <button on:click={resetGame}>Go me!</button>
+      <button on:click={closeGame}>All done for now</button>
+      <button on:click={resetGame}>Go me! Play again!</button>
+      <div class="score">
+        You&rsquo;ve guessed {totalCorrect} in {totalTries}
+        {#if totalTries == 1}attempt{:else}attempts{/if}
+      </div>
     </div>
   </div>
 {/if}
 {#if secret}
-  <div class="question">
-    Which Staff Member is
-    <b
-      >{secret.acf.first_name}&nbsp;
-      {secret.acf.last_name}</b
-    >?
-    {#if secret.acf.staff_title}
-      {#if !showRole}<button on:click={() => (showRole = true)}
-          >Need a Hint?</button
-        >{/if}
-      {#if showRole}(their title is {secret.acf.staff_title}){/if}
-    {/if}
+  <article>
+    <button class="close" on:click={closeGame}>&times;</button>
+    <div class="question">
+      Which Staff Member is
+      <b
+        >{secret.acf.first_name}&nbsp;
+        {secret.acf.last_name}</b
+      >?
+      {#if secret.acf.staff_title}
+        {#if !showRole}<button on:click={() => (showRole = true)}
+            >Need a Hint?</button
+          >{/if}
+        {#if showRole}(their title is {secret.acf.staff_title}){/if}
+      {/if}
+      <div class="score">
+        {#if totalTries}{totalCorrect}/{totalTries}{/if}
+      </div>
+    </div>
     <div class="grid" style:--cols={cols}>
       {#each all as sm}
         {#key sm.acf.email_address}
@@ -111,12 +150,23 @@
         {/key}
       {/each}
     </div>
-  </div>
+  </article>
 {:else}
   Huh no secret yet?
 {/if}
 
 <style>
+  .close {
+    position: absolute;
+    z-index: 99;
+    right: calc(3 * var(--pad));
+    top: calc(3 * var(--pad));
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+  }
   .grid div {
     transition: transform 300ms;
   }
@@ -133,6 +183,7 @@
     grid-template-columns: repeat(var(--cols), 180px);
   }
   .victory {
+    text-align: center;
     position: fixed;
     z-index: 2;
     width: 100vw;
@@ -147,5 +198,34 @@
   }
   .question {
     font-size: 125%;
+    min-height: 3em;
+    position: sticky;
+    top: 0px;
+    background-color: black;
+  }
+  article {
+    text-align: center;
+    background-color: var(--dark-overlay);
+    color: var(--light-text);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: scroll;
+  }
+  article :global(a),
+  .victory :global(a) {
+    color: #ccf;
+  }
+  button {
+    border: none;
+    border-radius: 15px;
+    transition: all 300ms;
+    background-color: #efefef;
+  }
+  button:hover {
+    box-shadow: 3px 3px var(--dark-overlay);
+    background-color: white;
   }
 </style>
