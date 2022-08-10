@@ -14,11 +14,12 @@
   .card {
     display: flex;
     flex-direction: column;
-    max-width: 800px;
-    min-width: 450px;
+    /* max-width: calc(min(800px, 45vw));
+    min-width: calc(max(250px, 30vw)); */
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 16px;
     padding: var(--pad);
+    margin: var(--pad);
   }
   .card:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
