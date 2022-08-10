@@ -8,8 +8,8 @@
   import { tips } from "./tips";
   import CalendarCard from "./Calendar/CalendarCard.svelte";
   import RemoteCards from "./CardFetcher/RemoteCards.svelte";
-
-  let tipIndex = 0;
+  let dayNum = new Date().getDate();
+  let tipIndex = dayNum % tips.length;
 </script>
 
 <main>
@@ -38,11 +38,21 @@
 
 <style>
   .card-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 4px;
     align-items: start;
+    justify-items: center;
+  }
+  @media screen and (max-width: 1000px) {
+    .card-container {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    .card-container {
+      grid-template-columns: 1fr;
+    }
   }
   :root {
     --darkgrey: #373737;
@@ -57,5 +67,7 @@
     --bold: 900;
     --space: 8px;
     --pad: 4px;
+    --dark-overlay: #000c;
+    --light-text: #efefff;
   }
 </style>
