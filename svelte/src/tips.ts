@@ -37,8 +37,8 @@ export let tips: Tip[] = [
     content: `
       <p>If you can't get printing to work, you can upload a PDF <em>directly</em>
       to the printer by typing its IP address into your browser as if it was a website.</p>
-      <p>So if you type <span class="key"> 
-      192.168.0.32</span> into your URL bar for Bernadette, you'll be able to access a simple
+      <p>So if you type <a href="https://192.168.0.32" class="key"> 
+      192.168.0.32</a> into your URL bar for Bernadette, you'll be able to access a simple
       web interface where you can upload a file to print.</p>
       
       <p>When something is wrong with the print server or 
@@ -60,5 +60,16 @@ export let tips: Tip[] = [
       <br>
       It's good to get a feel for the tools are students are using once in a while anyway :)          
     `,
+  },
+  {
+    title: `Love wordle? Play at school`,
+    content: `
+    There's an easter-egg built into the staff signout bot where you can play
+    wordle by chatting a 5-letter word to the bot.
+    <br>
+    <br>If you're a real wordle addict, Tom also wrote his own wordle-clone
+    which you should check out <a href="https://www.nordle.us">www.nordle.us</a>    
+    `,
+    link: "https://www.nordle.us",
   },
 ];
