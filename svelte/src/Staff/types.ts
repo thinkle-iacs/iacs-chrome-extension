@@ -13,6 +13,7 @@ export type StaffDept = {
 };
 export type StaffData = {
   link: string;
+  id: string;
   acf: {
     profile_image: number;
     staff_department: StaffDept[];

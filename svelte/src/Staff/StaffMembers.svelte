@@ -75,11 +75,11 @@
     background-color: var(--blue);
     color: white;
     font-weight: bold;
-    padding: var(--pad);
+    padding: calc(3 * var(--pad));
   }
   button:hover {
     box-shadow: 3px 3px var(--dark-overlay);
-    background-color: white;
-    color: var(--blue);
+    /* background-color: white;
+    color: var(--blue); */
   }
 </style>

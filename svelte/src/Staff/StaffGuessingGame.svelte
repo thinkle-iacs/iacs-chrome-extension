@@ -78,7 +78,7 @@
 
     return array;
   }
-
+  $: console.log(revealed);
   let showRole = false;
 
   let revealed = {};
@@ -87,7 +87,7 @@
     tries += 1;
     totalTries += 1;
     console.log("Reveal", sm);
-    revealed[sm.acf.email_address] = true;
+    revealed[sm.id] = true;
     if (sm === secret) {
       victory = true;
       totalCorrect += 1;
@@ -136,15 +136,15 @@
     </div>
     <div class="grid" style:--cols={cols}>
       {#each all as sm}
-        {#key sm.acf.email_address}
+        {#key sm.id}
           <div
             on:click={() => revealMember(sm)}
-            class:revealed={!!revealed[sm.acf.email_address]}
+            class:revealed={revealed[sm.id]}
           >
             <StaffMember
               staffMember={sm}
-              showRole={!!revealed[sm.acf.email_address]}
-              showName={!!revealed[sm.acf.email_address]}
+              showRole={!!revealed[sm.id]}
+              showName={!!revealed[sm.id]}
             />
           </div>
         {/key}
@@ -157,7 +157,7 @@
 
 <style>
   .close {
-    position: absolute;
+    position: fixed;
     z-index: 99;
     right: calc(3 * var(--pad));
     top: calc(3 * var(--pad));

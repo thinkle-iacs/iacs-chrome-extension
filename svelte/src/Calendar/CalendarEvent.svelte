@@ -20,7 +20,6 @@
   {#if showDesc}
     <div class="desc">{@html event.description}</div>
   {/if}
-  {event.id}
 </div>
 
 <style>

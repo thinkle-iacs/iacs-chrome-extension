@@ -1,9 +1,9 @@
 import type { ScheduleBlock } from "./types";
 
 import { hs_schedule } from "./hs_schedule";
-import { ms_56_a, ms_78_a } from "./ms_schedule";
+import { ms_56_a, ms_78_a, ms_56_ela, ms_78_ela } from "./ms_schedule";
 console.log("MS Sched:", ms_56_a);
-export { hs_schedule, ms_56_a, ms_78_a };
+export { hs_schedule, ms_56_a, ms_78_a, ms_56_ela, ms_78_ela };
 function parseTime(s) {
   let [h, m] = s.split(":");
   let mnum = Number(m);

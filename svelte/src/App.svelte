@@ -8,6 +8,7 @@
   import { tips } from "./tips";
   import CalendarCard from "./Calendar/CalendarCard.svelte";
   import RemoteCards from "./CardFetcher/RemoteCards.svelte";
+  import ScheduleCard from "./Schedule/ScheduleCard.svelte";
   let dayNum = new Date().getDate();
   let tipIndex = dayNum % tips.length;
 </script>
@@ -16,6 +17,7 @@
   <TitleBar />
   <Menu />
   <div class="card-container">
+    <ScheduleCard />
     <RemoteCards />
     {#key tipIndex}
       <TipCard

@@ -219,5 +219,43 @@ export const make_ms_a = (middle = make_56_middle, wednesday = wed_56) => {
   return [...makeMT(M), ...makeMT(T), ...wednesday, ...makeRF(R), ...makeRF(F)];
 };
 
+export const make_ms_ela = (middle = make_56_middle, wednesday = wed_56) => {
+  // Monday,Tuesday
+  const makeDay = (day) => {
+    let blocks;
+    if (day == M || day == T) {
+      blocks = "ACDF";
+    } else {
+      blocks = "DFAC";
+    }
+    return [
+      {
+        day,
+        name: blocks[0] + "+ELA",
+        start: "8:10",
+        end: "9:10",
+      },
+      {
+        day,
+        name: blocks[1] + "+ELA",
+        start: "9:43",
+        end: "10:44",
+      },
+      ...middle(day),
+      { day, name: blocks[2] + "+ELA", start: "12:10", end: "13:10" },
+      { day, name: blocks[3] + "+ELA", start: "13:43", end: "14:45" },
+    ];
+  };
+  return [
+    ...makeDay(M),
+    ...makeDay(T),
+    ...wednesday,
+    ...makeDay(R),
+    ...makeDay(F),
+  ];
+};
+
 export const ms_56_a = make_ms_a();
 export const ms_78_a = make_ms_a(make_78_middle, wed_78);
+export const ms_56_ela = make_ms_ela(make_56_middle, wed_56);
+export const ms_78_ela = make_ms_ela(make_78_middle, wed_78);
