@@ -1,8 +1,19 @@
 Features to Implement
 ---------------------
-- Implement fetching data from public URL so we can update screen without updating chrome extension.
-- Implementing google API or using google apps script workaround (e.g. create a public URL/API for stuff we want)
-  - Grabbing google docs (e.g. staff memo)
-  - Grabbing calendar events (e.g. birthdays)
-- Implement time-bound "cards" for information that should appear then disappear
+
+- Cache data that we fetched for quick load...
+  - Hard-coded (step 1)
+  - Fetched and cached (step 2)
+  - Use cached... (step 3)
+  - Check for update (step 4 -- how often?)
 - Implement "settings" for MS/HS/etc.
+
+
+- Implement fetching data from public URL so we can update screen without updating chrome extension.
+  - MAYBE NOT NEEDED IF WE JUST GRAB FROM GOOGLE???
+- Implementing google API or using google apps script workaround (e.g. create a public URL/API for stuff we want) [x]
+  - Grabbing google docs (e.g. staff memo) (x)
+  - Grabbing calendar events (e.g. birthdays) (x)
+- Implement time-bound "cards" for information that should appear then disappear
+  - MAYBE NOT NEEDED GIVEN OUR NEW GOOGLE-DOC-BASED CARD SETUP!
+
