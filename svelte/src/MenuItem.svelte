@@ -34,8 +34,8 @@
   }
 
   a:hover img {
-    -webkit-filter: grayscale(0.7) invert(1);
-    filter: grayscale(0.7) invert(1);
+    -webkit-filter: grayscale(1) invert(1);
+    filter: grayscale(1) invert(1);
   }
   a img {
     transition: filter, -webkit-filter 350ms;
