@@ -17,7 +17,6 @@
   <TitleBar />
   <Menu />
   <div class="card-container">
-    <ScheduleCard />
     <RemoteCards />
     {#key tipIndex}
       <TipCard
@@ -35,6 +34,7 @@
       <div slot="body"><StaffMembers /></div>
     </Card>
     <CalendarCard />
+    <ScheduleCard />
   </div>
 </main>
 
