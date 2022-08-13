@@ -42,9 +42,6 @@
   }
 
   .bold {
-    color: black;
-    background-color: var(--darkgrey);
-    color: white;
-    font-weight: var(--skinny);
+    font-weight: var(--thick);
   }
 </style>
