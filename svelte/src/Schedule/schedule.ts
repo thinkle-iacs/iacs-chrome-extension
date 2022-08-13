@@ -1,9 +1,5 @@
 import type { ScheduleBlock } from "./types";
-
-import { hs_schedule } from "./hs_schedule";
-import { ms_56_a, ms_78_a, ms_56_ela, ms_78_ela } from "./ms_schedule";
-console.log("MS Sched:", ms_56_a);
-export { hs_schedule, ms_56_a, ms_78_a, ms_56_ela, ms_78_ela };
+import { getBlock } from "./schedule";
 function parseTime(s) {
   let [h, m] = s.split(":");
   let mnum = Number(m);
@@ -101,6 +97,13 @@ export function getBlock(date: Date, schedule) {
       return ret;
     }
   }
+
+  // If we make it all the way through, it's the end of the week!
+  ret.currentBlock = {
+    name: "It's the weekend!",
+  };
+  ret.nextBlocks = gatherNextBlocks(0);
+  return ret;
 
   function gatherNextBlocks(idx) {
     if (idx > schedule.length - 1) {

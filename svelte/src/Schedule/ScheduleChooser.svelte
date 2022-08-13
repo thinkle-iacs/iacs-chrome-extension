@@ -1,13 +1,9 @@
 <script lang="ts">
   export let onChange;
+  import { hs_schedule } from "./hs_schedule";
 
-  import {
-    hs_schedule,
-    ms_56_ela,
-    ms_78_ela,
-    ms_56_a,
-    ms_78_a,
-  } from "./schedule";
+  import { ms_56_ela, ms_78_ela, ms_56_a, ms_78_a } from "./ms_schedule";
+
   let schedule_options = [
     {
       name: "HS",
