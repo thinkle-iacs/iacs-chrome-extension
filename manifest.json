@@ -25,9 +25,7 @@
   "offline_enabled": true,
   "omnibox": {
     "keyword": "String"
-  },  
-  "optional_permissions": ["tabs"],  
-  "permissions": ["tabs"],
+  },    
   "short_name": "IACS Start Screen",
   "storage": {
     
@@ -37,7 +35,7 @@
   "chrome_url_overrides": {
     "newtab": "svelte/public/index.html"
   },
-  
+  "permissions" : [],
   "host_permissions" : [
     "https://www.innovationcharter.org/",
     "https://script.googleusercontent.com/",
