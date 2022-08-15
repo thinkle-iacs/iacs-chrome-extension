@@ -8,13 +8,8 @@
   let staffMembers: StaffData[] = [];
 
   async function getStaff() {
-    let firstResponse = await fetch(
-      "https://raw.githubusercontent.com/thinkle-iacs/web-design-portfolio/master/design/affordances.html"
-    );
     let offset = 0;
     let keepFetching = true;
-    let text = await firstResponse.text();
-    console.log("Got text!", text);
     while (keepFetching) {
       console.log("Fetch from ", offset);
       let response = await fetch(
