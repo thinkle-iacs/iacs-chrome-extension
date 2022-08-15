@@ -18,7 +18,7 @@
 
   onMount(() => {
     setInterval(() => {
-      let now = new Date();
+      now = new Date();
       today = now.toLocaleString("en-US", {
         weekday: "short",
         month: "short",
