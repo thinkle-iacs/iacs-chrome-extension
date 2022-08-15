@@ -5,22 +5,34 @@
   $: clickable = !!event.description;
   let showDesc = false;
   function ft(timestring) {
-    return new Date(timestring).toLocaleTimeString();
+    let s = new Date(timestring).toLocaleTimeString([], {
+      hour: "numeric",
+      minute: "2-digit",
+    });
+    return s.replace(":00", "");
   }
 </script>
 
-<div class="event" class:expanded={showDesc}>
-  <div class="row">
-    <h3 class:clickable on:click={() => (showDesc = !showDesc)}>
-      {event.title}
-    </h3>
-    <div class="badge">{event.name}</div>
-    {#if event.startTime}{ft(event.startTime)}&ndash;{ft(event.endTime)}{/if}
-  </div>
+<tbody class="event" class:expanded={showDesc}>
+  <tr>
+    <td>
+      <h3 class:clickable on:click={() => (showDesc = !showDesc)}>
+        {event.title}
+      </h3>
+    </td>
+    <td><div class="badge">{event.name}</div></td>
+    <td class="time"
+      >{#if event.startTime}{ft(event.startTime)}&ndash;{ft(
+          event.endTime
+        )}{/if}</td
+    >
+  </tr>
   {#if showDesc}
-    <div class="desc">{@html event.description}</div>
+    <tr class="desc">
+      <td colspan="3">{@html event.description}</td>
+    </tr>
   {/if}
-</div>
+</tbody>
 
 <style>
   .event {
@@ -43,10 +55,8 @@
   h3 {
     margin: 0;
   }
-  .row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: top;
+
+  .time {
+    whitespace: no-wrap;
   }
 </style>

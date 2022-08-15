@@ -1,30 +1,49 @@
 <script lang="ts">
   import CalendarEvent from "./CalendarEvent.svelte";
-
+  import type { Writable } from "svelte/store";
   import Card from "../Card.svelte";
-  import { fetchCalendar } from "./calendarFetcher";
+  import { calendarFetcher } from "./calendarFetcher";
   import type { CalendarData } from "./calendarFetcher";
   import { onMount } from "svelte";
-  let calData: CalendarData;
+  import UpdateButton from "../util/UpdateButton.svelte";
+  let calData: Writable<CalendarData> = calendarFetcher.store;
   onMount(async () => {
-    calData = await fetchCalendar();
+    console.log("Update calendar!");
+    await calendarFetcher.update();
   });
 </script>
 
 <Card>
-  <h1 slot="head">Coming Up...</h1>
+  <header slot="head">
+    <h2>Coming Up...</h2>
+    <UpdateButton cds={calendarFetcher} />
+  </header>
   <div slot="body">
-    {#if !calData}
+    {#if !$calData}
       Fetching calendar...
     {:else}
-      <h2>Today</h2>
-      {#each calData.today as event}
-        <CalendarEvent {event} />
-      {/each}
-      <h2>Tomorrow</h2>
-      {#each calData.tomorrow as event}
-        <CalendarEvent {event} />
-      {/each}
+      <table>
+        {#if $calData.tomorrow.length}
+          <tr>
+            <td colspan="3">
+              <h2>Today</h2>
+            </td>
+          </tr>
+        {/if}
+        {#each $calData.today as event}
+          <CalendarEvent {event} />
+        {/each}
+        {#if $calData.tomorrow.length}
+          <tr>
+            <td colspan="3">
+              <h2>Tomorrow</h2>
+            </td>
+          </tr>
+        {/if}
+        {#each $calData.tomorrow as event}
+          <CalendarEvent {event} />
+        {/each}
+      </table>
     {/if}
   </div>
 </Card>
@@ -33,5 +52,10 @@
   h1,
   h2 {
     margin: 0;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
   }
 </style>

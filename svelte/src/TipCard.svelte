@@ -1,8 +1,10 @@
 <script lang="typescript">
   import type { Tip } from "./types";
   import Card from "./Card.svelte";
+  import UpdateButton from "./util/UpdateButton.svelte";
   export let showNextTip: function;
   export let tip: Tip;
+  export let tipStore;
   let mac;
   let platform =
     window.navigator?.userAgentData?.platform || window.navigator.platform;
@@ -19,6 +21,7 @@
     <div class="title">
       {tip.title}
     </div>
+    {#if tipStore}<UpdateButton cds={tipStore} />{/if}
   </div>
   <div class="slot" slot="body">
     <div class="center" class:mac>

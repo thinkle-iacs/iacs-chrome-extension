@@ -1,4 +1,5 @@
 import type { Tip } from "./types";
+import { CachedDataStore } from "./util/dataFetcher";
 
 export let tips: Tip[] = [
   {
@@ -73,3 +74,9 @@ export let tips: Tip[] = [
     link: "https://www.nordle.us",
   },
 ];
+export let tipDataStore = new CachedDataStore({
+  defaultValue: tips,
+  name: "tips",
+  expiresAfter: 24 * 60 * 60 * 1000,
+  url: "https://script.google.com/macros/s/AKfycbwMbmd-9KnPDPyK3F-ziSLSSulwIpmvD0bja_s7N-trdiqAZLqgpsSocIAPHirLZb67/exec?tips=true",
+});

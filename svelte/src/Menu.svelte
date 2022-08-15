@@ -1,7 +1,12 @@
 <script lang="typescript">
   import type { Menuitem } from "./types";
   import SubMenu from "./SubMenu.svelte";
-  let menuItems: Menuitem[] = [
+  import { CachedDataStore } from "./util/dataFetcher";
+  import type { Writable } from "svelte/store";
+  import UpdateButton from "./util/UpdateButton.svelte";
+  import { onMount } from "svelte";
+
+  let defaultMenuItems: Menuitem[] = [
     {
       title: "Teaching",
       items: [
@@ -138,22 +143,39 @@
       ],
     },
   ];
+  let cachedMenuGetter = new CachedDataStore({
+    url: "https://script.google.com/macros/s/AKfycbwMbmd-9KnPDPyK3F-ziSLSSulwIpmvD0bja_s7N-trdiqAZLqgpsSocIAPHirLZb67/exec?menu=true",
+    defaultValue: defaultMenuItems,
+    expiresAfter: 8 * 60 * 60 * 1000,
+    name: "menu",
+  });
+  let menuItems: Writable<Menuitem[]> = cachedMenuGetter.store;
+  onMount(() => {
+    cachedMenuGetter.update();
+  });
 </script>
 
 <nav>
-  {#each menuItems as menuitem}
+  {#each $menuItems as menuitem}
     <SubMenu {menuitem} />
   {/each}
+  <div class="float-me"><UpdateButton cds={cachedMenuGetter} /></div>
 </nav>
 
 <style>
+  .float-me {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
   nav {
+    position: relative;
+    margin-right: 2em;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: start;
     justify-content: space-around;
     gap: 10px;
-    border: 1px solid var(--lightgrey);
   }
 </style>

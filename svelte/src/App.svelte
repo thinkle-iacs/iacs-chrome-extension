@@ -1,16 +1,19 @@
 <script lang="typescript">
+  import { onMount } from "svelte";
   import TitleBar from "./TitleBar.svelte";
   import Card from "./Card.svelte";
   import Menu from "./Menu.svelte";
   import StaffMembers from "./Staff/StaffMembers.svelte";
   import TipCard from "./TipCard.svelte";
   import type { Tip } from "./types";
-  import { tips } from "./tips";
+  import { tipDataStore } from "./tips";
   import CalendarCard from "./Calendar/CalendarCard.svelte";
   import RemoteCards from "./CardFetcher/RemoteCards.svelte";
   import ScheduleCard from "./Schedule/ScheduleCard.svelte";
+  let tips = tipDataStore.store;
   let dayNum = new Date().getDate();
-  let tipIndex = dayNum % tips.length;
+  let tipIndex = dayNum % $tips.length;
+  onMount(() => tipDataStore.update());
 </script>
 
 <main>
@@ -20,10 +23,11 @@
     <RemoteCards />
     {#key tipIndex}
       <TipCard
-        tip={tips[tipIndex]}
+        tip={$tips[tipIndex]}
+        tipStore={tipDataStore}
         showNextTip={() => {
           tipIndex += 1;
-          if (tipIndex >= tips.length) {
+          if (tipIndex >= $tips.length) {
             tipIndex = 0;
           }
         }}
