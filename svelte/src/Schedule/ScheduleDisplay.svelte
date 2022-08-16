@@ -51,7 +51,7 @@
     </div> -->
   <div class="current">
     {#if currentBlock}
-      <ScheduleBlockDisplay block={currentBlock} bold={true} />
+      <ScheduleBlockDisplay block={currentBlock} bold={true} {now}/>
     {:else}…{/if}
   </div>
 

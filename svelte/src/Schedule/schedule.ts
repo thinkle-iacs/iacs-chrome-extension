@@ -120,3 +120,11 @@ export function getBlock(date: Date, schedule) {
     return nextBlocks;
   }
 }
+
+export function getOffsetFromTime(timestring) {
+  let [hourS, minuteS] = timestring.split(":");
+  let minute = Number(minuteS);
+  let hour = Number(hourS);
+  let offset = hour * 60 + minute;
+  return offset;
+}

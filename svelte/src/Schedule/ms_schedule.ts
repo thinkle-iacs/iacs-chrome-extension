@@ -3,19 +3,18 @@ import type { ScheduleBlock } from "./types";
 
 const make_56_middle = (day) => [
   {
-    name: "5/6 lunch",
+    name: "Lunch",
     start: "10:46",
     end: "11:11",
     day,
   },
   {
-    name: "5/6 recess",
     start: "11:11",
     end: "11:26",
     day,
   },
   {
-    name: "5/6 Adv/WIN",
+    name: "WIN/Adv",
     start: "11:28",
     end: "12:08",
     day,
@@ -24,19 +23,19 @@ const make_56_middle = (day) => [
 
 const make_78_middle = (day) => [
   {
-    name: "7/8 WIN/Adv",
+    name: "WIN/Adv",
     start: "10:46",
     end: "11:26",
     day,
   },
   {
-    name: "7/8 Lunch",
+    name: "Lunch",
     start: "11:28",
     end: "11:53",
     day,
   },
   {
-    name: "7/8 Recess",
+    name: "Recess",
     start: "11:53",
     end: "12:08",
     day,
@@ -180,7 +179,7 @@ export const make_ms_a = (middle = make_56_middle, wednesday = wed_56) => {
     },
     ...middle(day),
     { day, name: "D+P", start: "12:10", end: "13:40" },
-    { day, name: "E+ELA", start: "13:43", end: "14:45" },
+    { day, name: "E+10", start: "13:43", end: "14:45" },
   ];
 
   const makeRF = (day) => [
@@ -192,7 +191,7 @@ export const make_ms_a = (middle = make_56_middle, wednesday = wed_56) => {
     },
     {
       day,
-      name: "E+ELA",
+      name: "E+10",
       start: "9:43",
       end: "10:44",
     },
@@ -201,22 +200,163 @@ export const make_ms_a = (middle = make_56_middle, wednesday = wed_56) => {
       day,
       name: "A",
       start: "12:10",
-      end: "1:00",
+      end: "13:00",
     },
     {
       day,
       name: "B",
-      start: "1:02",
-      end: "1:52",
+      start: "13:02",
+      end: "13:52",
     },
     {
       day,
       name: "C",
-      start: "1:54",
+      start: "13:54",
       end: "2:45",
     },
   ];
   return [...makeMT(M), ...makeMT(T), ...wednesday, ...makeRF(R), ...makeRF(F)];
+};
+
+export const make_ms_transitions = (
+  middle = make_56_middle,
+  wednesday = wed_56
+) => {
+  const makeDay = (day) => {
+    let blocks;
+    if (day == M || day == T) {
+      blocks = "ABCDEF";
+    } else {
+      blocks = "DEFABC";
+    }
+    return [
+      {
+        day,
+        name: blocks[0],
+        start: "8:10",
+        end: "9:00",
+      },
+      {
+        day,
+        name: blocks[1] + "+10",
+        start: "9:00",
+        end: "9:10",
+      },
+      {
+        day,
+        name: blocks[1] + "+40",
+        start: "9:13",
+        end: "9:40",
+      },
+      {
+        day,
+        name: blocks[1] + "+10",
+        start: "9:43",
+        end: "9:52",
+      },
+      {
+        day,
+        name: blocks[2],
+        start: "9:54",
+        end: "10:44",
+      },
+      ...middle(day),
+      {
+        day,
+        name: blocks[3],
+        start: "12:10",
+        end: "13:00",
+      },
+      {
+        day,
+        name: blocks[4] + "+10",
+        start: "13:02",
+        end: "13:10",
+      },
+      {
+        day,
+        name: blocks[4] + "+40",
+        start: "13:13",
+        end: "13:40",
+      },
+      {
+        day,
+        name: blocks[4] + "+10",
+        start: "13:43",
+        end: "13:52",
+      },
+      {
+        day,
+        name: blocks[5],
+        start: "13:54",
+        end: "14:45",
+      },
+    ];
+  };
+  return [
+    ...makeDay(M),
+    ...makeDay(T),
+    ...wednesday,
+    ...makeDay(R),
+    ...makeDay(F),
+  ];
+};
+
+export const make_ms_simple = (middle = make_56_middle, wednesday = wed_56) => {
+  const makeDay = (day) => {
+    let blocks;
+    if (day == M || day == T) {
+      blocks = "ABCDEF";
+    } else {
+      blocks = "DEFABC";
+    }
+    return [
+      {
+        day,
+        name: blocks[0],
+        start: "8:10",
+        end: "9:00",
+      },
+      {
+        day,
+        name: blocks[1],
+        start: "9:02",
+        end: "9:52",
+      },
+      {
+        day,
+        name: blocks[2],
+        start: "9:54",
+        end: "10:44",
+      },
+      ...middle(day),
+      {
+        day,
+        name: blocks[3],
+        start: "12:10",
+        end: "13:00",
+      },
+      {
+        day,
+        name: blocks[4],
+        start: "13:02",
+        end: "13:52",
+      },
+      {
+        day,
+        name: blocks[5],
+        start: "13:54",
+        end: "14:45",
+      },
+    ];
+  };
+  return [
+    ...makeDay(M),
+    ...makeDay(T),
+    ...wednesday,
+    ...makeDay(R),
+    ...makeDay(F),
+  ];
 };
 
 export const make_ms_ela = (middle = make_56_middle, wednesday = wed_56) => {
@@ -231,19 +371,19 @@ export const make_ms_ela = (middle = make_56_middle, wednesday = wed_56) => {
     return [
       {
         day,
-        name: blocks[0] + "+ELA",
+        name: blocks[0] + "+10",
         start: "8:10",
         end: "9:10",
       },
       {
         day,
-        name: blocks[1] + "+ELA",
+        name: blocks[1] + "+10",
         start: "9:43",
         end: "10:44",
       },
       ...middle(day),
-      { day, name: blocks[2] + "+ELA", start: "12:10", end: "13:10" },
-      { day, name: blocks[3] + "+ELA", start: "13:43", end: "14:45" },
+      { day, name: blocks[2] + "+10", start: "12:10", end: "13:10" },
+      { day, name: blocks[3] + "+10", start: "13:43", end: "14:45" },
     ];
   };
   return [
@@ -259,3 +399,7 @@ export const ms_56_a = make_ms_a();
 export const ms_78_a = make_ms_a(make_78_middle, wed_78);
 export const ms_56_ela = make_ms_ela(make_56_middle, wed_56);
 export const ms_78_ela = make_ms_ela(make_78_middle, wed_78);
+export const ms_56_simple = make_ms_simple(make_56_middle, wed_56);
+export const ms_78_simple = make_ms_simple(make_78_middle, wed_78);
+export const ms_56_trans = make_ms_transitions(make_56_middle, wed_56);
+export const ms_78_trans = make_ms_transitions(make_78_middle, wed_78);
