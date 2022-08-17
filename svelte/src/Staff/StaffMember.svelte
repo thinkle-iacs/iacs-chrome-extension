@@ -1,8 +1,8 @@
-<script context="module" language="typescript">
+<script context="module" language="ts">
   let imageCache = {};
 </script>
 
-<script lang="typescript">
+<script lang="ts">
   export let showName = true;
   export let showRole = true;
   import type { StaffData } from "./types";

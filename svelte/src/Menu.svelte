@@ -1,4 +1,4 @@
-<script lang="typescript">
+<script lang="ts">
   import type { Menuitem } from "./types";
   import SubMenu from "./SubMenu.svelte";
   import { CachedDataStore } from "./util/dataFetcher";

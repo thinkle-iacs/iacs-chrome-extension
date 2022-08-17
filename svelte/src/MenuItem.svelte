@@ -1,4 +1,4 @@
-<script lang="typescript">
+<script lang="ts">
   import type { Menuitem } from "./types";
   export let mi: Menuitem;
 </script>

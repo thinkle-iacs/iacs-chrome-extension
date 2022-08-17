@@ -1,4 +1,4 @@
-<script lang="typescript">
+<script lang="ts">
   import type { Tip } from "./types";
   import Card from "./Card.svelte";
   import UpdateButton from "./util/UpdateButton.svelte";

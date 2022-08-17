@@ -1,4 +1,4 @@
-<script lang="typescript">
+<script lang="ts">
   import { onMount } from "svelte";
   import TitleBar from "./TitleBar.svelte";
   import Card from "./Card.svelte";
@@ -18,6 +18,7 @@
 
 <main>
   <TitleBar />
+
   <Menu />
   <div class="card-container">
     <RemoteCards />

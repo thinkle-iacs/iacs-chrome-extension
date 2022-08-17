@@ -1,4 +1,4 @@
-<script lang="typescript">
+<script lang="ts">
   export let closeGame;
   import { fade, fly } from "svelte/transition";
   import type { StaffData } from "./types";

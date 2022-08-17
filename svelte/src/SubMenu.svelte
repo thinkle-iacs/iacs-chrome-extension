@@ -1,4 +1,4 @@
-<script lang="typescript">
+<script lang="ts">
   import MenuItem from "./MenuItem.svelte";
 
   type Menuitem = {
