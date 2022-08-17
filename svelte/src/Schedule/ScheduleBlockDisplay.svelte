@@ -1,6 +1,6 @@
 <script context="module">
   import { now } from "./now";
-  let pixelConversion = 1.33;
+  let pixelConversion = 1.5;
   let colors = [
     "#ffcdd2",
     "#d7ccc8",
@@ -111,7 +111,7 @@
 
   let height = null;
   let yoffset = null;
-  let crammed = false;
+
   $: {
     if (heightMode) {
       let startOffset = getOffsetFromTime(block.start);
@@ -122,18 +122,12 @@
       let minutes =
         getOffsetFromTime(block.end) - getOffsetFromTime(block.start);
       height = minutes * pixelConversion;
-      if (height < 50) {
-        crammed = true;
-      } else {
-        crammed = false;
-      }
     }
   }
 </script>
 
 <div
   class:fullHeight
-  class:crammed
   class:forceHeight={heightMode}
   class="block"
   class:bold
@@ -239,15 +233,9 @@
     padding: var(--pad);
     border: 1px solid var(--darkgrey);
   }
-  .block.crammed {
-    padding: calc(var(--pad) / 2);
-  }
+
   .block-title {
     font-size: 110%;
-    text-align: center;
-  }
-  .crammed * {
-    display: inline-block;
     text-align: center;
   }
   .day {
@@ -274,9 +262,7 @@
   .forceHeight .times {
     font-size: 16px;
   }
-  .crammed {
-    font-size: 0.7em;
-  }
+
   .fullHeight {
     height: 100%;
     box-sizing: border-box;
