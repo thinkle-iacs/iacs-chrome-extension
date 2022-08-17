@@ -1,13 +1,12 @@
 <script lang="ts">
   import ScheduleDisplay from "./Schedule/ScheduleDisplay.svelte";
-
+  import { now } from "./Schedule/now";
   import { fly, fade } from "svelte/transition";
   import { onMount } from "svelte";
 
   import Menu from "./Menu.svelte";
 
-  let now = new Date();
-  let today = now.toLocaleString("en-US", {
+  let today = $now.toLocaleString("en-US", {
     weekday: "short",
     month: "short",
     day: "numeric",
@@ -16,25 +15,21 @@
     second: "numeric",
   });
 
-  onMount(() => {
-    setInterval(() => {
-      now = new Date();
-      today = now.toLocaleString("en-US", {
-        weekday: "short",
-        month: "short",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-      });
-    }, 1000);
+  $: today = $now.toLocaleString("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
   });
+
   let showAll;
 </script>
 
 <div class="rows">
   <div class="time">{today}</div>
-  <ScheduleDisplay {now} />
+  <ScheduleDisplay />
 </div>
 
 <style>

@@ -62,7 +62,9 @@ export function getBlock(date: Date, schedule) {
         if (idx > 0) {
           ret.previousBlock = schedule[idx - 1];
           if (ret.previousBlock.day == block.day) {
-            ret.currentBlock = { name: "Passing Time" };
+            ret.currentBlock = {
+              name: "Passing Time",
+            };
           } else {
             ret.currentBlock = {
               name: "Before School",

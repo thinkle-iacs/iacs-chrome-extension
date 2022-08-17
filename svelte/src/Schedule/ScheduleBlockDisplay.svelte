@@ -1,4 +1,5 @@
 <script context="module">
+  import { now } from "./now";
   let pixelConversion = 1.33;
   let colors = [
     "#ffcdd2",
@@ -34,9 +35,15 @@
 </script>
 
 <script lang="ts">
+  export let block: ScheduleBlock;
   export let fullHeight = false;
-  import { getOffsetFromTime } from "./schedule";
+  export let horizontal = false;
   export let heightMode = false;
+  export let bold = false;
+  export let hideDay = false;
+
+  import { getOffsetFromTime } from "./schedule";
+
   function getColor(name) {
     if (!name) {
       return "white";
@@ -57,19 +64,18 @@
     }
   }
 
-  export let bold = false;
-  export let now: Date | null = null;
   import type { ScheduleBlock } from "./schedule";
-  export let block: ScheduleBlock;
+
   const days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
   import { formatTime } from "./schedule";
-  export let hideDay = false;
+
   let dayName: string = "";
 
   function formatForTime(date: Date) {
     let day = date.getDay();
     let hour = date.getHours();
     let minutes = date.getMinutes();
+    timeMarker = null;
     if (block.day == day) {
       let minuteOffset = hour * 60 + minutes;
       let startOffset = getOffsetFromTime(block.start);
@@ -77,20 +83,11 @@
       if (minuteOffset > startOffset && minuteOffset < endOffset) {
         let totalTime = endOffset - startOffset;
         let elapsedTime = minuteOffset - startOffset;
-        let percentage = elapsedTime / totalTime;
+        let percentage = `${((100 * elapsedTime) / totalTime).toFixed(0)}%`;
         timeMarker = {
-          offset: percentage * width,
           percentage,
           minutesLeft: totalTime - elapsedTime,
         };
-      } else if (minuteOffset < startOffset) {
-        console.log(
-          "Countdown...",
-          startOffset - minuteOffset,
-          "minutes until"
-        );
-      } else {
-        console.log("After by ", startOffset - endOffset);
       }
     } else {
       if (block.day == day + 1) {
@@ -101,13 +98,14 @@
     }
   }
 
-  $: if (now) {
-    formatForTime(now);
+  $: if (block.start && block.day && block.end) {
+    formatForTime($now);
+  } else {
+    timeMarker = null;
   }
-  let width;
+
   let timeMarker: {
-    offset: number;
-    percentage: number;
+    percentage: string;
     minutesLeft: number;
   };
 
@@ -137,7 +135,6 @@
   class:fullHeight
   class:crammed
   class:forceHeight={heightMode}
-  bind:clientWidth={width}
   class="block"
   class:bold
   style:background-color={getColor(block.name)}
@@ -146,10 +143,16 @@
   style:--yoffset={`${yoffset}px`}
 >
   {#if timeMarker}
-    <div class="arrow" style:left={`${timeMarker.offset}px`} />
-    <div class="now">
-      {timeMarker.minutesLeft} minute left
-      <br />({(timeMarker.percentage * 100).toFixed(0)}%)
+    <div
+      class="now"
+      class:horizontal
+      style:--percentage={timeMarker.percentage}
+    >
+      <div class="arrow" />
+      <div class="popup">
+        {timeMarker.minutesLeft} minute left
+        <br />({timeMarker.percentage})
+      </div>
     </div>
   {/if}
   <div class="block-title">{block.name}</div>
@@ -168,19 +171,66 @@
 <style>
   .now {
     position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--percentage);
+    z-index: 2;
+    background-color: #01010111;
+  }
+
+  .now.horizontal {
+    width: var(--percentage);
+    height: 100%;
+  }
+
+  .arrow {
+    position: absolute;
+    z-index: 3;
+    border-right: 5px solid var(--darkgrey);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    width: 0;
+    height: 0;
+    bottom: -5px;
+    right: 0;
+  }
+
+  .horizontal .arrow {
+    position: absolute;
+    border-bottom: none;
     border-right: 5px solid transparent;
     border-left: 5px solid transparent;
-    border-bottom: 5px solid black;
-    bottom: 0;
-    width: 0;
+    border-top: 5px solid var(--darkgrey);
     font-weight: bold;
     font-size: 1.2em;
     color: transparent;
+    right: -5px;
+    bottom: unset;
+    top: 0;
   }
-  .now:hover {
+  .now .popup {
+    visibility: hidden;
+    pointer-events: none;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    bottom: -5em;
+    width: 7em;
+    height: 3.5em;
+    padding: var(--padding);
+    background-color: white;
+    border: 1px solid grey;
+    border-radius: 5px;
+  }
+  .now:hover .popup {
+    visibility: visible;
+    z-index: 2;
+    opacity: 1;
     transition: all 300ms;
     color: var(--darkgrey);
     text-shadow: 1px 1px white;
+    pointer-events: all;
   }
   .block {
     position: relative;

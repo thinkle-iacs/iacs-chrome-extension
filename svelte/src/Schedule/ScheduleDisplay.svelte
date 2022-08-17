@@ -1,6 +1,6 @@
 <script lang="ts">
   import ScheduleChooser from "./ScheduleChooser.svelte";
-  export let now: Date;
+  import { now } from "./now";
   import ScheduleBlockDisplay from "./ScheduleBlockDisplay.svelte";
   import { fly, fade } from "svelte/transition";
   import { onMount } from "svelte";
@@ -11,7 +11,7 @@
   let schedule = hs_schedule;
   let activeOption = { schedule };
   $: schedule = activeOption?.schedule;
-  let today = new Date().toLocaleString("en-US", {
+  let today = $now.toLocaleString("en-US", {
     weekday: "short",
     month: "short",
     day: "numeric",
@@ -28,10 +28,10 @@
     currentBlock: ScheduleBlock;
     previousBlock: ScheduleBlock;
     nextBlocks: ScheduleBlock[];
-  } = getBlock(now, schedule);
+  } = getBlock($now, schedule);
 
   $: {
-    ({ currentBlock, previousBlock, nextBlocks } = getBlock(now, schedule));
+    ({ currentBlock, previousBlock, nextBlocks } = getBlock($now, schedule));
   }
 
   let showAll;
@@ -50,7 +50,12 @@
     </div> -->
   <div class="current">
     {#if currentBlock}
-      <ScheduleBlockDisplay block={currentBlock} bold={true} {now} />
+      <ScheduleBlockDisplay
+        block={currentBlock}
+        bold={true}
+        hideDay={currentBlock.day == $now.getDay()}
+        horizontal={true}
+      />
     {:else}…{/if}
   </div>
 
@@ -61,7 +66,11 @@
         in:fly|local={{ x: 500 }}
         out:fly|local={{ x: 500 }}
       >
-        <ScheduleBlockDisplay block={nextBlock} />
+        <ScheduleBlockDisplay
+          block={nextBlock}
+          horizontal={true}
+          hideDay={currentBlock.day == $now.getDay()}
+        />
       </div>
     {/if}
   {:else}

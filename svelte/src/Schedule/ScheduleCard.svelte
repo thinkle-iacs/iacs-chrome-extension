@@ -3,15 +3,12 @@
   import { getBlock, getOffsetFromTime } from "./schedule";
   import ScheduleBlockDisplay from "./ScheduleBlockDisplay.svelte";
   import ScheduleChooser from "./ScheduleChooser.svelte";
-  import ScheduleDisplay from "./ScheduleDisplay.svelte";
+  import { now } from "./now";
   let activeOption;
   function setActive(scheduleOption) {
     activeOption = scheduleOption;
   }
-  let earliestTime = 24 * 60;
-  let latestTime = 0;
   let byDay = {};
-  let byDayByMinute = {};
   let minutes: number[] = [];
   $: {
     if (activeOption?.schedule) {
@@ -41,11 +38,11 @@
     `;
   }
   let currentBlock, nextBlocks, previousBlock;
+
   $: {
     if (activeOption && activeOption.schedule) {
-      let now = new Date();
       ({ currentBlock, nextBlocks, previousBlock } = getBlock(
-        now,
+        $now,
         activeOption.schedule
       ));
     }
@@ -70,18 +67,22 @@
       {#each days as day, n}
         {#if byDay[n]}
           <div
+            class:today={$now.getDay() == n}
             class="dayheader"
             style:grid-row-start="1"
             style:grid-row-end="2"
             style:grid-column-start={n + 1}
             style:grid-column-end={n + 2}
           >
+            <!-- {#if $now.getDay() == n}
+              ▶
+            {/if} -->
             {day}
           </div>
         {/if}
       {/each}
       {#if activeOption}
-        {#each activeOption.schedule as block}
+        {#each activeOption.schedule as block, n (`${n}${block.day}${block.name}${block.start}${block.end}`)}
           <div
             style={getGridStyle(block)}
             class:current={block == currentBlock}
@@ -113,16 +114,22 @@
     padding: var(--pad);
     border-right: 1px solid white;
   }
-  .previous {
-    border-left: 3px solid red;
-    border-right: 3px solid red;
-    border-top: 3px solid red;
+  /* .previous {
+    border-left: 3px solid var(--lightgrey);
+    border-right: 3px solid var(--lightgrey);
+    border-top: 3px solid var(--lightgrey);
   }
+ */
   .current {
-    border: 3px solid orange;
+    border: 3px solid var(--blue);
   }
-  .next {
-    border-left: 3px solid green;
-    border-right: 3px solid green;
+  /* .next {
+    border-left: 3px solid var(--blue);
+    border-right: 3px solid var(--blue);
+  } */
+  .today {
+    font-size: 110%;
+    font-weight: bold;
+    background-color: var(--blue);
   }
 </style>
