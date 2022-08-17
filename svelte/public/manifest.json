@@ -9,27 +9,16 @@
   "author": "Tom Hinkle",  
   "background": {        
   },  
-    
-  "externally_connectable": {
-
-  },  
-  "file_system_provider_capabilities": {
-    "configurable": true,
-    "multiple_mounts": true,
-    "source": "network"
-  },
+      
   "homepage_url": "https://path/to/homepage",    
   "incognito": "not_allowed",  
   
-  "offline_enabled": true,
-  "omnibox": {
-    "keyword": "String"
-  },    
+  "offline_enabled": true,    
   "short_name": "IACS Start Screen",
   "storage": {
     
   },      
-  "version_name": "Pre-Beta-Beta",
+  "version_name": "1.0",
   "chrome_url_overrides": {
     "newtab": "/index.html"
   },
