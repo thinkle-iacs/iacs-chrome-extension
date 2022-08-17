@@ -9,6 +9,7 @@ const make_56_middle = (day) => [
     day,
   },
   {
+    name: "Recess",
     start: "11:11",
     end: "11:26",
     day,
@@ -239,7 +240,7 @@ export const make_ms_transitions = (
       {
         day,
         name: blocks[1] + "+10",
-        start: "9:00",
+        start: "9:02",
         end: "9:10",
       },
       {
