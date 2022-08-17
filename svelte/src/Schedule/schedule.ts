@@ -20,10 +20,13 @@ export function formatTime(timestring) {
   if (parsed.hour > 12) {
     parsed.hour -= 12;
   }
+  let minuteString;
   if (parsed.minutes < 10) {
-    parsed.minutes = "0" + parsed.minutes;
+    minuteString = `0${parsed.minutes}`;
+  } else {
+    minuteString = `${parsed.minutes}`;
   }
-  return `${parsed.hour}:${parsed.minutes}${ampm}`;
+  return `${parsed.hour}:${minuteString}${ampm}`;
 }
 /* 
 export function getHSBlock(date: Date) {
