@@ -38,6 +38,9 @@
   import { getOffsetFromTime } from "./schedule";
   export let heightMode = false;
   function getColor(name) {
+    if (!name) {
+      return "white";
+    }
     name = name.replace("40", "");
     name = name.replace("10", "");
     name = name.replace("9/10", "");

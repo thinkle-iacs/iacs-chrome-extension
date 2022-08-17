@@ -42,7 +42,6 @@
 
 <div class="blocks">
   <ScheduleChooser onChange={setActive} />
-  <a href={activeOption.url}> {activeOption.name}🔔</a>
   <!-- <div class="prev">
       {#if previousBlock}
         <ScheduleBlockDisplay block={previousBlock} />
@@ -51,7 +50,7 @@
     </div> -->
   <div class="current">
     {#if currentBlock}
-      <ScheduleBlockDisplay block={currentBlock} bold={true} {now}/>
+      <ScheduleBlockDisplay block={currentBlock} bold={true} {now} />
     {:else}…{/if}
   </div>
 
@@ -68,7 +67,8 @@
   {:else}
     <div class="next">…</div>
   {/each}
-  {#if nextBlocks.length > 2}
+  <a href="#bell-schedule">🔔</a>
+  {#if false && nextBlocks.length > 2}
     <button on:click={() => (showAll = !showAll)}>
       {#if showAll}
         ◀

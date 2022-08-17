@@ -1,19 +1,21 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+  import { selectedSchedule } from "../prefs";
+  import { CachedDataStore } from "../util/dataFetcher";
+
   export let onChange;
   import { hs_schedule } from "./hs_schedule";
 
   import {
     ms_56_ela,
     ms_78_ela,
-    ms_56_a,
-    ms_78_a,
     ms_56_simple,
     ms_78_simple,
     ms_56_trans,
     ms_78_trans,
   } from "./ms_schedule";
 
-  let schedule_options = [
+  let hardcoded_schedule_options = [
     {
       name: "HS",
       url: "https://docs.google.com/document/d/1E5J9z_fa_PHb-xvwR1W0NvGeV1kGUbgAg-wcvg9bXIQ/edit",
@@ -51,15 +53,29 @@
     },
   ];
 
-  let activeOption = schedule_options[0];
+  let scheduleLoader = new CachedDataStore({
+    expiresAfter: 24 * 60 * 60 * 1000,
+    url: "https://script.google.com/macros/s/AKfycbwMbmd-9KnPDPyK3F-ziSLSSulwIpmvD0bja_s7N-trdiqAZLqgpsSocIAPHirLZb67/exec?schedule=true",
+    defaultValue: hardcoded_schedule_options,
+    name: "schedules",
+  });
+  let schedule_options = scheduleLoader.store;
+  onMount(() => scheduleLoader.update());
 
-  $: schedule = activeOption.schedule;
-  $: onChange(activeOption);
+  if (!$selectedSchedule) {
+    $selectedSchedule = "HS";
+  }
+
+  let scheduleObject;
+  $: scheduleObject = $schedule_options.find(
+    (o) => o.name == $selectedSchedule
+  );
+  $: scheduleObject && onChange(scheduleObject);
 </script>
 
-<select bind:value={activeOption}>
-  {#each schedule_options as option}
-    <option value={option}>{option.name}</option>
+<select bind:value={$selectedSchedule}>
+  {#each $schedule_options as option}
+    <option value={option.name}>{option.name}</option>
   {/each}
 </select>
 

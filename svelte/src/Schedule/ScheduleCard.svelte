@@ -1,6 +1,6 @@
 <script lang="ts">
   import Card from "../Card.svelte";
-  import { getOffsetFromTime } from "./schedule";
+  import { getBlock, getOffsetFromTime } from "./schedule";
   import ScheduleBlockDisplay from "./ScheduleBlockDisplay.svelte";
   import ScheduleChooser from "./ScheduleChooser.svelte";
   import ScheduleDisplay from "./ScheduleDisplay.svelte";
@@ -40,10 +40,24 @@
       grid-column-end: ${colEnd};
     `;
   }
+  let currentBlock, nextBlocks, previousBlock;
+  $: {
+    if (activeOption && activeOption.schedule) {
+      let now = new Date();
+      ({ currentBlock, nextBlocks, previousBlock } = getBlock(
+        now,
+        activeOption.schedule
+      ));
+    }
+  }
 </script>
 
 <Card>
-  <div slot="head">
+  <div
+    id="bell-schedule"
+    slot="head"
+    style="display:flex;justify-content:space-between;align-items:center;width:100%;"
+  >
     <h2>Bell Schedule</h2>
     <ScheduleChooser onChange={setActive} />
   </div>
@@ -66,12 +80,24 @@
           </div>
         {/if}
       {/each}
-      {#each activeOption.schedule as block}
-        <div style={getGridStyle(block)}>
-          <ScheduleBlockDisplay {block} heightMode={true} hideDay={true} />
-        </div>
-      {/each}
+      {#if activeOption}
+        {#each activeOption.schedule as block}
+          <div
+            style={getGridStyle(block)}
+            class:current={block == currentBlock}
+            class:next={nextBlocks && nextBlocks.indexOf(block) > -1}
+            class:previous={previousBlock == block}
+          >
+            <ScheduleBlockDisplay {block} heightMode={true} hideDay={true} />
+          </div>
+        {/each}
+      {/if}
     </div>
+  </div>
+  <div slot="footer">
+    {#if activeOption}
+      <a href={activeOption.url}>Google Doc Version</a>
+    {/if}
   </div>
 </Card>
 
@@ -86,5 +112,17 @@
     text-align: center;
     padding: var(--pad);
     border-right: 1px solid white;
+  }
+  .previous {
+    border-left: 3px solid red;
+    border-right: 3px solid red;
+    border-top: 3px solid red;
+  }
+  .current {
+    border: 3px solid orange;
+  }
+  .next {
+    border-left: 3px solid green;
+    border-right: 3px solid green;
   }
 </style>
