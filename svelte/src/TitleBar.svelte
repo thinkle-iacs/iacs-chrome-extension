@@ -11,11 +11,24 @@
 </div>
 
 <style>
+  @media screen and (max-width: 1000px) {
+    h1 {
+      display: none;
+    }
+  }
   div {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
+  }
+
+  @media screen and (max-width: 800px) {
+    div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
   }
 
   img {
@@ -29,5 +42,6 @@
     text-transform: uppercase;
     font-size: 4em;
     font-weight: 100;
+    margin: 0;
   }
 </style>

@@ -56,7 +56,6 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    text-align: center;
     align-items: center;
     list-style: none;
   }

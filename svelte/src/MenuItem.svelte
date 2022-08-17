@@ -4,11 +4,11 @@
 </script>
 
 <a href={mi.link} class="menuitem">
-  {#if mi.icon}
-    <img class="icon" src={mi.icon} alt={mi.title + " icon"} />
-  {:else}
-    <div class="icon-placeholder" />
-  {/if}
+  <div class="icon-holder">
+    {#if mi.icon}
+      <img class="icon" src={mi.icon} alt={mi.title + " icon"} />
+    {/if}
+  </div>
   <div class="content">
     <div class="title">{mi.title}</div>
     {#if mi.detail}
@@ -52,9 +52,11 @@
     max-width: 32px;
     max-height: 32px;
   }
-  .icon-placeholder {
+  .icon-holder {
     width: 32px;
     height: 32px;
+    display: grid;
+    place-content: center;
   }
   .content {
     display: flex;

@@ -45,9 +45,13 @@
 
 <style>
   .card-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 4px;
+    /* grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 4px;
+     */
     align-items: start;
     justify-items: center;
   }
