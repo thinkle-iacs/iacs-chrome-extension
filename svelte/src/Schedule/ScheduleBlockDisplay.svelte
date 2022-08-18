@@ -197,7 +197,6 @@
     border-left: 5px solid transparent;
     border-top: 5px solid var(--darkgrey);
     font-weight: bold;
-    font-size: 1.2em;
     color: transparent;
     right: -5px;
     bottom: unset;
@@ -216,6 +215,7 @@
     background-color: white;
     border: 1px solid grey;
     border-radius: 5px;
+    font-size: normal;
   }
   .now:hover .popup {
     visibility: visible;
@@ -235,18 +235,18 @@
   }
 
   .block-title {
-    font-size: 110%;
+    font-size: var(--normal);
     text-align: center;
   }
   .day {
-    font-size: 70%;
+    font-size: var(--small);
   }
   .times {
-    font-size: 12px;
+    font-size: var(--small);
     white-space: nowrap;
   }
   .bold .times {
-    font-size: 14px;
+    font-size: var(--normal);
   }
 
   .bold {
@@ -258,9 +258,6 @@
     box-sizing: border-box;
     /*  top: var(--yoffset);
     position: absolute; */
-  }
-  .forceHeight .times {
-    font-size: 16px;
   }
 
   .fullHeight {

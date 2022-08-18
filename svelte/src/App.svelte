@@ -53,7 +53,7 @@
     gap: 4px;
      */
     align-items: start;
-    justify-items: center;
+    justify-content: center;
   }
   @media screen and (max-width: 1000px) {
     .card-container {
@@ -71,16 +71,20 @@
     --lightgrey: #aaa;
     --blue: #0033a0;
     --red: #c6093b;
-    --small: 11px;
+    --tiny: 10px;
+    --small: 12px;
     --normal: 16px;
     --big: 24px;
+    --huge: 48px;
     --icon-size: 32px;
-    --skinny: 300;
-    --normal: 400;
+    --skinny: 200;
     --bold: 900;
     --space: 8px;
-    --pad: 4px;
     --dark-overlay: #000c;
     --light-text: #efefff;
+    --pad: 4px;
+    --card-width-small: calc(min(200px, 100vw));
+    --card-width: calc(min(404px, 100vw));
+    --card-width-double: calc(min(808px, 100vw));
   }
 </style>

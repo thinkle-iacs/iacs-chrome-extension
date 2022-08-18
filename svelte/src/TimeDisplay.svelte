@@ -27,8 +27,8 @@
   let showAll;
 </script>
 
-<div class="rows">
-  <div class="time">{today}</div>
+<div>
+  <span class="time">{today}</span>
   <ScheduleDisplay />
 </div>
 
@@ -37,42 +37,11 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
-  }
-  div.rows {
-    flex-direction: column;
-  }
-  .blocks {
-    justify-content: space-between;
-  }
-  .blocks div {
-    border: 1px solid var(--lightgrey);
-    margin: var(--pad);
-    height: 3em;
-    min-width: 3em;
-  }
-  .blocks .current {
-    border-color: var(--red);
-    background-color: var(--darkgrey);
-    color: white;
-  }
-  img {
-    max-height: 64px;
-  }
-  .prev {
-    opacity: 0.55;
+    gap: var(--pad);
   }
 
-  h1 {
-    color: var(--blue);
-    text-decoration: underline;
-    text-decoration-color: var(--red);
-    text-transform: uppercase;
-    font-size: 4em;
-    font-weight: 100;
-  }
   .time {
     color: var(--darkgrey);
-    font-size: 2em;
+    font-size: var(--big);
   }
 </style>

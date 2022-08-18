@@ -36,8 +36,8 @@
 
 <style>
   .icon {
-    width: 32px;
-    height: 32px;
+    width: var(--icon-size);
+    height: var(--icon-size);
   }
   h2 {
     margin: 0;
@@ -63,14 +63,6 @@
     width: 100%;
     margin-bottom: var(--space);
   }
-  .menuitem {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: start;
-    gap: 2px;
-  }
-
   .sub {
     border-top: 1px solid var(--lightgrey);
     padding-top: var(--pad);

@@ -92,7 +92,7 @@
   div {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: stretch;
     justify-content: space-around;
   }
   div.rows {
@@ -108,6 +108,7 @@
   }
   .blocks .current {
     border-bottom: 3px solid var(--red);
+    box-sizing: content-box;
   }
   img {
     max-height: 64px;
@@ -116,16 +117,8 @@
     opacity: 0.55;
   }
 
-  h1 {
-    color: var(--blue);
-    text-decoration: underline;
-    text-decoration-color: var(--red);
-    text-transform: uppercase;
-    font-size: 4em;
-    font-weight: 100;
-  }
   .time {
     color: var(--darkgrey);
-    font-size: 2em;
+    font-size: var(--big);
   }
 </style>

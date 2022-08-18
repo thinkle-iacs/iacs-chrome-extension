@@ -4,9 +4,11 @@
   import Menu from "./Menu.svelte";
 </script>
 
-<div>
-  <img src="./icons/IACS_logo.png" />
-  <h1>IACS Launcher</h1>
+<div class="top">
+  <div class="logo-block">
+    <img src="./icons/IACS_logo.png" />
+    <h1>Launcher</h1>
+  </div>
   <TimeDisplay />
 </div>
 
@@ -16,11 +18,13 @@
       display: none;
     }
   }
-  div {
+  .top {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: end;
     justify-content: space-between;
+    border-bottom: 3px solid var(--red);
+    margin-bottom: calc(2 * var(--pad));
   }
 
   @media screen and (max-width: 800px) {
@@ -31,17 +35,20 @@
     }
   }
 
-  img {
-    max-height: 64px;
-  }
-
   h1 {
     color: var(--blue);
-    text-decoration: underline;
-    text-decoration-color: var(--red);
     text-transform: uppercase;
-    font-size: 4em;
+    font-size: var(--huge);
     font-weight: 100;
     margin: 0;
+  }
+  img {
+    height: var(--huge);
+  }
+  .logo-block {
+    display: flex;
+    gap: var(--pad);
+    justify-content: start;
+    align-items: center;
   }
 </style>

@@ -49,7 +49,7 @@
   }
 </script>
 
-<Card>
+<Card double={true}>
   <div
     id="bell-schedule"
     slot="head"
@@ -128,7 +128,6 @@
     border-right: 3px solid var(--blue);
   } */
   .today {
-    font-size: 110%;
     font-weight: bold;
     background-color: var(--blue);
   }

@@ -1,4 +1,9 @@
-<div class="card">
+<script>
+  export let double = false;
+  export let small = false;
+</script>
+
+<div class="card" class:double class:small>
   <div class="head">
     <slot name="head" />
   </div>
@@ -12,6 +17,7 @@
 
 <style>
   .card {
+    width: var(--card-width);
     display: flex;
     flex-direction: column;
     /* max-width: calc(min(800px, 45vw));
@@ -20,6 +26,12 @@
     border-radius: 16px;
     padding: var(--pad);
     margin: var(--pad);
+  }
+  .card.double {
+    width: var(--card-width-double);
+  }
+  .card.small {
+    width: var(--card-width-small);
   }
   .card:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);

@@ -192,12 +192,12 @@
     left: 0;
     display: grid;
     place-content: center;
-    font-size: 200%;
+    font-size: var(--big);
     background-color: var(--red);
     color: white;
   }
   .question {
-    font-size: 125%;
+    font-size: var(--normal);
     min-height: 3em;
     position: sticky;
     top: 0px;

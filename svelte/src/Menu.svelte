@@ -24,6 +24,9 @@
     {#each $menuItems as menuitem}
       <SubMenu {menuitem} />
     {/each}
+    {#if $menuItems.length % 2}
+      <div class="filler">&nbsp;</div>
+    {/if}
   </nav>
   <div class="float-me"><UpdateButton cds={cachedMenuGetter} /></div>
 </div>
@@ -41,7 +44,9 @@
     position: relative;
     margin-right: 2em;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    /* grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); */
+    grid-template-columns: repeat(auto-fit, var(--card-width-small));
+    justify-content: center;
     width: 100%;
     margin: auto;
     /* flex-direction: row;
