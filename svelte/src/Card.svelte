@@ -46,11 +46,14 @@
   .footer,
   .body {
     padding: calc(2 * var(--pad, 4px));
+    box-sizing: border-box;
   }
   .head {
     border-bottom: 1px solid var(--lightgrey);
+    height: var(--bar-height);
   }
   .footer {
     border-top: 1px solid var(--lightgrey);
+    height: var(--bar-height);
   }
 </style>

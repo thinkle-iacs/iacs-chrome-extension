@@ -55,7 +55,7 @@
     align-items: start;
     justify-content: center;
   }
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 1100px) {
     .card-container {
       grid-template-columns: 1fr 1fr;
     }
@@ -64,6 +64,9 @@
     .card-container {
       grid-template-columns: 1fr;
     }
+  }
+  :global(h1, h2, h3, h4, h5, h6) {
+    font-weight: var(--bold);
   }
   :root {
     --darkgrey: #373737;
@@ -78,13 +81,17 @@
     --huge: 48px;
     --icon-size: 32px;
     --skinny: 200;
-    --bold: 900;
-    --space: 8px;
+    --bold: 500;
+    --spacer: 12px;
     --dark-overlay: #000c;
     --light-text: #efefff;
+    --cursive: "Tangerine", cursive;
     --pad: 4px;
     --card-width-small: calc(min(200px, 100vw));
     --card-width: calc(min(404px, 100vw));
     --card-width-double: calc(min(808px, 100vw));
+    --bar-height: 48px;
+    --medium-big-screen: 1100px;
+    --smaller-screen: 800px;
   }
 </style>

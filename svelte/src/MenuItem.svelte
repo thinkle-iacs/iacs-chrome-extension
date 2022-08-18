@@ -29,7 +29,7 @@
     color: #ffffff;
   }
   a:hover :global(a) {
-    font-weight: bold;
+    font-weight: var(--bold);
     color: rgb(184, 184, 217);
   }
 
@@ -45,7 +45,7 @@
     font-weight: var(--skinny);
   }
   .title {
-    font-weight: var(--bold);
+    /* font-weight: var(--bold); */
     font-size: var(--normal);
   }
   .icon {

@@ -13,7 +13,7 @@
 </div>
 
 <style>
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 1100px) {
     h1 {
       display: none;
     }
@@ -25,6 +25,8 @@
     justify-content: space-between;
     border-bottom: 3px solid var(--red);
     margin-bottom: calc(2 * var(--pad));
+    margin-left: var(--pad);
+    margin-right: var(--pad);
   }
 
   @media screen and (max-width: 800px) {

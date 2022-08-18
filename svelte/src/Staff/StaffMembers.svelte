@@ -69,7 +69,7 @@
     transition: all 300ms;
     background-color: var(--blue);
     color: white;
-    font-weight: bold;
+    font-weight: var(--bold);
     padding: calc(3 * var(--pad));
   }
   button:hover {

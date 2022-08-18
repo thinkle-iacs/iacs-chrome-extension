@@ -130,6 +130,7 @@
   class:fullHeight
   class:forceHeight={heightMode}
   class="block"
+  class:horizontal
   class:bold
   style:background-color={getColor(block.name)}
   style:--foo="hello?"
@@ -196,7 +197,7 @@
     border-right: 5px solid transparent;
     border-left: 5px solid transparent;
     border-top: 5px solid var(--darkgrey);
-    font-weight: bold;
+    font-weight: var(--bold);
     color: transparent;
     right: -5px;
     bottom: unset;
@@ -240,6 +241,7 @@
   }
   .day {
     font-size: var(--small);
+    font-weight: var(--skinny);
   }
   .times {
     font-size: var(--small);
@@ -263,5 +265,8 @@
   .fullHeight {
     height: 100%;
     box-sizing: border-box;
+  }
+  .horizontal .time {
+    white-space: nowrap;
   }
 </style>

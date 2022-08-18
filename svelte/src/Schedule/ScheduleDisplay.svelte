@@ -60,8 +60,11 @@
   </div>
 
   {#each nextBlocks as nextBlock, i}
-    {#if showAll || i < 2}
+    {#if showAll || i < 3}
       <div
+        class:block-2={i == 0}
+        class:block-3={i == 1}
+        class:block-4={i == 2}
         class={`next next-${i}`}
         in:fly|local={{ x: 500 }}
         out:fly|local={{ x: 500 }}
@@ -120,5 +123,20 @@
   .time {
     color: var(--darkgrey);
     font-size: var(--big);
+  }
+  @media screen and (max-width: 1400px) {
+    .block-4 {
+      display: none;
+    }
+  }
+  @media screen and (max-width: 1100px) {
+    .block-3 {
+      display: none;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    .block-2 {
+      display: none;
+    }
   }
 </style>

@@ -61,7 +61,7 @@
   }
   ul li {
     width: 100%;
-    margin-bottom: var(--space);
+    margin-bottom: var(--spacer);
   }
   .sub {
     border-top: 1px solid var(--lightgrey);

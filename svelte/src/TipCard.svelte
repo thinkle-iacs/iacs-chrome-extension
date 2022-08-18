@@ -74,10 +74,10 @@
     border: 1px solid var(--lightgrey);
   }
   .title {
-    font-weight: bold;
+    font-weight: var(--bold);
     font-size: 120%;
   }
   .fancy {
-    font-family: cursive;
+    font-family: var(--cursive);
   }
 </style>

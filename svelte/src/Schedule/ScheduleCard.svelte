@@ -128,7 +128,7 @@
     border-right: 3px solid var(--blue);
   } */
   .today {
-    font-weight: bold;
+    font-weight: var(--bold);
     background-color: var(--blue);
   }
 </style>
