@@ -46,15 +46,15 @@
   }
   .title {
     font-weight: var(--bold);
-    font-size: var(--big);
+    font-size: var(--normal);
   }
   .icon {
-    max-width: 32px;
-    max-height: 32px;
+    max-width: var(--icon-size, 32px);
+    max-height: var(--icon-size, 32px);
   }
   .icon-holder {
-    width: 32px;
-    height: 32px;
+    width: var(--icon-size);
+    height: var(--icon-size);
     display: grid;
     place-content: center;
   }

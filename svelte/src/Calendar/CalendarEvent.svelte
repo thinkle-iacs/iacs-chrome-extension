@@ -54,6 +54,7 @@
   }
   h3 {
     margin: 0;
+    font-size: var(--normal);
   }
 
   .time {

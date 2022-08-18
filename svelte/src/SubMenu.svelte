@@ -79,4 +79,8 @@
     border-top: 0px;
     padding-top: inherit;
   }
+  h2 {
+    font-size: var(--normal);
+    color: var(--mediumgrey);
+  }
 </style>

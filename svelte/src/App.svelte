@@ -48,7 +48,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 4px;
+    gap: var(--pad);
     /* grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 4px;
      */
@@ -67,12 +67,14 @@
   }
   :root {
     --darkgrey: #373737;
+    --mediumgrey: #4a4a4a;
     --lightgrey: #aaa;
     --blue: #0033a0;
     --red: #c6093b;
     --small: 11px;
     --normal: 16px;
-    --large: 24px;
+    --big: 24px;
+    --icon-size: 32px;
     --skinny: 300;
     --normal: 400;
     --bold: 900;

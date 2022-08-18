@@ -3,12 +3,27 @@ html, body {
 	width: 100%;
 	height: 100%;
 }
+h1,h2,h3,h4,h5,h6 {
+	margin: 0;	
+}
+h1 {
+	font-size: var(--big);
+}
+h2,h3,h4,h5,h6 {
+	font-size: var(--normal);
+}
+
+@font-face {
+	src: url('fonts/OutputSans2Beta-Regular.woff2') format("woff2"),
+		url('fonts/OutputSans2Beta-Regular.woff') format("woff");
+	font-family: 'Output Sans 2 Beta Web';
+}
 
 body {
 	color: #333;
 	margin: 0;
 	padding: 8px;
-	box-sizing: border-box;
+	box-sizing: border-box;	
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
