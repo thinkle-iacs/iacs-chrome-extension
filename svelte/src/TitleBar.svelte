@@ -29,14 +29,6 @@
     margin-right: var(--pad);
   }
 
-  @media screen and (max-width: 800px) {
-    div {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-  }
-
   h1 {
     color: var(--blue);
     text-transform: uppercase;
@@ -52,5 +44,14 @@
     gap: var(--pad);
     justify-content: start;
     align-items: center;
+  }
+  @media screen and (max-width: 800px) {
+    .logo-block {
+      display: none;
+    }
+    .top,
+    .top :global(*) {
+      flex-wrap: wrap;
+    }
   }
 </style>

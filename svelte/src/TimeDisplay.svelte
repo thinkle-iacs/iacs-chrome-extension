@@ -24,12 +24,18 @@
     second: "numeric",
   });
   let todayBrief: string;
-  $: todayBrief = $now.toLocaleString("en-US", {
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-  });
+
+  $: todayBrief =
+    ["S", "M", "T", "W", "Th", "F", "S"][$now.getDay()] +
+    " " +
+    $now
+      .toLocaleString("en-US", {
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+      })
+      .replace(/[AP]M/, "");
 
   let showAll;
 </script>
