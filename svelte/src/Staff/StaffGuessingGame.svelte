@@ -234,6 +234,7 @@
     color: white;
     box-sizing: border-box;
     padding: var(--pad);
+    z-index: 100;
   }
   .question {
     font-size: var(--normal);
@@ -249,6 +250,7 @@
     width: 100vw;
     height: 100vh;
     overflow: scroll;
+    z-index: 99;
   }
   article :global(a),
   .victory :global(a) {
