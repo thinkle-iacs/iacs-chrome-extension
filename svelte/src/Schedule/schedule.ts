@@ -1,5 +1,5 @@
 import type { ScheduleBlock } from "./types";
-import { getBlock } from "./schedule";
+
 function parseTime(s) {
   let [h, m] = s.split(":");
   let mnum = Number(m);
@@ -79,8 +79,8 @@ export function getBlock(date: Date, schedule) {
         return ret;
       }
       if (
-        start.minute_offset < minute_offset &&
-        end.minute_offset > minute_offset
+        start.minute_offset <= minute_offset &&
+        end.minute_offset >= minute_offset
       ) {
         // This is the block!!!
         ret.currentBlock = block;
