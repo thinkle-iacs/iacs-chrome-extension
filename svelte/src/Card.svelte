@@ -17,7 +17,6 @@
 
 <style>
   .card {
-    width: var(--card-width);
     display: flex;
     flex-direction: column;
     /* max-width: calc(min(800px, 45vw));
@@ -25,13 +24,13 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 16px;
     padding: var(--pad);
-    margin: var(--pad);
+    grid-column-start: span 2;
   }
   .card.double {
-    width: var(--card-width-double);
+    grid-column-start: span 4;
   }
   .card.small {
-    width: var(--card-width-small);
+    grid-column-start: span 1;
   }
   .card:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
@@ -50,10 +49,10 @@
   }
   .head {
     border-bottom: 1px solid var(--lightgrey);
-    height: var(--bar-height);
+    min-height: var(--bar-height);
   }
   .footer {
     border-top: 1px solid var(--lightgrey);
-    height: var(--bar-height);
+    min-height: var(--bar-height);
   }
 </style>

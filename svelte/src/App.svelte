@@ -10,6 +10,7 @@
   import CalendarCard from "./Calendar/CalendarCard.svelte";
   import RemoteCards from "./CardFetcher/RemoteCards.svelte";
   import ScheduleCard from "./Schedule/ScheduleCard.svelte";
+  import CardContainer from "./CardContainer.svelte";
   let tips = tipDataStore.store;
   let dayNum = new Date().getDate();
   let tipIndex = dayNum % $tips.length;
@@ -20,7 +21,7 @@
   <TitleBar />
 
   <Menu />
-  <div class="card-container">
+  <CardContainer>
     <RemoteCards />
     {#key tipIndex}
       <TipCard
@@ -40,31 +41,10 @@
     </Card>
     <CalendarCard />
     <ScheduleCard />
-  </div>
+  </CardContainer>
 </main>
 
 <style>
-  .card-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: var(--pad);
-    /* grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 4px;
-     */
-    align-items: start;
-    justify-content: center;
-  }
-  @media screen and (max-width: 1100px) {
-    .card-container {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-  @media screen and (max-width: 800px) {
-    .card-container {
-      grid-template-columns: 1fr;
-    }
-  }
   :global(h1, h2, h3, h4, h5, h6) {
     font-weight: var(--bold);
   }
