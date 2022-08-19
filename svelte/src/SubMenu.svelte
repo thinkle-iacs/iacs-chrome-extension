@@ -46,8 +46,6 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    gap: 10px;
-
     justify-content: start;
     align-items: start;
   }
@@ -64,6 +62,7 @@
     margin-bottom: var(--spacer);
   }
   .sub {
+    margin-top: var(--spacer);
     border-top: 1px solid var(--lightgrey);
     padding-top: var(--pad);
   }
