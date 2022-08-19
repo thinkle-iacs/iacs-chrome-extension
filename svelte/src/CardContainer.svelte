@@ -12,4 +12,12 @@
     align-items: start;
     justify-content: center;
   }
+  @media screen and (max-width: 640px) {
+    .card-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      align-items: center;
+    }
+  }
 </style>
