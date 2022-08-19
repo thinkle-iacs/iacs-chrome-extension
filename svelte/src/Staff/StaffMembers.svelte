@@ -64,7 +64,7 @@
   {/each} -->
 <style>
   button {
-    border: none;
+    border: 1px solid transparent;
     border-radius: 15px;
     transition: all 300ms;
     background-color: var(--blue);
@@ -73,8 +73,6 @@
     padding: calc(3 * var(--pad));
   }
   button:hover {
-    box-shadow: 3px 3px var(--dark-overlay);
-    /* background-color: white;
-    color: var(--blue); */
+    border: 1px solid var(--red);
   }
 </style>
