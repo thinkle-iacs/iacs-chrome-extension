@@ -4,7 +4,7 @@
 </script>
 
 <a href={mi.link} class="menuitem">
-  <div class="icon-holder">
+  <div class="icon-holder" class:black={mi.blackIcon}>
     {#if mi.icon}
       <img class="icon" src={mi.icon} alt={mi.title + " icon"} />
     {/if}
@@ -30,14 +30,14 @@
   }
   a:hover :global(a) {
     font-weight: var(--bold);
-    color: rgb(184, 184, 217);
+    color: var(--lightgrey);
   }
 
-  a:hover img {
+  a:hover .black img {
     -webkit-filter: grayscale(1) invert(1);
     filter: grayscale(1) invert(1);
   }
-  a img {
+  a .black img {
     transition: filter, -webkit-filter 350ms;
   }
   .detail {
@@ -73,5 +73,15 @@
     gap: 2px;
     padding: var(--pad);
     transition: background-color 350ms;
+  }
+  @media (prefers-color-scheme: dark) {
+    .black img {
+      filter: grayscale(1) invert(1);
+      -webkit-filter: grayscale(1) invert(1);
+    }
+    a:hover .black img {
+      filter: invert(0);
+      -webkit-filter: invert(0);
+    }
   }
 </style>

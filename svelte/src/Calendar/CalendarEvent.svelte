@@ -47,7 +47,7 @@
   .clickable:hover {
     border: 1px solid var(--lightgrey);
     background-color: var(--blue);
-    color: white;
+    color: var(--white, "white");
   }
   .event {
     margin-bottom: var(--pad);
