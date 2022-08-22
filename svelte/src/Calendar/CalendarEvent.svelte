@@ -58,6 +58,6 @@
   }
 
   .time {
-    whitespace: no-wrap;
+    white-space: nowrap;
   }
 </style>
