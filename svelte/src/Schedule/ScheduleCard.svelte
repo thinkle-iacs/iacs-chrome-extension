@@ -109,10 +109,10 @@
 
   .dayheader {
     background-color: var(--darkgrey);
-    color: white;
+    color: var(--white, "white");
     text-align: center;
     padding: var(--pad);
-    border-right: 1px solid white;
+    border-right: 1px solid var(--white, "white");
   }
   /* .previous {
     border-left: 3px solid var(--lightgrey);

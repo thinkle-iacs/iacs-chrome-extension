@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { selectedSchedule } from "../prefs";
+  import { school, selectedSchedule } from "../prefs";
   import { CachedDataStore } from "../util/dataFetcher";
 
   export let onChange;
@@ -63,7 +63,12 @@
   onMount(() => scheduleLoader.update());
 
   if (!$selectedSchedule) {
-    $selectedSchedule = "HS";
+    console.log("Trigger sched update");
+    if ($school == "MS") {
+      $selectedSchedule = "5/6 Simple";
+    } else {
+      $selectedSchedule = "HS";
+    }
   }
 
   let scheduleObject;
@@ -75,7 +80,9 @@
 
 <select bind:value={$selectedSchedule}>
   {#each $schedule_options as option}
-    <option value={option.name}>{option.name}</option>
+    {#if !option.school || !$school || $school == "All" || $school == option.school}
+      <option value={option.name}>{option.name}</option>
+    {/if}
   {/each}
 </select>
 
