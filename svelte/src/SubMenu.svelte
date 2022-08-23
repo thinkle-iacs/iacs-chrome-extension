@@ -1,5 +1,6 @@
 <script lang="ts">
   import MenuItem from "./MenuItem.svelte";
+  import { school, SchoolType } from "./prefs";
 
   type Menuitem = {
     link?: string;
@@ -7,30 +8,35 @@
     detail?: string;
     icon?: string;
     title: string;
+    school?: SchoolType;
   };
   export let menuitem: Menuitem;
 </script>
 
 <nav>
-  {#if menuitem.link}
-    <MenuItem mi={menuitem} />
-  {:else}
-    <h2>{menuitem.title}</h2>
-  {/if}
-  {#if menuitem.items}
-    <ul>
-      {#each menuitem.items as mi}
-        {#if mi.items}
-          <li class="sub">
-            <svelte:self menuitem={mi} />
-          </li>
-        {:else}
-          <li>
-            <MenuItem {mi} />
-          </li>
-        {/if}
-      {/each}
-    </ul>
+  {#if !$school || $school == "All" || !menuitem.school || menuitem.school == $school}
+    {#if menuitem.link}
+      <MenuItem mi={menuitem} />
+    {:else}
+      <h2>{menuitem.title}</h2>
+    {/if}
+    {#if menuitem.items}
+      <ul>
+        {#each menuitem.items as mi}
+          {#if !mi.school || !$school || $school == "All" || mi.school == $school}
+            {#if mi.items}
+              <li class="sub">
+                <svelte:self menuitem={mi} />
+              </li>
+            {:else}
+              <li>
+                <MenuItem {mi} />
+              </li>
+            {/if}
+          {/if}
+        {/each}
+      </ul>
+    {/if}
   {/if}
 </nav>
 

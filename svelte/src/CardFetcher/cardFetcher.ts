@@ -1,9 +1,15 @@
+import type { SchoolType } from "../prefs";
 import { CachedDataStore } from "../util/dataFetcher";
 
 export type RemoteCardData = {
   title: string;
   html: string;
   url: string;
+  school: SchoolType;
+  double?: boolean;
+  small?: boolean;
+  start?: string;
+  end?: string;
 };
 
 export type CardData = RemoteCardData[];

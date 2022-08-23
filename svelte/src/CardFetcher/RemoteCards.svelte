@@ -9,23 +9,72 @@
   onMount(async () => {
     await cardFetcher.update();
   });
+
+  function getDateFromTimestring(timestring, card) {
+    let date: Date;
+    try {
+      return new Date(timestring);
+    } catch (err) {
+      console.log("Card", card, "had invalid date: ", timestring);
+      return;
+    }
+  }
+
+  function isStarted(timestring, card) {
+    let date = getDateFromTimestring(timestring, card);
+    let now = new Date().getTime();
+    if (now > date.getTime()) {
+      return true;
+    } else {
+      console.log(
+        "Not starting for another...",
+        (date.getTime() - now) / 1000 / 60 / 60,
+        "hours"
+      );
+      return false;
+    }
+  }
+
+  function isOver(timestring, card) {
+    let date = getDateFromTimestring(timestring, card);
+    let now = new Date().getTime();
+    if (now > date.getTime()) {
+      return true;
+    } else {
+      console.log(
+        "Still showing card for ",
+        (date.getTime() - now) / 1000 / 60 / 60,
+        "hours"
+      );
+      return false;
+    }
+  }
 </script>
 
 {#each $cards as card}
-  <Card>
-    <header slot="head">
-      <h2>{card.title}</h2>
-      <UpdateButton cds={cardFetcher} />
-    </header>
-    <div slot="body">
-      {@html card.html}
-    </div>
-    <div slot="footer">
-      {#if card.url}
-        <a style="margin-left: auto" href={card.url}>See original</a>
-      {/if}
-    </div>
-  </Card>
+  {#if !card.start || isStarted(card.start, card)}
+    {#if !card.end || !isOver(card.end, card)}
+      <Card
+        id={card.title}
+        double={card.double}
+        small={card.small}
+        school={card.school}
+      >
+        <header slot="head">
+          <h2>{card.title}</h2>
+          <UpdateButton cds={cardFetcher} />
+        </header>
+        <div slot="body">
+          {@html card.html}
+        </div>
+        <div slot="footer">
+          {#if card.url}
+            <a style="margin-left: auto" href={card.url}>See original</a>
+          {/if}
+        </div>
+      </Card>
+    {/if}
+  {/if}
 {/each}
 
 <style>

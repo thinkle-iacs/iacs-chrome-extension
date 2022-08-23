@@ -1,9 +1,13 @@
+import type { SchoolType } from "./prefs";
+
 export type Menuitem = {
   link?: string;
   items?: Menuitem[];
   detail?: string;
   icon?: string;
   title: string;
+  blackIcon?: boolean;
+  school: SchoolType;
 };
 
 export type Card = {

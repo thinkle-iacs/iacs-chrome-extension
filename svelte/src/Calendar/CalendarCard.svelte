@@ -13,9 +13,9 @@
   });
 </script>
 
-<Card>
+<Card id="Upcoming Events">
   <header slot="head">
-    <h2>Coming Up...</h2>
+    <h2>Upcoming Events</h2>
     <UpdateButton cds={calendarFetcher} />
   </header>
   <div slot="body">
@@ -33,6 +33,7 @@
         {#each $calData.today as event}
           <CalendarEvent {event} />
         {/each}
+        <tr><td class="spacer">&nbsp;</td></tr>
         {#if $calData.tomorrow.length}
           <tr>
             <td colspan="3">
@@ -49,9 +50,17 @@
 </Card>
 
 <style>
-  h1,
   h2 {
     margin: 0;
+  }
+  td h2 {
+    display: inline-block;
+    padding: var(--pad);
+    background-color: var(--mediumgrey);
+    color: var(--white);
+  }
+  .spacer {
+    height: var(--spacer);
   }
   header {
     display: flex;

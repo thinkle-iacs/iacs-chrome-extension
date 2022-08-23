@@ -116,8 +116,8 @@
     width: 20em;
     position: absolute;
     top: 2em;
-    background-color: #23232388;
-    color: white;
+    background-color: var(--darkshadow);
+    color: var(--white, "white");
   }
   .right .tooltip {
     right: 0;
@@ -147,11 +147,15 @@
     border: 1px solid var(--lightgrey);
   }
   button:hover {
-    border: 1px solid black;
+    border: 1px solid var(--black, "black");
     transition: border 300ms;
   }
   svg {
     height: var(--normal);
     width: var(--normal);
+  }
+  path {
+    stroke: var(--black);
+    fill: var(--black);
   }
 </style>

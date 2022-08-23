@@ -42,8 +42,10 @@
   .logo-block {
     display: flex;
     gap: var(--pad);
-    justify-content: start;
+    justify-content: center;
     align-items: center;
+    height: calc(var(--huge)+var(--pad)+var(--pad));
+    padding-bottom: var(--pad);
   }
   @media screen and (max-width: 800px) {
     .logo-block {
@@ -52,6 +54,13 @@
     .top,
     .top :global(*) {
       flex-wrap: wrap;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    img {
+      filter: grayscale(1) invert(1);
+      -webkit-filter: grayscale(1) invert(1);
     }
   }
 </style>

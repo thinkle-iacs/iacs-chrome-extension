@@ -1,19 +1,56 @@
-<script>
+<script lang="ts">
+  import { activeCardIDs, hiddenCards } from "./prefs";
+  import type { SchoolType } from "./prefs";
+  import { school as schoolPref } from "./prefs";
+  import CloseButton from "./CloseButton.svelte";
   export let double = false;
   export let small = false;
+  export let id: string = null;
+  export let school: SchoolType = null;
+
+  function hideCard() {
+    $hiddenCards[id] = true;
+  }
+
+  function registerId(id) {
+    if (id) {
+      if ($activeCardIDs.indexOf(id) == -1) {
+        $activeCardIDs = [...$activeCardIDs, id];
+      }
+    }
+  }
+
+  let rightSchool = false;
+  $: if ($schoolPref && school && $schoolPref != school) {
+    rightSchool = false;
+  } else {
+    rightSchool = true;
+  }
+
+  $: if (rightSchool) {
+    registerId(id);
+  }
 </script>
 
-<div class="card" class:double class:small>
-  <div class="head">
-    <slot name="head" />
-  </div>
-  <div class="body">
-    <slot name="body" />
-  </div>
-  <div class="footer">
-    <slot name="footer" />
-  </div>
-</div>
+{#if rightSchool}
+  {#if !id || !$hiddenCards[id]}
+    <div class="card" class:double class:small>
+      <div class="head">
+        <slot name="head" />
+        {#if id}<div class="pad-left">
+            <CloseButton on:click={hideCard}>&times;</CloseButton>
+          </div>
+        {/if}
+      </div>
+      <div class="body">
+        <slot name="body" />
+      </div>
+      <div class="footer">
+        <slot name="footer" />
+      </div>
+    </div>
+  {/if}
+{/if}
 
 <style>
   .card {
@@ -21,10 +58,11 @@
     flex-direction: column;
     /* max-width: calc(min(800px, 45vw));
     min-width: calc(max(250px, 30vw)); */
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px 0 var(--darkshadow);
     border-radius: 16px;
     padding: var(--pad);
     grid-column-start: span 2;
+    background-color: var(--off-white);
   }
   .card.double {
     grid-column-start: span 4;
@@ -32,9 +70,7 @@
   .card.small {
     grid-column-start: span 1;
   }
-  .card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-  }
+
   .head,
   .footer {
     display: flex;
@@ -54,5 +90,8 @@
   .footer {
     border-top: 1px solid var(--lightgrey);
     min-height: var(--bar-height);
+  }
+  .pad-left {
+    margin-left: var(--pad);
   }
 </style>

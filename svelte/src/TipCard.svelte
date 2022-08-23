@@ -15,7 +15,7 @@
   }
 </script>
 
-<Card>
+<Card id={`Tip: ${tip.title}`}>
   <div class="slot" slot="head">
     <div class="fancy">Tip of the Day</div>
     <div class="title">

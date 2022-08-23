@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { school } from "./prefs";
   import type { Menuitem } from "./types";
   export let mi: Menuitem;
 </script>

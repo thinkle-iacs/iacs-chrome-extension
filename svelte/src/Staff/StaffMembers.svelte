@@ -68,7 +68,7 @@
     border-radius: 15px;
     transition: all 300ms;
     background-color: var(--blue);
-    color: white;
+    color: var(--white, "white");
     font-weight: var(--bold);
     padding: calc(3 * var(--pad));
   }

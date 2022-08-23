@@ -191,6 +191,7 @@
     align-items: center;
     width: 100%;
     background-color: var(--darkgrey);
+    color: var(--white);
     height: var(--bar-height);
   }
   .close {
@@ -231,7 +232,7 @@
     place-content: center;
     font-size: var(--big);
     background-color: var(--red);
-    color: white;
+    color: var(--white, "white");
     box-sizing: border-box;
     padding: var(--pad);
     z-index: 100;
@@ -254,18 +255,18 @@
   }
   article :global(a),
   .victory :global(a) {
-    color: #ccf;
+    color: var(--white);
   }
   button {
     border: 1px solid transparent;
     border-radius: 5px;
     transition: all 300ms;
-    background-color: white;
+    background-color: var(--white, "white");
   }
   button:hover {
     box-shadow: 3px 3px var(--dark-overlay);
-    background-color: white;
-    border: 1px solid black;
+    background-color: var(--white, "white");
+    border: 1px solid var(--black, "black");
   }
   .hint {
     font-size: var(--small);
