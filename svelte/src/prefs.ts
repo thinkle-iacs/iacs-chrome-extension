@@ -14,6 +14,9 @@ selectedSchedule.subscribe((value) => {
 export type SchoolType = "HS" | "MS" | "All" | null;
 
 let initialSchoolValue: SchoolType = localStorage.getItem("school");
+if (!['HS','MS','All'].find((s)=>initialSchoolValue==s) {
+  initialSchoolValue = null;
+}
 export let school: Writable<SchoolType> = writable(initialSchoolValue);
 
 school.subscribe((value) => {
