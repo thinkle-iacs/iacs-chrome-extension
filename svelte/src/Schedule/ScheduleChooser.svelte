@@ -1,7 +1,9 @@
 <script lang="ts">
+  export let showUpdate = false;
   import { onMount } from "svelte";
   import { school, selectedSchedule } from "../prefs";
   import { CachedDataStore } from "../util/dataFetcher";
+  import UpdateButton from "../util/UpdateButton.svelte";
 
   export let onChange;
   import { hs_schedule } from "./hs_schedule";
@@ -85,6 +87,9 @@
     {/if}
   {/each}
 </select>
+{#if showUpdate}
+  <UpdateButton cds={scheduleLoader} />
+{/if}
 
 <style>
 </style>

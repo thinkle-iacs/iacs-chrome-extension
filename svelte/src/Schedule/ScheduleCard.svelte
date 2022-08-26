@@ -56,7 +56,9 @@
     style="display:flex;justify-content:space-between;align-items:center;width:100%;"
   >
     <h2>Bell Schedule</h2>
-    <ScheduleChooser onChange={setActive} />
+    <div class="row">
+      <ScheduleChooser onChange={setActive} showUpdate={true} />
+    </div>
   </div>
   <div slot="body">
     <div
@@ -130,5 +132,11 @@
   .today {
     font-weight: var(--bold);
     background-color: var(--blue);
+  }
+  .row {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: var(--pad);
   }
 </style>
