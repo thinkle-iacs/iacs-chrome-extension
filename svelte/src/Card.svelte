@@ -21,7 +21,12 @@
   }
 
   let rightSchool = false;
-  $: if ($schoolPref && school && $schoolPref != school) {
+  $: if (
+    $schoolPref &&
+    school &&
+    $schoolPref != school &&
+    $schoolPref != "All"
+  ) {
     rightSchool = false;
   } else {
     rightSchool = true;
