@@ -51,3 +51,40 @@ if (hiddenCardString) {
 }
 export let hiddenCards : Writable<object> = writable(initialHiddenCards);
 export let showPrefs : Writable<boolean> = writable(false);
+
+
+let initialCustomSchedStringValue = localStorage.getItem('customSchedule');
+let initialCustom = {};
+if (initialCustomSchedStringValue) {
+  try {
+    initialCustom = JSON.parse(initialCustomSchedStringValue);
+  } catch (err) {
+    console.log('Error parsing JSON in',initialCustomSchedStringValue)
+  }
+}
+
+export let customSchedule : Writable<{}> = writable(initialCustom)
+
+customSchedule.subscribe(
+  (value)=>{
+    let stringValue = JSON.stringify(value);
+    localStorage.setItem('customSchedule',stringValue);
+  }
+)
+
+export function getCustomBlockName (sched : string, block : ScheduleBlock) {
+  let custom = get(customSchedule);
+  if (!custom[sched]) {
+    return null
+  } else {
+    let customSched = custom[sched];
+    if (customSched.byDay && customSched.byDay[block.day]
+      && customSched.byDay[block.day][block.name]) {
+        return customSched.byDay[block.day][block.name]
+    } else if (customSched.byBlock && customSched.byBlock[block.name]) {
+      return customSched.byBlock[block.name];
+    } else {
+      return null;
+    }
+  }
+}
