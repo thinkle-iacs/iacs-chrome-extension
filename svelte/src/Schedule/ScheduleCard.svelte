@@ -47,15 +47,29 @@
       ));
     }
   }
+  let customize = false;
+  function togglePersonalize() {
+    customize = !customize;
+  }
+
+  let customScheduleStuff = {};
 </script>
 
-<Card double={true}>
+<Card double={true} fullwidth={customize}>
   <div
     id="bell-schedule"
     slot="head"
     style="display:flex;justify-content:space-between;align-items:center;width:100%;"
   >
-    <h2>Bell Schedule</h2>
+    <div
+      style="display: flex; justify-content: start; align-items: center;gap:var(--pad);"
+    >
+      <h2>Bell Schedule</h2>
+      <button on:click={togglePersonalize} class:active={customize}>
+        Personalize</button
+      >
+    </div>
+
     <div class="row">
       <ScheduleChooser onChange={setActive} showUpdate={true} />
     </div>
@@ -91,7 +105,12 @@
             class:next={nextBlocks && nextBlocks.indexOf(block) > -1}
             class:previous={previousBlock == block}
           >
-            <ScheduleBlockDisplay {block} heightMode={true} hideDay={true} />
+            <ScheduleBlockDisplay
+              {customize}
+              {block}
+              heightMode={true}
+              hideDay={true}
+            />
           </div>
         {/each}
       {/if}
@@ -138,5 +157,9 @@
     justify-content: end;
     align-items: center;
     gap: var(--pad);
+  }
+  button.active {
+    background-color: var(--darkgrey);
+    color: var(--white);
   }
 </style>

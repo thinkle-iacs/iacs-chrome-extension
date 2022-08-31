@@ -32,6 +32,8 @@
 </script>
 
 <script lang="ts">
+  import BlockNamer from "./BlockNamer.svelte";
+
   export let block: ScheduleBlock;
   export let fullHeight = false;
   export let horizontal = false;
@@ -61,10 +63,12 @@
     }
   }
 
+  export let customize = false;
   import type { ScheduleBlock } from "./schedule";
 
   const days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
   import { formatTime } from "./schedule";
+  import { getCustomBlockName, selectedSchedule } from "../prefs";
 
   let dayName: string = "";
 
@@ -121,6 +125,9 @@
       height = minutes * pixelConversion;
     }
   }
+  let customTitle = null;
+
+  $: customTitle = getCustomBlockName($selectedSchedule, block);
 </script>
 
 <div
@@ -147,7 +154,16 @@
       </div>
     </div>
   {/if}
-  <div class="block-title">{block.name}</div>
+  <div class="block-title">
+    {#if customTitle}
+      {customTitle} ({block.name})
+    {:else}
+      {block.name}
+    {/if}
+  </div>
+  {#if customize}
+    <BlockNamer {block} />
+  {/if}
   <div class="time">
     {#if !hideDay && block.day}<span class="day"
         >{dayName || days[block.day]}</span

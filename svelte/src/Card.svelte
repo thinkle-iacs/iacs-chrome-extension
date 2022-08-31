@@ -3,6 +3,7 @@
   import type { SchoolType } from "./prefs";
   import { school as schoolPref } from "./prefs";
   import CloseButton from "./CloseButton.svelte";
+  export let fullwidth = false;
   export let double = false;
   export let small = false;
   export let id: string = null;
@@ -39,7 +40,7 @@
 
 {#if rightSchool}
   {#if !id || !$hiddenCards[id]}
-    <div class="card" class:double class:small>
+    <div class="card" class:double class:small class:fullwidth>
       <div class="head">
         <slot name="head" />
         {#if id}<div class="pad-left">
@@ -72,6 +73,10 @@
   .card.double {
     grid-column-start: span 4;
   }
+  .card.fullwidth {
+    grid-column-start: span 8;
+  }
+
   .card.small {
     grid-column-start: span 1;
   }
