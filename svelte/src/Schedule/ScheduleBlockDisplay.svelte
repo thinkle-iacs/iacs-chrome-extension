@@ -136,7 +136,7 @@
   class="block"
   class:horizontal
   class:bold
-  style:background-color={getColor(block.name)}
+  style:background-color={getColor(customTitle || block.name)}
   style:--foo="hello?"
   style:--height={`${height}px`}
   style:--yoffset={`${yoffset}px`}
