@@ -8,6 +8,7 @@
   export let small = false;
   export let id: string = null;
   export let school: SchoolType = null;
+  export let temp = false;
 
   function hideCard() {
     $hiddenCards[id] = true;
@@ -33,7 +34,7 @@
     rightSchool = true;
   }
 
-  $: if (rightSchool) {
+  $: if (rightSchool && !temp) {
     registerId(id);
   }
 </script>

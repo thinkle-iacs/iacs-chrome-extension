@@ -1,4 +1,7 @@
 <script lang="ts">
+  import KeyContent from "./KeyContent.svelte";
+
+  export let temp;
   import type { Tip } from "./types";
   import Card from "./Card.svelte";
   import UpdateButton from "./util/UpdateButton.svelte";
@@ -15,7 +18,7 @@
   }
 </script>
 
-<Card id={`Tip: ${tip.title}`}>
+<Card id={`Tip: ${tip.title}`} {temp}>
   <div class="slot" slot="head">
     <div class="fancy">Tip of the Day</div>
     <div class="title">
@@ -24,14 +27,14 @@
     {#if tipStore}<UpdateButton cds={tipStore} />{/if}
   </div>
   <div class="slot" slot="body">
-    <div class="center" class:mac>
+    <KeyContent>
       {#if tip.image}
         <img src={tip.image} />
       {/if}
       <div class="content">
         {@html tip.content}
       </div>
-    </div>
+    </KeyContent>
   </div>
   <div class="slot" slot="footer">
     {#if tip.link}

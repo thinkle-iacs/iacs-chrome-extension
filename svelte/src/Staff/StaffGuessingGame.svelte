@@ -2,11 +2,13 @@
   export let closeGame;
   import { fade, fly } from "svelte/transition";
   import type { StaffData } from "./types";
+  import type { StudentData } from "../StudentGame/types";
   import StaffMember from "./StaffMember.svelte";
-  export let staff: StaffData[];
-  let allStaff: StaffData[] = [...staff];
+  import Student from "../StudentGame/Student.svelte";
+  export let staff: (StaffData | StudentData)[];
+  let allStaff: (StaffData | StudentData)[] = [...staff];
 
-  let options: StaffData[] = [];
+  let options: (StaffData | StudentData)[] = [];
   let tries = 0;
   let totalTries = 0;
   let totalCorrect = 0;
@@ -42,8 +44,8 @@
 
   let NUMBER = 12;
 
-  let secret: StaffData;
-  let all: StaffData[] = [];
+  let secret: StaffData | StudentData;
+  let all: (StudentData | StaffData)[] = [];
 
   function resetGame() {
     allStaff = [...staff];
@@ -97,14 +99,36 @@
   }
   let victory = false;
   resetGame();
+
   let cols = Math.ceil(Math.sqrt(NUMBER));
-  $: cols = Math.ceil(Math.sqrt(NUMBER));
+  console.log("Initial value...", cols);
+  $: setCols(NUMBER);
+
+  function setCols(NUMBER) {
+    cols = Math.ceil(Math.sqrt(NUMBER));
+    considerWider();
+  }
+
+  function considerWider() {
+    let heightFit = window.innerHeight / 200;
+    if (heightFit < cols) {
+      cols = Math.floor(window.innerWidth / 200);
+    }
+  }
+
   let lastNumber = NUMBER;
   $: {
     if (lastNumber != NUMBER) {
       resetGame();
       lastNumber = NUMBER;
     }
+  }
+
+  let staffMode = true;
+  $: if (secret.bday) {
+    staffMode = false;
+  } else {
+    staffMode = true;
   }
 </script>
 
@@ -115,7 +139,11 @@
       <b
         >You got it in only {tries} attempt{#if tries > 1}s{/if}!</b
       >
-      <StaffMember staffMember={secret} />
+      {#if secret.image}
+        <Student student={secret} />
+      {:else}
+        <StaffMember staffMember={secret} />
+      {/if}
       <button on:click={closeGame}>All done for now</button>
       <button on:click={resetGame}>Go me! Play again!</button>
       <div class="score">
@@ -130,16 +158,26 @@
     <button class="close" on:click={closeGame}>&times;</button>
     <div class="top-bar">
       <div class="question">
-        Which Staff Member is
-        <b
-          >{secret.acf.first_name}&nbsp;
-          {secret.acf.last_name}</b
-        >?
-        {#if showRole}<br />
-          <span class="hint">(their title is {secret.acf.staff_title}) </span>
+        {#if staffMode}
+          Which Staff Member is
+          <b
+            >{secret.acf.first_name}&nbsp;
+            {secret.acf.last_name}</b
+          >?
+          {#if showRole}<br />
+            <span class="hint">(their title is {secret.acf.staff_title}) </span>
+          {/if}
+        {:else}
+          Which student is <b
+            >{secret.first}
+            {secret.last}
+            {#if secret.phonetic?.replace(/\s*/, "")}
+              ({secret.phonetic})
+            {/if}
+          </b>?
         {/if}
       </div>
-      {#if secret.acf.staff_title}
+      {#if staffMode && secret.acf.staff_title}
         {#if !showRole}
           <button class="hint" on:click={() => (showRole = true)}>
             Hint?
@@ -167,11 +205,19 @@
             on:click={() => revealMember(sm)}
             class:revealed={revealed[sm.id]}
           >
-            <StaffMember
-              staffMember={sm}
-              showRole={!!revealed[sm.id]}
-              showName={!!revealed[sm.id]}
-            />
+            {#if sm.bday}
+              <Student
+                student={sm}
+                showRole={!!revealed[sm.id]}
+                showName={!!revealed[sm.id]}
+              />
+            {:else}
+              <StaffMember
+                staffMember={sm}
+                showRole={!!revealed[sm.id]}
+                showName={!!revealed[sm.id]}
+              />
+            {/if}
           </div>
         {/key}
       {/each}

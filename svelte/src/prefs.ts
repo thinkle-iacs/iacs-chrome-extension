@@ -1,6 +1,7 @@
 import { writable, derived, get } from "svelte/store";
 import type { Writable } from "svelte/store";
 import type { ScheduleBlock } from "./Schedule/types";
+import type { StudentData } from './StudentGame/types';
 
 let initialScheduleString = localStorage.getItem("schedule");
 
@@ -88,3 +89,20 @@ export function getCustomBlockName (sched : string, block : ScheduleBlock) {
     }
   }
 }
+
+let initialStudentsText = localStorage.getItem('students');
+let initialStudents : StudentData[] = [];
+if (initialStudentsText) {
+  try {
+  initialStudents = JSON.parse(initialStudentsText);
+  } catch (err) {
+    console.log('Bad value?',initialStudentsText)
+  }
+}
+export let students : Writable<StudentData[]> = writable(initialStudents);
+
+students.subscribe(
+  ($students)=>{
+    localStorage.setItem('students',JSON.stringify($students));    
+  }
+)

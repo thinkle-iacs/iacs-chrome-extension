@@ -1,4 +1,6 @@
 <script lang="ts">
+  import TipBuilder from "./TipBuilder.svelte";
+
   import PrefCard from "./PrefCard.svelte";
 
   import { onMount } from "svelte";
@@ -14,13 +16,32 @@
   import CardContainer from "./CardContainer.svelte";
   import { prefsSet, showPrefs } from "./prefs";
   import CloseButton from "./CloseButton.svelte";
+  import StudentGame from "./StudentGame/StudentGame.svelte";
   let tips = tipDataStore.store;
   let dayNum = new Date().getDate();
   let tipIndex = dayNum % $tips.length;
   onMount(() => tipDataStore.update());
+
+  /* Add secret routing */
+  let route;
+  let routes = {
+    "#tipbuilder": "tipbuilder",
+  };
+  function checkForSecretHash() {
+    let hash = window.location.hash;
+    console.log(hash);
+    if (routes[hash]) {
+      route = routes[hash];
+    }
+  }
+  onhashchange = checkForSecretHash;
+  checkForSecretHash();
 </script>
 
 <main>
+  {#if route == "tipbuilder"}
+    <TipBuilder />
+  {/if}
   <TitleBar />
 
   <Menu />
@@ -30,6 +51,7 @@
       <CloseButton on:click={() => ($showPrefs = false)} />
     </div>
   {/if}
+
   <CardContainer>
     {#if !$prefsSet && !$showPrefs}
       <PrefCard />
@@ -47,6 +69,7 @@
         }}
       />
     {/key}
+    <StudentGame />
     <Card id="Staff Guessing Game">
       <h2 slot="head">How well do you know our staff?</h2>
       <div slot="body"><StaffMembers /></div>
