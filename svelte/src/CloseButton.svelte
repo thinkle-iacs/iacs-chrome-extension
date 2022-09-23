@@ -1,4 +1,4 @@
-<button on:click on:mouseover on:mouseenter on:mouseleave on:blur>
+<button on:click on:focus on:mouseover on:mouseenter on:mouseleave on:blur>
   &times;
 </button>
 
