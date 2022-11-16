@@ -1,4 +1,5 @@
 <script lang="ts">
+  export let mode: "HS" | "MS" | "Staff";
   import ScheduleChooser from "./ScheduleChooser.svelte";
   import { now } from "./now";
   import ScheduleBlockDisplay from "./ScheduleBlockDisplay.svelte";
@@ -41,7 +42,9 @@
 </script>
 
 <div class="blocks">
-  <ScheduleChooser onChange={setActive} />
+  {#if mode?.toLowerCase() == "staff" || !mode}
+    <ScheduleChooser onChange={setActive} />
+  {/if}
   <!-- <div class="prev">
       {#if previousBlock}
         <ScheduleBlockDisplay block={previousBlock} />

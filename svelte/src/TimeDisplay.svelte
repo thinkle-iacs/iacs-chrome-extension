@@ -1,4 +1,5 @@
 <script lang="ts">
+  export let mode: "HS" | "MS" | "Staff";
   import ScheduleDisplay from "./Schedule/ScheduleDisplay.svelte";
   import { now } from "./Schedule/now";
   import { fly, fade } from "svelte/transition";
@@ -43,7 +44,7 @@
 <div>
   <span class="time">{today}</span>
   <span class="time-brief">{todayBrief}</span>
-  <ScheduleDisplay />
+  <ScheduleDisplay {mode} />
 </div>
 
 <style>

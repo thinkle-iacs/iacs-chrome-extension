@@ -9,7 +9,7 @@
     <img src="./icons/IACS_logo.png" />
     <h1>Launcher <span class="mode">{mode}</span></h1>
   </div>
-  <TimeDisplay />
+  <TimeDisplay {mode} />
 </div>
 
 <style>
