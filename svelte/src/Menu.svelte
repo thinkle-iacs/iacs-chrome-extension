@@ -7,9 +7,10 @@
   import { onMount } from "svelte";
   import { defaultMenuItems } from "./menuItems";
   import { showPrefs } from "./prefs";
+  import { GASURL } from "./shimURL";
 
   let cachedMenuGetter = new CachedDataStore({
-    url: "https://script.google.com/macros/s/AKfycbwMbmd-9KnPDPyK3F-ziSLSSulwIpmvD0bja_s7N-trdiqAZLqgpsSocIAPHirLZb67/exec?menu=true",
+    url: `${GASURL}&menu=true`,
     defaultValue: defaultMenuItems,
     expiresAfter: 8 * 60 * 60 * 1000,
     name: "menu",

@@ -1,4 +1,5 @@
 import type { SchoolType } from "../prefs";
+import { GASURL } from "../shimURL";
 import { CachedDataStore } from "../util/dataFetcher";
 
 export type RemoteCardData = {
@@ -14,8 +15,7 @@ export type RemoteCardData = {
 
 export type CardData = RemoteCardData[];
 
-let url =
-  "https://script.google.com/macros/s/AKfycbwMbmd-9KnPDPyK3F-ziSLSSulwIpmvD0bja_s7N-trdiqAZLqgpsSocIAPHirLZb67/exec?cards=true";
+let url = `${GASURL}&cards=true`;
 
 export const cardFetcher = new CachedDataStore({
   url,

@@ -69,7 +69,9 @@
         </div>
         <div slot="footer">
           {#if card.url}
-            <a style="margin-left: auto" href={card.url}>See original</a>
+            <a style="color:var(--white);margin-left: auto" href={card.url}
+              >Edit original</a
+            >
           {/if}
         </div>
       </Card>

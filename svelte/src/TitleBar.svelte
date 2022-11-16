@@ -1,13 +1,13 @@
 <script lang="ts">
   import TimeDisplay from "./TimeDisplay.svelte";
-
+  export let mode = "Staff";
   import Menu from "./Menu.svelte";
 </script>
 
 <div class="top">
   <div class="logo-block">
     <img src="./icons/IACS_logo.png" />
-    <h1>Launcher</h1>
+    <h1>{mode} Launcher</h1>
   </div>
   <TimeDisplay />
 </div>

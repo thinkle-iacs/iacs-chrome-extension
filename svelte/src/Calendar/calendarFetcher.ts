@@ -10,9 +10,9 @@ export type CalendarData = {
   today: CalendarEvent[];
   tomorrow: CalendarEvent[];
 };
+import { GASURL } from "../shimURL";
 
-let url =
-  "https://script.google.com/macros/s/AKfycbwMbmd-9KnPDPyK3F-ziSLSSulwIpmvD0bja_s7N-trdiqAZLqgpsSocIAPHirLZb67/exec?calendar=true";
+let url = `${GASURL}&calendar=true`;
 
 import { CachedDataStore } from "../util/dataFetcher";
 

@@ -14,7 +14,7 @@
   import RemoteCards from "./CardFetcher/RemoteCards.svelte";
   import ScheduleCard from "./Schedule/ScheduleCard.svelte";
   import CardContainer from "./CardContainer.svelte";
-  import { prefsSet, showPrefs } from "./prefs";
+  import { school, prefsSet, showPrefs } from "./prefs";
   import CloseButton from "./CloseButton.svelte";
   import StudentGame from "./StudentGame/StudentGame.svelte";
   let tips = tipDataStore.store;
@@ -36,18 +36,26 @@
   }
   onhashchange = checkForSecretHash;
   checkForSecretHash();
+
+  const mode: "Staff" | "HS" | "MS" = "MODE";
+  if (mode == "HS") {
+    $school = "HS";
+  }
+  if (mode == "MS") {
+    $school = "MS";
+  }
 </script>
 
 <main>
   {#if route == "tipbuilder"}
     <TipBuilder />
   {/if}
-  <TitleBar />
+  <TitleBar {mode} />
 
   <Menu />
   {#if $showPrefs}
     <div class="overlay">
-      <PrefCard />
+      <PrefCard {mode} />
       <CloseButton on:click={() => ($showPrefs = false)} />
     </div>
   {/if}
@@ -57,19 +65,23 @@
       <PrefCard />
     {/if}
     <RemoteCards />
-    {#key tipIndex}
-      <TipCard
-        tip={$tips[tipIndex]}
-        tipStore={tipDataStore}
-        showNextTip={() => {
-          tipIndex += 1;
-          if (tipIndex >= $tips.length) {
-            tipIndex = 0;
-          }
-        }}
-      />
-    {/key}
-    <StudentGame />
+    {#if $tips.length}
+      {#key tipIndex}
+        <TipCard
+          tip={$tips[tipIndex]}
+          tipStore={tipDataStore}
+          showNextTip={() => {
+            tipIndex += 1;
+            if (tipIndex >= $tips.length) {
+              tipIndex = 0;
+            }
+          }}
+        />
+      {/key}
+    {/if}
+    {#if mode == "STAFF"}
+      <StudentGame />
+    {/if}
     <Card id="Staff Guessing Game">
       <h2 slot="head">How well do you know our staff?</h2>
       <div slot="body"><StaffMembers /></div>
@@ -80,6 +92,9 @@
       <PrefCard />
     {/if}
   </CardContainer>
+  <div class="hidden">
+    We are in {mode} mode :-)
+  </div>
 </main>
 
 <style>

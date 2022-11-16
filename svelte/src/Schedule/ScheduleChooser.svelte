@@ -4,7 +4,7 @@
   import { school, selectedSchedule } from "../prefs";
   import { CachedDataStore } from "../util/dataFetcher";
   import UpdateButton from "../util/UpdateButton.svelte";
-
+  import { GASURL } from "../shimURL";
   export let onChange;
   import { hs_schedule } from "./hs_schedule";
 
@@ -57,7 +57,7 @@
 
   let scheduleLoader = new CachedDataStore({
     expiresAfter: 24 * 60 * 60 * 1000,
-    url: "https://script.google.com/macros/s/AKfycbwMbmd-9KnPDPyK3F-ziSLSSulwIpmvD0bja_s7N-trdiqAZLqgpsSocIAPHirLZb67/exec?schedule=true",
+    url: `${GASURL}&schedule=true`,
     defaultValue: hardcoded_schedule_options,
     name: "schedules",
   });
