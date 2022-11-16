@@ -164,4 +164,7 @@
     top: var(--spacer);
     background-color: var(--white);
   }
+  .hidden {
+    color: transparent;
+  }
 </style>
