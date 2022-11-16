@@ -7,7 +7,7 @@
 <div class="top">
   <div class="logo-block">
     <img src="./icons/IACS_logo.png" />
-    <h1>{mode} Launcher</h1>
+    <h1>Launcher <span class="mode">{mode}</span></h1>
   </div>
   <TimeDisplay />
 </div>
@@ -35,6 +35,11 @@
     font-size: var(--huge);
     font-weight: 100;
     margin: 0;
+    white-space: nowrap;
+  }
+  h1 .mode {
+    text-transform: none;
+    font-size: var(--normal);
   }
   img {
     height: var(--huge);
