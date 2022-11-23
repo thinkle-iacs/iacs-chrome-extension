@@ -52,7 +52,7 @@
   {/if}
   <TitleBar {mode} />
 
-  <Menu />
+  <Menu {mode} />
   {#if $showPrefs}
     <div class="overlay">
       <PrefCard {mode} />
@@ -81,11 +81,11 @@
     {/if}
     {#if mode == "STAFF"}
       <StudentGame />
+      <Card id="Staff Guessing Game">
+        <h2 slot="head">How well do you know our staff?</h2>
+        <div slot="body"><StaffMembers /></div>
+      </Card>
     {/if}
-    <Card id="Staff Guessing Game">
-      <h2 slot="head">How well do you know our staff?</h2>
-      <div slot="body"><StaffMembers /></div>
-    </Card>
     <CalendarCard />
     <ScheduleCard />
     {#if $prefsSet && !$showPrefs}
