@@ -7,7 +7,8 @@ export type Menuitem = {
   icon?: string;
   title: string;
   blackIcon?: boolean;
-  school: SchoolType;
+  school?: SchoolType;
+  editable?: boolean;
 };
 
 export type Card = {

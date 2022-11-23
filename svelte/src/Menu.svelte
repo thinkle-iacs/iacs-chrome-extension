@@ -1,13 +1,16 @@
 <script lang="ts">
   import type { Menuitem } from "./types";
+  import { derived } from "svelte/store";
   import SubMenu from "./SubMenu.svelte";
   import { CachedDataStore } from "./util/dataFetcher";
-  import type { Writable } from "svelte/store";
+  import type { Writable, Readable } from "svelte/store";
   import UpdateButton from "./util/UpdateButton.svelte";
   import { onMount } from "svelte";
   import { defaultMenuItems } from "./menuItems";
   import { showPrefs } from "./prefs";
   import { GASURL } from "./shimURL";
+  import { customMenuStore } from "./CustomMenus/customMenu";
+  import CustomMenuEditor from "./CustomMenus/CustomMenuEditor.svelte";
 
   let cachedMenuGetter = new CachedDataStore({
     url: `${GASURL}&menu=true`,
@@ -15,7 +18,12 @@
     expiresAfter: 8 * 60 * 60 * 1000,
     name: "menu",
   });
-  let menuItems: Writable<Menuitem[]> = cachedMenuGetter.store;
+  let remoteMenuItems: Writable<Menuitem[]> = cachedMenuGetter.store;
+  let menuItems: Readable<Menuitem[]> = derived(
+    [cachedMenuGetter.store, customMenuStore],
+    ([$a, $b]) => [...$a, ...$b]
+  );
+  $: console.log("Wow, menuitems are:", $menuItems);
   onMount(() => {
     cachedMenuGetter.update();
   });
@@ -26,9 +34,9 @@
     {#each $menuItems as menuitem}
       <SubMenu {menuitem} />
     {/each}
-    {#if $menuItems.length % 2}
+    <!-- {#if $menuItems.length % 2}
       <div class="filler">&nbsp;</div>
-    {/if}
+    {/if} -->
   </nav>
   <div class="float-me">
     <button
@@ -37,6 +45,7 @@
     >
       ⚙
     </button>
+    <CustomMenuEditor />
     <UpdateButton cds={cachedMenuGetter} />
   </div>
 </div>

@@ -2,7 +2,7 @@ import type { Menuitem } from "./types";
 
 export let defaultMenuItems: Menuitem[] = [
   {
-    title: "Teaching",
+    title: "Grades",
     items: [
       {
         title: "Aspen",
@@ -73,17 +73,6 @@ export let defaultMenuItems: Menuitem[] = [
     title: "Resources",
     items: [
       {
-        title: "Facilities Request Form",
-        link: "https://docs.google.com/forms/d/e/1FAIpQLScl-fZa2mfc1DQXlyo0fMGY2l6w0He3xdVxWJeZ6U5dqw4yEg/viewform",
-        icon: "./icons/hammer.png",
-      },
-      {
-        title: "Tech Support",
-        link: "https://support.innovationcharter.org",
-        detail: "IACS Tech How-To's and support",
-        icon: "./icons/help.png",
-      },
-      {
         title: "Announcements",
         items: [
           {
@@ -112,44 +101,6 @@ export let defaultMenuItems: Menuitem[] = [
       {
         title: "Staff Directory",
         link: "https://www.innovationcharter.org/about-iacs/faculty/",
-      },
-    ],
-  },
-  {
-    title: "HR",
-    items: [
-      {
-        title: "ADP",
-        link: "https://workforcenow.adp.com/",
-        detail: "Time Off and Paycheck Info",
-        icon: "./icons/adp.png",
-      },
-      {
-        title: "Employee Navigator",
-        link: "https://fredcchurch.employeenavigator.com/",
-        detail: "Benefits",
-      },
-      {
-        link: "https://www.ezschoolapps.com/",
-        title: "EZ Substitute",
-        detail:
-          'More info <a href="https://sites.google.com/innovationcharter.org/teacher-tech/staff-absences-ez-substitute-management">here</a>',
-      },
-      {
-        title: "Purchases",
-        items: [
-          {
-            title: "Procurify",
-            detail: "Ordering stuff",
-            icon: "./icons/procurify.png",
-            link: "https://iacs.procurify.com",
-          },
-          {
-            title: "Computer Inventory",
-            detail: "Finding Chromebooks",
-            link: "https://cb.innovationcharter.org",
-          },
-        ],
       },
     ],
   },
