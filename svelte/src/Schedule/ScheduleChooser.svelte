@@ -80,13 +80,15 @@
   $: scheduleObject && onChange(scheduleObject);
 </script>
 
-<select bind:value={$selectedSchedule}>
-  {#each $schedule_options as option}
-    {#if !option.school || !$school || $school == "All" || $school == option.school}
-      <option value={option.name}>{option.name}</option>
-    {/if}
-  {/each}
-</select>
+{#if $schedule_options.length > 1}
+  <select bind:value={$selectedSchedule}>
+    {#each $schedule_options as option}
+      {#if !option.school || !$school || $school == "All" || $school == option.school}
+        <option value={option.name}>{option.name}</option>
+      {/if}
+    {/each}
+  </select>
+{/if}
 {#if showUpdate}
   <UpdateButton cds={scheduleLoader} />
 {/if}

@@ -42,9 +42,7 @@
 </script>
 
 <div class="blocks">
-  {#if mode?.toLowerCase() == "staff" || !mode}
-    <ScheduleChooser onChange={setActive} />
-  {/if}
+  <ScheduleChooser onChange={setActive} />
   <!-- <div class="prev">
       {#if previousBlock}
         <ScheduleBlockDisplay block={previousBlock} />
