@@ -88,9 +88,6 @@
     {/if}
     <CalendarCard />
     <ScheduleCard />
-    {#if $prefsSet && !$showPrefs}
-      <PrefCard />
-    {/if}
   </CardContainer>
   <div class="hidden">
     We are in {mode} mode :-)
