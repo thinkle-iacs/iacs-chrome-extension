@@ -79,7 +79,7 @@
         />
       {/key}
     {/if}
-    {#if mode == "STAFF"}
+    {#if mode == "Staff"}
       <StudentGame />
       <Card id="Staff Guessing Game">
         <h2 slot="head">How well do you know our staff?</h2>
