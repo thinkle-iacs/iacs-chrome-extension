@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
-  let flakeSize = 64;
+  let walls = [];
+  let flakeSize = 32;
   let animating = false;
   let lastAnimation = 0;
   let breeze = {
@@ -8,8 +9,50 @@
     vy: 0,
   };
 
+  function findWalls() {
+    walls = [];
+    for (let div of document.querySelectorAll(".card")) {
+      walls.push(div);
+    }
+  }
+  function isTouchingAny(flake, divs) {
+    for (let d of divs) {
+      if (isTouchingTop(flake, d)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  let firstOne = false;
+
+  function isTouchingTop(flake, div: HTMLDivElement) {
+    if (flake.y < 0) {
+      return;
+    }
+    if (flake.x > div.offsetLeft) {
+      if (flake.x < div.offsetLeft + div.clientWidth) {
+        if (flake.y > div.offsetTop - flakeSize / 2) {
+          if (flake.y < div.offsetTop + flakeSize) {
+            if (!firstOne) {
+              console.log("flake at ", flake.x, flake.y, "touching", div);
+              firstOne = true;
+            }
+            return true;
+          }
+        }
+      }
+    }
+  }
+
+  function removeBroken() {
+    //console.log("Remove broken begins with", flakes.length);
+    flakes = flakes.filter((f) => !f.broken);
+    //console.log("There are ", flakes.length, "remaining");
+  }
+
   onMount(() => {
     setTimeout(startSnow, 1000);
+    setTimeout(removeBroken, 3000);
   });
   onDestroy(() => {
     animating = false;
@@ -17,6 +60,7 @@
   let maxBreeze = 10;
 
   function startSnow() {
+    findWalls();
     animating = true;
     makeFlakes();
     requestAnimationFrame(animateSnow);
@@ -24,8 +68,8 @@
   }
 
   function updateBreeze() {
-    breeze.vx += 10 - (Math.random() * 20) / 2;
-    breeze.vy += 105 - (Math.random() * 10) / 2;
+    breeze.vx += 10 - Math.random() * 20;
+    breeze.vy += 5 - Math.random() * 10 + 15;
     let gustTime = Math.random() * 1000 * 30;
     if (Math.abs(breeze.vx) > maxBreeze) {
       breeze.vx *= 0.8;
@@ -60,6 +104,8 @@
     flakes.forEach((flake) => {
       ctx.resetTransform();
       ctx.translate(flake.x, flake.y);
+      //let scaleAmount = Math.cos((180 * flake.yangle) / Math.PI);
+      //ctx.scale(scaleAmount, 1);
       ctx.rotate(flake.angle);
       try {
         ctx.drawImage(
@@ -71,6 +117,8 @@
         );
       } catch (err) {
         flake.broken = true;
+        //flakes = flakes.filter((f) => !f.broken);
+        //console.log(err);
       }
     });
 
@@ -85,30 +133,40 @@
   }
 
   function updateFlake(flake, elapsed) {
+    canvas.width = window.innerWidth;
     if (!flake.vx) {
       flake.vx = Math.random() * 20 - 10;
     }
     if (!flake.vy) {
-      flake.vy = 20 + Math.random() * 10;
+      flake.vy = 10 - Math.random() * 20;
     }
     if (!flake.va) {
-      flake.va = Math.random() * 360 - 180;
+      flake.va = Math.random() * 90 - 45;
     }
     if (!flake.vay) {
-      flake.vay = Math.random() * 360 - 180;
+      flake.vay = Math.random() * 30 - 15;
     }
     if (!flake.yangle) {
       flake.yangle = 0;
     }
     flake.yangle += (flake.vay / 1000) * elapsed;
     flake.angle += (flake.va / 10000) * elapsed;
-    flake.y += ((flake.vy + breeze.vy) / 1000) * elapsed;
+    if (isTouchingAny(flake, walls)) {
+      flake.y += 0;
+      if (Math.random() * 1000 < 1) {
+        flake.y = Math.random() * -1000;
+      }
+    } else {
+      flake.y += ((flake.vy + breeze.vy) / 1000) * elapsed;
+    }
     flake.x += ((flake.vx + breeze.vx) / 1000) * elapsed;
     if (flake.x > canvas.width) {
+      //console.log("flake off canvas, move from ", flake.x);
       flake.x = flake.x % canvas.width;
+      //console.log("=>", flake.x);
     }
-    if (flake.x < 0) {
-      flake.x = canvas.width;
+    while (flake.x < 0) {
+      flake.x = canvas.width + flake.x;
     }
     if (flake.y > canvas.height) {
       flake.y = -500 * Math.random();
@@ -124,8 +182,8 @@
     }
     flakes = urls.map((u) => ({
       url: u,
-      x: Math.random() * 4000,
-      y: Math.random() * 3000,
+      x: Math.random() * 111000,
+      y: Math.random() * -10000,
       angle: Math.random() * 360,
       yangle: 0,
     }));
@@ -153,5 +211,6 @@
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 999999;
   }
 </style>

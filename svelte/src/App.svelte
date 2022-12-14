@@ -1,6 +1,6 @@
 <script lang="ts">
   import TipBuilder from "./TipBuilder.svelte";
-
+  import Snow from "./whimsy/SnowCanvas.svelte";
   import PrefCard from "./PrefCard.svelte";
 
   import { onMount } from "svelte";
@@ -26,6 +26,7 @@
   let route;
   let routes = {
     "#tipbuilder": "tipbuilder",
+    "#snow": "snow",
   };
   function checkForSecretHash() {
     let hash = window.location.hash;
@@ -46,6 +47,7 @@
   }
 </script>
 
+{#if route == "snow"}<Snow />{/if}
 <main>
   {#if route == "tipbuilder"}
     <TipBuilder />

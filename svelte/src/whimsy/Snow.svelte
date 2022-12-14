@@ -24,7 +24,7 @@
   }
 
   function updateBreeze() {
-    breeze.vx += 10 - (Math.random() * 20) / 2;
+    breeze.vx += 100 - (Math.random() * 200) / 2;
     breeze.vy += 105 - (Math.random() * 10) / 2;
     let gustTime = Math.random() * 1000 * 30;
     if (Math.abs(breeze.vx) > maxBreeze) {
@@ -85,6 +85,9 @@
     }
     if (flake.x < 0) {
       flake.x = window.innerWidth;
+    }
+    if (flake.y > window.innerHeight) {
+      flake.y = Math.random() * -200;
     }
   }
 
