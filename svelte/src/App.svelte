@@ -2,7 +2,7 @@
   import TipBuilder from "./TipBuilder.svelte";
   import Snow from "./whimsy/SnowCanvas.svelte";
   import PrefCard from "./PrefCard.svelte";
-
+  import Weather from "./whimsy/Weather.svelte";
   import { onMount } from "svelte";
   import TitleBar from "./TitleBar.svelte";
   import Card from "./Card.svelte";
@@ -90,6 +90,7 @@
     {/if}
     <CalendarCard />
     <ScheduleCard />
+    <Weather />
   </CardContainer>
   <div class="hidden">
     We are in {mode} mode :-)
