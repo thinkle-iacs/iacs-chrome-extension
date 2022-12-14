@@ -4,9 +4,10 @@
   let flakeSize = 32;
   let animating = false;
   let lastAnimation = 0;
+
   let breeze = {
     vx: 4,
-    vy: 0,
+    vy: 5,
   };
 
   function findWalls() {
@@ -23,7 +24,6 @@
     }
     return false;
   }
-  let firstOne = false;
 
   function isTouchingTop(flake, div: HTMLDivElement) {
     if (flake.y < 0) {
@@ -33,10 +33,6 @@
       if (flake.x < div.offsetLeft + div.clientWidth) {
         if (flake.y > div.offsetTop - flakeSize / 2) {
           if (flake.y < div.offsetTop + flakeSize) {
-            if (!firstOne) {
-              console.log("flake at ", flake.x, flake.y, "touching", div);
-              firstOne = true;
-            }
             return true;
           }
         }
@@ -45,9 +41,7 @@
   }
 
   function removeBroken() {
-    //console.log("Remove broken begins with", flakes.length);
     flakes = flakes.filter((f) => !f.broken);
-    //console.log("There are ", flakes.length, "remaining");
   }
 
   onMount(() => {
@@ -57,7 +51,7 @@
   onDestroy(() => {
     animating = false;
   });
-  let maxBreeze = 10;
+  let maxBreeze = 30;
 
   function startSnow() {
     findWalls();
@@ -77,8 +71,9 @@
     if (Math.abs(breeze.vy) > maxBreeze) {
       breeze.vy *= 0.8;
     }
+    console.log("New breeze:", breeze);
     if (animating) {
-      setInterval(updateBreeze, gustTime);
+      setTimeout(updateBreeze, gustTime);
     }
   }
 
@@ -115,10 +110,9 @@
           flakeSize,
           flakeSize
         );
+        flake.broken = false;
       } catch (err) {
         flake.broken = true;
-        //flakes = flakes.filter((f) => !f.broken);
-        //console.log(err);
       }
     });
 
