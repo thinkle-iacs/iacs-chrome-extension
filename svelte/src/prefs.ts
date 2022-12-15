@@ -106,3 +106,17 @@ students.subscribe(
     localStorage.setItem('students',JSON.stringify($students));    
   }
 )
+
+export let whimsy = writable(true);
+whimsy.subscribe(
+  ($whimsy) => localStorage.setItem('whimsy',JSON.stringify($whimsy))
+);
+
+let originalValue = localStorage.getItem('whimsy');
+if (originalValue==null) {
+  whimsy.set(true);
+} else {
+  whimsy.set(JSON.parse(originalValue));
+}
+
+

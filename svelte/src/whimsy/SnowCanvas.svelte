@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Rotater3D } from "../util/draw3d";
   import { onMount, onDestroy } from "svelte";
   let walls = [];
   let flakeSize = 32;
@@ -78,6 +79,9 @@
   }
 
   function animateSnow(ts) {
+    if (!animating) {
+      return;
+    }
     let elapsed = 0;
     if (lastAnimation) {
       elapsed = ts - lastAnimation;
@@ -96,7 +100,33 @@
     canvas.style.width = `${canvas.width}px`;
     canvas.style.height = `${canvas.height}px`;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let rotater = Rotater3D(ctx);
     flakes.forEach((flake) => {
+      if (flake.y < 0) {
+        return;
+      }
+      rotater.drawAt(
+        flake.x,
+        flake.y,
+        (flake.xangle * Math.PI) / 180,
+        (flake.yangle * Math.PI) / 180,
+        (flake.angle * Math.PI) / 180,
+        () => {
+          try {
+            ctx.drawImage(
+              flakeImages[flake.url],
+              -flakeSize / 2,
+              -flakeSize / 2,
+              flakeSize,
+              flakeSize
+            );
+            flake.broken = false;
+          } catch (err) {
+            flake.broken = true;
+          }
+        }
+      );
+      /*
       ctx.resetTransform();
       ctx.translate(flake.x, flake.y);
       //let scaleAmount = Math.cos((180 * flake.yangle) / Math.PI);
@@ -114,6 +144,7 @@
       } catch (err) {
         flake.broken = true;
       }
+      */
     });
 
     /*if (flakes.length == 0 && animating) {
@@ -134,19 +165,26 @@
     if (!flake.vy) {
       flake.vy = 10 - Math.random() * 20;
     }
-    if (!flake.va) {
-      flake.va = Math.random() * 90 - 45;
-    }
     if (!flake.vay) {
-      flake.vay = Math.random() * 30 - 15;
+      flake.vay = Math.random() * 18 - 36;
+    }
+    if (!flake.vax) {
+      flake.vax = Math.random() * 18 - 36;
     }
     if (!flake.yangle) {
       flake.yangle = 0;
     }
+    if (!flake.xangle) {
+      flake.xangle = 0;
+    }
     flake.yangle += (flake.vay / 1000) * elapsed;
-    flake.angle += (flake.va / 10000) * elapsed;
+    flake.xangle += (flake.vax / 1000) * elapsed;
+    // Let our z rotation come from our x movement
+    flake.angle += ((5 * (flake.vx + breeze.vx)) / 1000) * elapsed;
     if (isTouchingAny(flake, walls)) {
       flake.y += 0;
+      flake.xangle = 0;
+      flake.yangle = 0;
       if (Math.random() * 1000 < 1) {
         flake.y = Math.random() * -1000;
       }
@@ -180,6 +218,7 @@
       y: Math.random() * -10000,
       angle: Math.random() * 360,
       yangle: 0,
+      xangle: 0,
     }));
     urls = urls;
   }

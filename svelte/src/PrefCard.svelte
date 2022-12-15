@@ -1,12 +1,15 @@
 <script lang="ts">
   export let mode: "HS" | "MS" | "Staff";
   import Card from "./Card.svelte";
-  import { activeCardIDs, hiddenCards, school } from "./prefs";
+  import { activeCardIDs, hiddenCards, whimsy, school } from "./prefs";
+
+  $: console.log("Got new whimsy val? ", $whimsy);
 </script>
 
 <Card>
   <h2 slot="head">⚙ Settings</h2>
   <div slot="body">
+    <input type="checkbox" bind:checked={$whimsy} /> Allow occasional whimsy
     {#if mode == "Staff"}
       <label
         >School

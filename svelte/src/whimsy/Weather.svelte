@@ -1,6 +1,8 @@
 <script>
   import { onMount } from "svelte";
+
   import Card from "../Card.svelte";
+  import { whimsy } from "../prefs";
   import SnowCanvas from "./SnowCanvas.svelte";
 
   async function getWeatherData(lat, lon) {
@@ -44,7 +46,7 @@
   }
 </script>
 
-{#if snow}
+{#if $whimsy && snow}
   <SnowCanvas />
 {/if}
 {#if weatherData}
