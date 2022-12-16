@@ -33,7 +33,7 @@
     if (flake.x > div.offsetLeft) {
       if (flake.x < div.offsetLeft + div.clientWidth) {
         if (flake.y > div.offsetTop - flakeSize / 2) {
-          if (flake.y < div.offsetTop + flakeSize) {
+          if (flake.y < div.offsetTop + flakeSize / 2) {
             return true;
           }
         }
