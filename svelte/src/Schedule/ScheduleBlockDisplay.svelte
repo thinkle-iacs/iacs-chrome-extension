@@ -11,6 +11,11 @@
     "var(--material-color-blue-grey-light)",
     "var(--material-color-green-light)",
     "var(--material-color-teal-light)",
+    "var(--material-color-pink-light)",
+    "var(--material-color-amber-light)",
+    "var(--material-color-orange-light)",
+    "var(--material-color-light-green-light)",
+    "var(--material-color-light-blue-light)",
   ];
   let colorMap = {
     A: "var(--material-color-amber-light)",
@@ -601,7 +606,7 @@
   @media (prefers-color-scheme: dark) {
     :root {
       --material-color-red-light: var(--material-color-red-800);
-      --material-color-pink-light: var(--material-color-pink-800);
+      --material-color-pink-light: var(--material-color-pinak-800);
       --material-color-purple-light: var(--material-color-purple-800);
       --material-color-deep-purple-light: var(--material-color-deep-purple-800);
       --material-color-indigo-light: var(--material-color-indigo-800);
