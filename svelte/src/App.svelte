@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts">  
   import TipBuilder from "./TipBuilder.svelte";
   import Snow from "./whimsy/SnowCanvas.svelte";
   import PrefCard from "./PrefCard.svelte";
@@ -14,9 +14,10 @@
   import RemoteCards from "./CardFetcher/RemoteCards.svelte";
   import ScheduleCard from "./Schedule/ScheduleCard.svelte";
   import CardContainer from "./CardContainer.svelte";
-  import { school, prefsSet, showPrefs } from "./prefs";
+  import { school, prefsSet, showPrefs, whimsy } from "./prefs";
   import CloseButton from "./CloseButton.svelte";
   import StudentGame from "./StudentGame/StudentGame.svelte";
+  import DayOfWeekWhimsy from "./whimsy/DayOfWeekWhimsy.svelte";
   let tips = tipDataStore.store;
   let dayNum = new Date().getDate();
   let tipIndex = dayNum % $tips.length;
@@ -63,6 +64,9 @@
   {/if}
 
   <CardContainer>
+    {#if $whimsy}
+    <DayOfWeekWhimsy/>
+    {/if}
     {#if !$prefsSet && !$showPrefs}
       <PrefCard />
     {/if}

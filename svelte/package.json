@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "build": "rollup -c",
-    "dev": "GASURL=https://script.google.com/macros/s/AKfycbzSsUiEWUgK9hQOh3XDAUQodQs61JJapMueCzuSOP5n_rIMk1amWaBvFXftJIdO1Qwn/exec rollup -c -w",
+    "dev-gas": "GASURL=https://script.google.com/macros/s/AKfycbzSsUiEWUgK9hQOh3XDAUQodQs61JJapMueCzuSOP5n_rIMk1amWaBvFXftJIdO1Qwn/exec rollup -c -w",
+   "dev": "rollup -c -w",    
+
     "start": "sirv public --no-clear",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },

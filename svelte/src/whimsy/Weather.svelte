@@ -7,18 +7,26 @@
 
   async function getWeatherData(lat, lon) {
     console.log("Fetching weather...");
-    let gridResponse = await fetch(
-      `https://api.weather.gov/points/${lat},${lon}`
-    );
-    let gridJson = await gridResponse.json();
-    let forecastURL = gridJson.properties.forecast;
-    let forecastResponse = await fetch(forecastURL);
-    let forecastJson = await forecastResponse.json();
+    try {
+      let gridResponse = await fetch(
+        `https://api.weather.gov/points/${lat},${lon}`
+      );
+
+      let gridJson = await gridResponse.json();
+      let forecastURL = gridJson.properties.forecast;
+      let forecastResponse = await fetch(forecastURL);
+      var forecastJson = await forecastResponse.json();
+      failed = false;
+    } catch (err) {
+      console.log("Error fetching", err);
+      failed = true;
+    }
     //let forecastData = forecastJson.properties.periods[day];
     //return forecastData
     return forecastJson;
   }
   let weatherData = null;
+  let failed = false;
 
   async function getIACSWeather() {
     weatherData = await getWeatherData(42.67159, -71.42085);
@@ -36,7 +44,7 @@
       weatherData.properties &&
       weatherData.properties.periods
     ) {
-      for (let p of weatherData.properties.periods) {
+      for (let p of weatherData.properties.periods.slice(0,3)) {
         if (p.detailedForecast.search(/\bsnow\b/)) {
           console.log("Found snow in", p.detailedForecast);
           snow = true;
@@ -49,49 +57,56 @@
 {#if $whimsy && snow}
   <SnowCanvas />
 {/if}
-{#if weatherData}
-  <Card double={true}>
-    <h2 slot="head">IACS Weather</h2>
-    <section slot="body">
-      {#if weatherData.properties}
-        {#if weatherData.properties.periods}
-          {#each weatherData.properties.periods as period}
-            {@const start = new Date(period.startTime)}
-            {@const end = new Date(period.endTime)}
-            <div class="weather" class:day={period.isDaytime}>
-              <div class="icon">
-                {#if period.icon}<img
-                    alt={period.detailedForecast}
-                    src={period.icon}
-                  />{/if}
-              </div>
-              <h3>
-                {period.name}
-                <div class="detail">
-                  {start.toLocaleDateString()}
-                  {start.toLocaleTimeString()}&ndash; {end.toLocaleDateString()}
-                  {end.toLocaleTimeString()}
-                </div>
-              </h3>
 
-              <div class="temp">
-                {period.temperature}{period.temperatureUnit}
-              </div>
-              <div class="detailed">{period.detailedForecast}</div>
+<Card double={true}>
+  <h2 slot="head">IACS Weather</h2>
+  <section slot="body">
+    {#if failed}
+      <div class="center">
+        Trouble fetching the weather.
+        <button on:click={getIACSWeather}>Try again?</button>
+      </div>
+    {:else if !weatherData}
+      Fetching weather...
+    {/if}
+    {#if weatherData && weatherData.properties}
+      {#if weatherData.properties.periods}
+        {#each weatherData.properties.periods as period}
+          {@const start = new Date(period.startTime)}
+          {@const end = new Date(period.endTime)}
+          <div class="weather" class:day={period.isDaytime}>
+            <div class="icon">
+              {#if period.icon}<img
+                  alt={period.detailedForecast}
+                  src={period.icon}
+                />{/if}
             </div>
-          {/each}
-        {/if}
+            <h3>
+              {period.name}
+              <div class="detail">
+                {start.toLocaleDateString()}
+                {start.toLocaleTimeString()}&ndash; {end.toLocaleDateString()}
+                {end.toLocaleTimeString()}
+              </div>
+            </h3>
+
+            <div class="temp">
+              {period.temperature}{period.temperatureUnit}
+            </div>
+            <div class="detailed">{period.detailedForecast}</div>
+          </div>
+        {/each}
       {/if}
-    </section>
-    <div slot="footer">
-      <a
-        href="https://forecast.weather.gov/MapClick.php?lat=42.67573500000003&lon=-71.41973999999993#.Y5oequxud1U"
-      >
-        See National Weather Service Forecast
-      </a>
-    </div>
-  </Card>
-{:else}{/if}
+    {/if}
+  </section>
+  <div slot="footer">
+    <a
+      href="https://forecast.weather.gov/MapClick.php?lat=42.67573500000003&lon=-71.41973999999993#.Y5oequxud1U"
+    >
+      See National Weather Service Forecast
+    </a>
+  </div>
+</Card>
 
 <style>
   * {
@@ -162,5 +177,12 @@
     color: var(--black);
     font-size: var(--small);
     opacity: 1;
+  }
+  .center {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
   }
 </style>
