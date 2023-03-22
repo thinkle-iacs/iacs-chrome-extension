@@ -45,7 +45,7 @@
       weatherData.properties.periods
     ) {
       for (let p of weatherData.properties.periods.slice(0,3)) {
-        if (p.detailedForecast.search(/\bsnow\b/)) {
+        if (p.detailedForecast.search(/\bsnow\b/) > -1) {          
           console.log("Found snow in", p.detailedForecast);
           snow = true;
         }
