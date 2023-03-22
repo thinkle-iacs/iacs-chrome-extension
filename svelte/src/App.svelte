@@ -17,7 +17,7 @@
   import { school, prefsSet, showPrefs, whimsy } from "./prefs";
   import CloseButton from "./CloseButton.svelte";
   import StudentGame from "./StudentGame/StudentGame.svelte";
-  import DayOfWeekWhimsy from "./whimsy/DayOfWeekWhimsy.svelte";
+  /* import DayOfWeekWhimsy from "./whimsy/DayOfWeekWhimsy.svelte"; */
   let tips = tipDataStore.store;
   let dayNum = new Date().getDate();
   let tipIndex = dayNum % $tips.length;
@@ -65,7 +65,7 @@
 
   <CardContainer>
     {#if $whimsy}
-    <DayOfWeekWhimsy/>
+    <!-- <DayOfWeekWhimsy/> -->
     {/if}
     {#if !$prefsSet && !$showPrefs}
       <PrefCard />
