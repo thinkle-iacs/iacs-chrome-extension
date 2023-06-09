@@ -4,11 +4,15 @@
   import { activeCardIDs, hiddenCards, whimsy, school } from "./prefs";
 
   $: console.log("Got new whimsy val? ", $whimsy);
+  function dontBubble (e : MouseEvent) {
+    e.stopPropagation()
+  }
 </script>
 
-<Card>
+<Card on:click={dontBubble}>
   <h2 slot="head">⚙ Settings</h2>
   <div slot="body">
+    MODE: {mode}
     <input type="checkbox" bind:checked={$whimsy} /> Allow occasional whimsy
     {#if mode == "Staff"}
       <label

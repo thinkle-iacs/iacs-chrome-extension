@@ -1,6 +1,7 @@
 <script lang="ts">  
   import TipBuilder from "./TipBuilder.svelte";
   import Snow from "./whimsy/SnowCanvas.svelte";
+  
   import PrefCard from "./PrefCard.svelte";
   import Weather from "./whimsy/Weather.svelte";
   import { onMount } from "svelte";
@@ -18,6 +19,7 @@
   import CloseButton from "./CloseButton.svelte";
   import StudentGame from "./StudentGame/StudentGame.svelte";
   import DayOfWeekWhimsy from "./whimsy/DayOfWeekWhimsy.svelte";
+  import Countdown from "./whimsy/Countdown.svelte";
   let tips = tipDataStore.store;
   let dayNum = new Date().getDate();
   let tipIndex = dayNum % $tips.length;
@@ -57,7 +59,7 @@
 
   <Menu {mode} />
   {#if $showPrefs}
-    <div class="overlay">
+    <div class="overlay" on:click={()=>($showPrefs = false)}>
       <PrefCard {mode} />
       <CloseButton on:click={() => ($showPrefs = false)} />
     </div>
@@ -66,6 +68,11 @@
   <CardContainer>
     {#if $whimsy}
     <DayOfWeekWhimsy/>
+    {/if}
+    {#if $whimsy}
+      <div class="card" style="grid-column-start: span 2">        
+        <Countdown/>
+      </div>
     {/if}
     {#if !$prefsSet && !$showPrefs}
       <PrefCard />

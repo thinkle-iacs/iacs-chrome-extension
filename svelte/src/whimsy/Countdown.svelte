@@ -1,0 +1,89 @@
+<script lang="typescript">
+  export let target = new Date(2023,5,20,12,25);
+  export let countdownStart = new Date(2022,7,30,8,10)
+  //export let countdownStart = new Date(2023,5,1,8,10)
+  export let name = "Summer Vacation"
+  import { now } from "../Schedule/now";
+  import Hourglass from "./Hourglass.svelte";
+  let targetMS = 0;
+  let nowMS = 0;
+  let remaining = 0;
+  $: nowMS = $now.getTime();
+  $: targetMS = target.getTime();
+  $: remaining = targetMS - nowMS;
+  $: updateCountdowns(remaining);
+  var daysLeft = 0;
+  var hoursLeft = 0;
+  var minutesLeft = 0;  
+  var secondsLeft = 0;
+  let totalTime : number;
+  $: totalTime = targetMS - countdownStart.getTime();
+  //$: console.log('Total time=',totalTime)
+  //$: console.log('Remaining = ',remaining,'out of',totalTime,'elapsed=',totalTime-remaining)
+  let percentage = 0;
+  
+  $: percentage = (totalTime-remaining) / totalTime
+  
+  function zeroPad (num) {
+    let s = `${num}`;
+    if (s.length==1) {
+      return '0'+s
+    } else {
+      return s;
+    }
+  }
+
+  function updateCountdowns (ms) {
+    const second = 1000;
+    const minute = second * 60;
+    const hour = minute * 60;
+    const day = hour * 24;
+    let remainder = ms;
+    daysLeft = Math.floor(remainder / day);
+    remainder = remainder % day;
+    hoursLeft = Math.floor(remainder / hour);
+    remainder = remainder % hour;
+    minutesLeft = Math.floor(remainder / minute);
+    remainder = remainder % minute;
+    secondsLeft = Math.floor(remainder / second);            
+  }
+  
+  
+
+</script>
+<div class="countdown">
+  <div class="icon">
+  <Hourglass {percentage}/>
+  </div>
+  <div class="words">
+  {#if daysLeft}
+    <span class="days">
+      {daysLeft} days
+    </span>
+  {/if} 
+  {#if hoursLeft}
+    {hoursLeft} hours
+  {/if}
+  <span class="time">{zeroPad(minutesLeft)}:{zeroPad(secondsLeft)}</span>          
+  <span class="until">until <b class="target">{name}</b></span>
+  </div>
+  
+</div>
+
+<style>
+  .until {
+    display: block;
+  }
+  .countdown {    
+    padding: 3em;
+    width: 20em;
+    background-color: var(--blue);
+    color: var(--white);
+  }
+  .countdown {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+</style>

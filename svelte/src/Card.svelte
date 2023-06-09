@@ -41,7 +41,7 @@
 
 {#if rightSchool}
   {#if !id || !$hiddenCards[id]}
-    <div class="card" class:double class:small class:fullwidth>
+    <div class="card" class:double class:small class:fullwidth on:click>
       <div class="head">
         <slot name="head" />
         {#if id}<div class="pad-left">
@@ -104,5 +104,6 @@
   }
   .pad-left {
     margin-left: var(--pad);
-  }
+  } 
+
 </style>
