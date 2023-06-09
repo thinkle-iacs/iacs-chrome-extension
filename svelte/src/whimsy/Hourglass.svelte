@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
   let animator
+  let sync;
   onMount(
     ()=>{
       animator = setInterval(
@@ -11,10 +12,11 @@
             let delta = Math.ceil(1000*(diff/20))/1000
             displayPercentage += delta;
           }
-          console.log('Creep up...',displayPercentage)
+
           if (displayPercentage > percentage) {
             displayPercentage = percentage;
             console.log('Done!')
+            sync = true;
             clearInterval(animator);
           }
         },
@@ -23,7 +25,9 @@
       return ()=>clearInterval(animator);
     }
   )
-  
+  $: if (sync) {
+    displayPercentage = percentage;
+  }
   export let percentage;
   let displayPercentage = 0;
   let grainsOfSand = 1000;
@@ -66,7 +70,7 @@
     for (let i=0; i<grains.length; i++) {
       if (i < numberOnBottom) {
         // Bottom
-        let nthOnBottom = numberOnBottom - i;
+        let nthOnBottom = numberOnBottom - (numberOnBottom - i);
         grains[i].y = .95 - 0.34*(nthOnBottom/grainsOfSand);    
         if (grains[i].top) {
           grains[i].falling = true;
