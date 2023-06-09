@@ -72,20 +72,26 @@
       $selectedSchedule = "HS";
     }
   }
-
+  let activeOptions = []
   let scheduleObject;
   $: scheduleObject = $schedule_options.find(
     (o) => o.name == $selectedSchedule
   );
   $: scheduleObject && onChange(scheduleObject);
+  $: {
+    activeOptions = $schedule_options.filter(
+      (option)=>!option.school || !$school || $school =='All' || $school == option.school
+    );    
+  }
+  
 </script>
 
-{#if $schedule_options.length > 1}
+{#if activeOptions.length > 1}
   <select bind:value={$selectedSchedule}>
-    {#each $schedule_options as option}
-      {#if !option.school || !$school || $school == "All" || $school == option.school}
+    {#each activeOptions as option}
+      <!-- {#if !option.school || !$school || $school == "All" || $school == option.school} -->
         <option value={option.name}>{option.name}</option>
-      {/if}
+      <!-- {/if} -->
     {/each}
   </select>
 {/if}
