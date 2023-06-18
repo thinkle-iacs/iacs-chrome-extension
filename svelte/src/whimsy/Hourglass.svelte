@@ -27,7 +27,7 @@
             clearInterval(animator);
           }
         },
-        50
+        75
       )
       return ()=>clearInterval(animator);
     }
@@ -69,16 +69,17 @@
   let lastOnTop = 0;
   let grains = makeGrains(grainsOfSand);
   calculateGrainPositions(displayPercentage);  
-  function calculateGrainPositions (force) {                
+  function calculateGrainPositions (force) {     
     if (displayPercentage == percentage && percentage > 1) {      
+      //console.log('Calculate explosion!')               
       calculateExplosion(percentage)  
       requestAnimationFrame(calculateGrainPositions)   
       return;       
     } 
-    let numberOnBottom = Math.floor(grains.length*percentage);
+    //console.log('Calculate grain!')               
+    let numberOnBottom = Math.floor(grains.length*displayPercentage);
     let numberOnTop = grains.length - numberOnBottom;    
-    if (numberOnTop != lastOnTop) {
-      console.log('Grain chnge!',numberOnTop);
+    if (numberOnTop != lastOnTop) {      
       lastOnTop = numberOnTop;
     }
     for (let i=0; i<grains.length; i++) {

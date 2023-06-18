@@ -69,7 +69,7 @@
     {hoursLeft} hours
   {/if}
   <span class="time">{zeroPad(minutesLeft)}:{zeroPad(secondsLeft)}</span>          
-  <span class="until">until <b class="target" on:click={makeItNow}>{name}</b></span>
+  <span class="until">until <b class="target" on:dblclick={makeItNow}>{name}</b></span>
   {:else}
   We made it to <b class="target">{name}</b>
   {/if}
