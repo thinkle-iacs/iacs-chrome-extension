@@ -15,7 +15,7 @@
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@rollup/plugin-replace": "^5.0.1",
     "@rollup/plugin-typescript": "^8.0.0",
-    "@fireworks-js/svelte" : "^0.0.0",
+    "@fireworks-js/svelte" : "^2.10.0",
     "@tsconfig/svelte": "^2.0.0",
     "rollup": "^2.3.4",
     "rollup-plugin-css-only": "^3.1.0",
