@@ -48,6 +48,20 @@
   if (mode == "MS") {
     $school = "MS";
   }
+  let showCount = true;
+  let counters = [
+    {
+      name : 'Summer Vacation',
+      target : new Date(2023,5,20,12,25),
+      countdownStart : new Date(2022,7,30,8,10) 
+    },
+    {
+      name : 'First Day of School',
+      countdownStart : new Date(2023,5,20,12,25),
+      target : new Date(2023,7,29,8,5)
+    }
+  ]
+  let theCounter = counters[0]
 </script>
 
 {#if route == "snow"}<Snow />{/if}
@@ -69,10 +83,32 @@
     {#if $whimsy}
     <DayOfWeekWhimsy/>
     {/if}
-    {#if $whimsy}
-      <div class="card" style="grid-column-start: span 2">        
-        <Countdown/>
-      </div>
+    {#if $whimsy && showCount}
+      <Card>        
+        <div slot="head" style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+          Countdown to {#if counters.length > 1}<select bind:value={theCounter}>
+            {#each counters as counter}
+              <option value={counter}>{counter.name}</option>
+            {/each}
+          </select>
+          {:else}
+            <h2>
+              Countdown to {counters[0].name}
+            </h2>
+          {/if}
+          <button on:click={()=>showCount=false} 
+            style="margin-left: auto; border-radius: 50%; width: 2em; height: 2em; ">
+            &times;
+          </button>  
+        </div>
+        <div slot="body">
+          <Countdown 
+            target={theCounter.target} 
+            countdownStart={theCounter.countdownStart}
+            name={theCounter.name}
+            />
+        </div>
+      </Card>      
     {/if}
     {#if !$prefsSet && !$showPrefs}
       <PrefCard />

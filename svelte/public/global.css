@@ -77,3 +77,11 @@ button:not(:disabled):active {
 button:focus {
 	border-color: #666;
 }
+
+@font-face {
+	src: url('fonts/LabDJRColorVariable[SIZE,BEVL,OVAL,SPRK,QUAD,XSWP,YSWP].woff2') format("woff2"),
+		url('fonts/LabDJRColorVariable[SIZE,BEVL,OVAL,SPRK,QUAD,XSWP,YSWP].woff') format("woff");
+	font-family: 'Lab DJR Web';
+	font-style: normal;
+	font-weight: normal;
+}

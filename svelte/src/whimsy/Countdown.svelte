@@ -1,7 +1,6 @@
 <script lang="typescript">
   export let target = new Date(2023,5,20,12,25);
-  export let countdownStart = new Date(2022,7,30,8,10)
-  //export let countdownStart = new Date(2023,5,1,8,10)
+  export let countdownStart = new Date(2022,7,30,8,10)  
   export let name = "Summer Vacation"
   import { now } from "../Schedule/now";
   import Hourglass from "./Hourglass.svelte";
@@ -24,6 +23,10 @@
   
   $: percentage = (totalTime-remaining) / totalTime
   
+  function makeItNow () {
+    target = new Date();
+  }
+
   function zeroPad (num) {
     let s = `${num}`;
     if (s.length==1) {
@@ -52,10 +55,11 @@
 
 </script>
 <div class="countdown">
-  <div class="icon">
-  <Hourglass {percentage}/>
+  <div class="icon"> 
+    {#key target}<Hourglass {percentage}/> {/key}
   </div>
   <div class="words">
+    {#if remaining > 0}
   {#if daysLeft}
     <span class="days">
       {daysLeft} days
@@ -65,7 +69,11 @@
     {hoursLeft} hours
   {/if}
   <span class="time">{zeroPad(minutesLeft)}:{zeroPad(secondsLeft)}</span>          
-  <span class="until">until <b class="target">{name}</b></span>
+  <span class="until">until <b class="target" on:click={makeItNow}>{name}</b></span>
+  {:else}
+  We made it to <b class="target">{name}</b>
+  {/if}
+    
   </div>
   
 </div>
@@ -85,5 +93,8 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+  }
+  .icon {
+    width: 36%;
   }
 </style>
