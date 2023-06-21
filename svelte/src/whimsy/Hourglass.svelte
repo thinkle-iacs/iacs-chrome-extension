@@ -178,7 +178,7 @@
     --glass-size: 1;
     --width: 50px;
     --height: 100px;
-    --color: white;
+    --color: var(--material-color-blue-grey-100);
     --triangle-factor : 1.83;
     width: var(--width);
     height: var(--height);
