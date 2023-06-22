@@ -3,6 +3,7 @@
   import type { SchoolType } from "./prefs";
   import { school as schoolPref } from "./prefs";
   import CloseButton from "./CloseButton.svelte";
+  export let bare = false;
   export let fullwidth = false;
   export let double = false;
   export let small = false;
@@ -41,7 +42,7 @@
 
 {#if rightSchool}
   {#if !id || !$hiddenCards[id]}
-    <div class="card" class:double class:small class:fullwidth on:click>
+    <div class="card" class:bare class:double class:small class:fullwidth on:click>
       <div class="head">
         <slot name="head" />
         {#if id}<div class="pad-left">
@@ -105,5 +106,11 @@
   .pad-left {
     margin-left: var(--pad);
   } 
-
+  .bare {
+    border: none;
+    box-shadow: none;
+  }
+  .bare * {
+    border: none;
+  }
 </style>

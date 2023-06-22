@@ -62,18 +62,18 @@
     {#if remaining > 0}
   {#if daysLeft}
     <span class="days">
-      {daysLeft} days
+      {daysLeft} <span class="unit">days</span>
     </span>
   {/if} 
   {#if hoursLeft}
-    {hoursLeft} hours
+    <span class="hours">{hoursLeft} <span class="unit">hours</span></span>
   {/if}
   <span class="time">{zeroPad(minutesLeft)}:{zeroPad(secondsLeft)}</span>          
   <span class="until">until <b class="target" on:dblclick={makeItNow}>{name}</b></span>
   {:else}
   We made it to <b class="target">{name}</b>
   {/if}
-    
+    <slot/>
   </div>
   
 </div>
@@ -83,18 +83,20 @@
     display: block;
   }
   .countdown {    
-    padding: 3em;
-    width: 20em;
-    background-color: var(--blue);
-    color: var(--white);
+    padding: var(--pad);    
+    --background-color: var(--blue);
+    color: var(--black);
   }
   .countdown {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
   }
   .icon {
-    width: 36%;
+    
+  }
+  .unit {
+    font-size: small;
   }
 </style>
