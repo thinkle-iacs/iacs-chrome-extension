@@ -56,6 +56,7 @@
     name = name.replace("10", "");
     name = name.replace("9/10", "");
     name = name.replace("11/12", "");
+    name = name.replace(/[5678]th/,"")
     name = name.replace(/\W+/g, "");
     name = name.replace(/[4-9]+/g, "");
 
