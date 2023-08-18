@@ -78,8 +78,26 @@
     <div
       class="schedule-grid"
       style:grid-template-rows={`repeat(${60 * 24},auto)`}
-      style:grid-template-columns={`repeat(${numCols},auto)`}
+      style:grid-template-columns="2em auto"
     >
+     
+      {#each [8,9,10,11,12,13,14,15] as hour}
+        <div class="hour-block" style={getGridStyle(
+            {
+              day : 0,
+              start : `${hour}:00`,
+              end : `${hour+1}:00`
+            }
+
+        )}>
+          {#if hour < 13}
+            {hour}am
+          {:else}
+            {hour - 12}pm
+          {/if}
+        </div>
+      {/each}
+     
       {#each days as day, n}
         {#if byDay[n]}
           <div
@@ -88,7 +106,7 @@
             style:grid-row-start="1"
             style:grid-row-end="2"
             style:grid-column-start={n + 1}
-            style:grid-column-end={n + 2}
+            style:grid-column-end={n + 1}
           >
             <!-- {#if $now.getDay() == n}
               ▶
@@ -161,5 +179,10 @@
   button.active {
     background-color: var(--darkgrey);
     color: var(--white);
+  }
+  .hour-block {
+    display: grid;
+    place-content: start center;
+    font-size: var(--tiny);
   }
 </style>

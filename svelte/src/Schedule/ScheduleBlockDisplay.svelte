@@ -52,8 +52,8 @@
     if (!name) {
       return "white";
     }
-    name = name.replace("40", "");
-    name = name.replace("10", "");
+    name = name.replace("+Proj", "");
+    name = name.replace(/[+]ELA.?/, "");
     name = name.replace("9/10", "");
     name = name.replace("11/12", "");
     name = name.replace(/[5678]th/,"")
