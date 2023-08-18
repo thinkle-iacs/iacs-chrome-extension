@@ -58,7 +58,7 @@
   .time,
   .time-brief {
     color: var(--darkgrey);
-    font-size: var(--big);
+    font-size: var(--normal);
   }
   .time-brief {
     display: none;
