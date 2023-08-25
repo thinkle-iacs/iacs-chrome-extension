@@ -1,27 +1,51 @@
 <script lang="ts">  
-  import { onMount } from "svelte";  
+  import { onMount } from "svelte"; 
+  
   import Card from "../Card.svelte";
-  import { school, prefsSet, showPrefs, whimsy } from "../prefs";
+  import { school, prefsSet, showPrefs, whimsy, hideCountdown, preferredCountdownName } from "../prefs";
   import Countdown from "../whimsy/Countdown.svelte";
   
   let showCount = true;
-  import {counters} from './countdowns';
-  let theCounter = counters[0];
+  import {counters,countdownFetcher} from './countdowns';
+  import UpdateButton from "../util/UpdateButton.svelte";
+  import { now } from "../Schedule/now";
+  onMount(async () => {
+    await countdownFetcher.update()
+  })
+  let activeCounters = [];
+  let theCounter;
+
+  function filterCounters (countdowns) {
+    activeCounters = countdowns.filter(
+        (c)=>($now.getTime() - c.target.getTime()) < 60 * 60 * 4         
+      )
+    theCounter = activeCounters.find((c)=>c.name==$preferredCountdownName)||activeCounters[0];
+    
+  }
+
+  $: filterCounters($counters);
+  /* When the user changes a counter... */
+  function updateCounterPref () {
+    console.log('Update counter pref!')
+    $preferredCountdownName = theCounter.name;
+  }
+  
   let settingMode = false;
 </script>
 
-{#if $whimsy && showCount}
+{#if $whimsy && !$hideCountdown && theCounter}
       <Card bare={true} small={true}>        
         
         <div slot="head" class='top'>
           {#if settingMode}
             Countdown to 
-            {#if counters.length > 1}
-              <select bind:value={theCounter}>
-                {#each counters as counter}
+            {#if activeCounters.length > 1}
+              <select bind:value={theCounter} on:change={updateCounterPref}>
+                {#each activeCounters as counter}
                   <option value={counter}>{counter.name}</option>
-                {/each}
+                {/each}                
               </select>
+              <UpdateButton cds={countdownFetcher}/>
             {:else}
               <h2>
                 Countdown to {counters[0].name}
@@ -33,13 +57,12 @@
             </button>  
           {:else}
             
-            <button class="close" on:click={()=>showCount=false} 
+            <button class="close" on:click={()=>$hideCountdown=true} 
               style="margin-left: auto; border-radius: 50%; width: 2em; height: 2em; ">
               &times;
             </button>  
           {/if}
-        </div>
-        
+        </div>        
         <div slot="body" class="main">
           <Countdown 
             target={theCounter.target} 
@@ -50,7 +73,7 @@
               ⚙
             </button>
           </Countdown>
-        </div>
+        </div>        
       </Card>      
     {/if}
 

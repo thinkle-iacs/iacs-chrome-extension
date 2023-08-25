@@ -106,17 +106,36 @@ students.subscribe(
     localStorage.setItem('students',JSON.stringify($students));    
   }
 )
-
+let originalValue = localStorage.getItem('whimsy');
 export let whimsy = writable(true);
 whimsy.subscribe(
   ($whimsy) => localStorage.setItem('whimsy',JSON.stringify($whimsy))
 );
-
-let originalValue = localStorage.getItem('whimsy');
 if (originalValue==null) {
   whimsy.set(true);
 } else {
   whimsy.set(JSON.parse(originalValue));
 }
 
+let pcdnLocal = localStorage.getItem('countdown');
+export let preferredCountdownName : Writable<string>= writable();
+preferredCountdownName.subscribe(
+  ($name)=>localStorage.setItem('countdown',$name)
+);
+if (pcdnLocal) {
+  preferredCountdownName.set(pcdnLocal)
+}
+
+let hcdnLocal = localStorage.getItem('hide-countdown');
+export let hideCountdown : Writable<boolean> = writable(false);
+hideCountdown.subscribe(
+  ($hide)=>localStorage.setItem('hide-countdown',JSON.stringify($hide))
+);
+if (hcdnLocal) {
+  try {
+    hideCountdown.set(JSON.parse(hcdnLocal))
+  } catch (err) {
+    console.log('Error parsing hide countdown value',hcdnLocal);
+  }
+}
 

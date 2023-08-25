@@ -1,7 +1,7 @@
 <script lang="ts">
   export let mode: "HS" | "MS" | "Staff";
   import Card from "./Card.svelte";
-  import { activeCardIDs, hiddenCards, whimsy, school } from "./prefs";
+  import { activeCardIDs, hiddenCards, whimsy, school, hideCountdown } from "./prefs";
 
   $: console.log("Got new whimsy val? ", $whimsy);
   function dontBubble (e : MouseEvent) {
@@ -11,9 +11,7 @@
 
 <Card on:click={dontBubble}>
   <h2 slot="head">⚙ Settings</h2>
-  <div slot="body">
-    MODE: {mode}
-    <input type="checkbox" bind:checked={$whimsy} /> Allow occasional whimsy
+  <div slot="body">        
     {#if mode == "Staff"}
       <label
         >School
@@ -24,6 +22,10 @@
           <option value={null}>-</option>
         </select>
       </label>
+    {/if}
+    <input type="checkbox" bind:checked={$whimsy} /> Allow occasional whimsy
+    {#if $whimsy}
+    <br><input type="checkbox" bind:checked={$hideCountdown} /> Hide countdown
     {/if}
     <h2>Hidden Cards</h2>
     {#each $activeCardIDs as cardId}
