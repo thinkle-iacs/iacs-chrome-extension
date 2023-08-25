@@ -63,14 +63,13 @@
     if (colorMap[name]) {
       return colorMap[name];
     } else {
-      colorMap[name] = colors[colorCount % colors.length];
-      console.log("New color for", name, colorCount, colorMap[name]);
+      colorMap[name] = colors[colorCount % colors.length];      
       colorCount += 1;
     }
   }
 
   export let customize = false;
-  import type { ScheduleBlock } from "./schedule";
+  import type {ScheduleBlock} from './types'
 
   const days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
   import { formatTime } from "./schedule";
