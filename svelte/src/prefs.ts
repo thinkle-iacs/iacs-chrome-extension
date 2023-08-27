@@ -99,7 +99,7 @@ if (initialStudentsText) {
     console.log('Bad value?',initialStudentsText)
   }
 }
-export let students : Writable<StudentData[]> = writable(initialStudents);
+export const students : Writable<StudentData[]> = writable(initialStudents);
 
 students.subscribe(
   ($students)=>{
@@ -107,7 +107,7 @@ students.subscribe(
   }
 )
 let originalValue = localStorage.getItem('whimsy');
-export let whimsy = writable(true);
+export const whimsy = writable(true);
 whimsy.subscribe(
   ($whimsy) => localStorage.setItem('whimsy',JSON.stringify($whimsy))
 );
@@ -118,7 +118,7 @@ if (originalValue==null) {
 }
 
 let pcdnLocal = localStorage.getItem('countdown');
-export let preferredCountdownName : Writable<string>= writable();
+export const preferredCountdownName : Writable<string>= writable();
 preferredCountdownName.subscribe(
   ($name)=>localStorage.setItem('countdown',$name)
 );
@@ -127,7 +127,7 @@ if (pcdnLocal) {
 }
 
 let hcdnLocal = localStorage.getItem('hide-countdown');
-export let hideCountdown : Writable<boolean> = writable(false);
+export const hideCountdown : Writable<boolean> = writable(false);
 hideCountdown.subscribe(
   ($hide)=>localStorage.setItem('hide-countdown',JSON.stringify($hide))
 );
@@ -139,3 +139,31 @@ if (hcdnLocal) {
   }
 }
 
+export const collapsedMenus : Writable<{[key: string] : boolean}> = writable({});
+export const hiddenMenuItems : Writable<{[key: string] : boolean}> = writable({});
+
+let collapsedLocal = localStorage.getItem('collapsed-menu-items');
+let hiddenLocal = localStorage.getItem('hidden-menus');
+if (collapsedLocal) {
+  try {
+    collapsedMenus.set(JSON.parse(collapsedLocal));
+  } catch (err) {
+    console.log("error parsing localStorage for collapsed menus: ",collapsedLocal);
+  }
+}
+if (hiddenLocal) {
+  try {    
+    let val = JSON.parse(hiddenLocal)
+    if (typeof val == 'object') {
+      hiddenMenuItems.set(val)
+    }
+  } catch (err) {
+    console.log("Error parsing local storage hiddenMenuItems",hiddenLocal);
+  }
+}
+collapsedMenus.subscribe(
+  ($v)=>localStorage.setItem('collapsed-menu-items',JSON.stringify($v))
+);
+hiddenMenuItems.subscribe(
+  ($v)=>localStorage.setItem('hidden-menus',JSON.stringify($v))
+);

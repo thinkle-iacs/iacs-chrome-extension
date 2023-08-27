@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { school } from "./prefs";
+  import { hiddenMenuItems, school } from "./prefs";
   import type { Menuitem } from "./types";
   export let mi: Menuitem;
   import MenuItemInput from "./CustomMenus/MenuItemInput.svelte";
   import { customManager } from "./CustomMenus/customMenu";
-
+  import TooltipContainer from "./util/TooltipContainer.svelte";  
   let showingMenu = false;
   let showInput = false;
   function showEditMenu(e) {
@@ -24,9 +24,27 @@
   }
   function moveDown(e) {
     e.preventDefault();
-  }
+  }  
+  
 </script>
-
+{#if $hiddenMenuItems[mi.title]}
+<div class="hidden-item-wrapper">
+  <TooltipContainer position={1}>
+    <button slot="control" class="hidden-item" on:click={()=>$hiddenMenuItems[mi.title]=false}>
+      <div class="icon-holder" class:black={mi.blackIcon}>
+        {#if mi.icon}
+          <img class="icon" src={mi.icon} alt={mi.title + " icon"} />
+        {:else}
+          {mi.title[0]}
+        {/if}
+      </div>
+    </button>
+    <div slot="tip" style="font-size:var(--small)">
+      Un-hide {mi.title}
+    </div>
+  </TooltipContainer>
+</div>
+{:else}
 <div class="linkholder menuitem">
   <a href={mi.link}>
     <div class="icon-holder" class:black={mi.blackIcon}>
@@ -42,10 +60,8 @@
         </div>
       {/if}
     </div>
-  </a>
-  {#if mi.editable}
-    <button on:click={showEditMenu} class="editbutton">⋮</button>
-  {/if}
+  </a>  
+  <button on:click={showEditMenu} class="editbutton">⋮</button>  
   {#if showingMenu}
     <div
       class="modal-wrap"
@@ -55,25 +71,31 @@
       }}
     />
     <div class="popup">
-      {#if showInput}
-        <MenuItemInput
-          menuItem={mi}
-          editMode={true}
-          onAdd={() => {
-            customManager.updateItem(mi);
-            showInput = false;
-            showingMenu = false;
-          }}
-        />
-      {:else}
-        <button on:click={edit}>Edit</button>
-        <button on:click={deleteItem}>Delete</button>
-        <!-- <button on:click={moveUp}>Move Up</button>
-        <button on:click={moveDown}>Move Down</button> -->
+      {#if mi.editable}
+        {#if showInput}
+          <MenuItemInput
+            menuItem={mi}
+            editMode={true}
+            onAdd={() => {
+              customManager.updateItem(mi);
+              showInput = false;
+              showingMenu = false;
+            }}
+          />
+        {:else}
+          <button on:click={edit}>Edit</button>
+          <button on:click={deleteItem}>Delete</button>
+          <!-- <button on:click={moveUp}>Move Up</button>
+          <button on:click={moveDown}>Move Down</button> -->
+        {/if}
       {/if}
+      <button on:click={()=>$hiddenMenuItems[mi.title]=true}>
+        Hide
+      </button>
     </div>
   {/if}
 </div>
+{/if}
 
 <style>
   .modal-wrap {
@@ -102,8 +124,13 @@
     background-color: var(--blue);
     color: var(--white);
   }
+  .menuitem:hover .editbutton {
+    opacity: 1;
+  }
+  
 
   .editbutton {
+    opacity: 0;
     color: inherit;
     border-color: transparent;
     background-color: inherit;
@@ -180,4 +207,21 @@
       -webkit-filter: invert(0);
     }
   }
+
+  .hidden-item-wrapper {
+    width: calc(var(--icon-size)/2);
+    height: calc(var(--icon-size)/2);
+    display: grid;
+    place-content: center;
+  }
+  .hidden-item {
+    border-radius: 50%;  
+    -webkit-filter: saturate(0.3);
+    filter: saturate(0.3);
+    display: grid;
+    place-content: center;
+    scale: 0.5;
+    transform-origin: center;
+  }
+  
 </style>
