@@ -1,33 +1,19 @@
 <script lang="ts">
+  import TooltipContainer from "./TooltipContainer.svelte";  
   import type { CachedDataStore } from "./dataFetcher";
   import type { Writable } from "svelte/store";
-  export let cds: CachedDataStore;
+  export let cds: CachedDataStore;  
   const RIGHT = 1;
-  const LEFT = 2;
-  const CENTER = 3;
   export let position = RIGHT;
   let updating: Writable<boolean> = cds.updatingStore;
   let expiration: Writable<number> = cds.expirationStore;
   let lastUpdateDate;
   $: lastUpdateDate = $expiration && new Date($expiration - cds.expiresAfter);
-  let tipHidden = true;
-  function showTooltip() {
-    tipHidden = false;
-  }
-  function hideTooltip() {
-    tipHidden = true;
-  }
+  
 </script>
-
-<div
-  class="container"
-  class:right={position == RIGHT}
-  class:left={position == LEFT}
-  class:center={position == CENTER}
->
+<TooltipContainer>
   <button
-    on:mouseenter={showTooltip}
-    on:mouseleave={hideTooltip}
+    slot="control"    
     class:updating={$updating}
     disabled={$updating}
     on:click={() => cds.updateFromRemote()}
@@ -69,13 +55,11 @@
       <g />
     </svg>
   </button>
-  {#if lastUpdateDate}
-    <div
-      class="tooltip"
-      class:hide={tipHidden}
-      on:mouseenter={showTooltip}
-      on:mouseleave={hideTooltip}
-    >
+  <div
+    slot="tip"
+    class="tooltip"    
+  >
+    {#if lastUpdateDate}
       {#if $updating}
         Fetching new data...
       {:else}
@@ -88,10 +72,12 @@
         hours: "numeric",
         minutes: "2-digit",
       })}
-    </div>
-  {/if}
-</div>
+      {/if}
+  </div>
+  
+</TooltipContainer>
 
+  
 <style>
   button.updating {
     animation: spin 1000ms infinite;
@@ -105,37 +91,7 @@
     }
   }
 
-  .container {
-    position: relative;
-  }
-  .tooltip {
-    display: grid;
-    place-content: center;
-    text-align: center;
-    height: 3em;
-    width: 20em;
-    position: absolute;
-    top: 2em;
-    background-color: var(--darkshadow);
-    color: var(--white, "white");
-  }
-  .right .tooltip {
-    right: 0;
-  }
-  .left .tooltip {
-    left: 0;
-  }
-  .center .tooltip {
-    left: 10em;
-  }
-  .tooltip {
-    opacity: 1;
-    transition: opacity 300ms;
-  }
-  .tooltip.hide {
-    pointer-events: none;
-    opacity: 0;
-  }
+  
   button {
     border: none;
     background-color: unset;
