@@ -51,6 +51,12 @@ if (hiddenCardString) {
   }
 }
 export let hiddenCards : Writable<object> = writable(initialHiddenCards);
+hiddenCards.subscribe(
+  ($value)=>{
+    localStorage.setItem('hidden',JSON.stringify($value));
+  }
+)
+
 export let showPrefs : Writable<boolean> = writable(false);
 
 
