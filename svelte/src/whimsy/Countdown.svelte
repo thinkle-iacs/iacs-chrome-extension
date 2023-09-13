@@ -100,8 +100,11 @@
   }
   .icon {
   }
+  .words {
+    font-size: var(--small);
+  }
   .unit {
-    font-size: small;
+    font-size: var(--tiny);
   }
   .digits-2 {
     width: 1.3em;
