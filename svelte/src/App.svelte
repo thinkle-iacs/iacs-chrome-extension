@@ -1,9 +1,9 @@
 <script lang="ts">
-  import CountdownCard from './whimsy/CountdownCard.svelte';
-  
+  import CountdownCard from "./whimsy/CountdownCard.svelte";
+
   import TipBuilder from "./TipBuilder.svelte";
   import Snow from "./whimsy/SnowCanvas.svelte";
-  
+
   import PrefCard from "./PrefCard.svelte";
   import Weather from "./whimsy/Weather.svelte";
   import { onMount } from "svelte";
@@ -21,7 +21,7 @@
   import CloseButton from "./CloseButton.svelte";
   import StudentGame from "./StudentGame/StudentGame.svelte";
   import DayOfWeekWhimsy from "./whimsy/DayOfWeekWhimsy.svelte";
-  import Countdown from "./whimsy/Countdown.svelte";
+
   let tips = tipDataStore.store;
   let dayNum = new Date().getDate();
   let tipIndex = dayNum % $tips.length;
@@ -53,17 +53,17 @@
   let showCount = true;
   let counters = [
     {
-      name : 'Summer Vacation',
-      target : new Date(2023,5,20,12,25),
-      countdownStart : new Date(2022,7,30,8,10) 
+      name: "Summer Vacation",
+      target: new Date(2023, 5, 20, 12, 25),
+      countdownStart: new Date(2022, 7, 30, 8, 10),
     },
     {
-      name : 'First Day of School',
-      countdownStart : new Date(2023,5,20,12,25),
-      target : new Date(2023,7,29,8,5)
-    }
-  ]
-  let theCounter = counters[0]
+      name: "First Day of School",
+      countdownStart: new Date(2023, 5, 20, 12, 25),
+      target: new Date(2023, 7, 29, 8, 5),
+    },
+  ];
+  let theCounter = counters[0];
 </script>
 
 {#if route == "snow"}<Snow />{/if}
@@ -75,7 +75,7 @@
 
   <Menu {mode} />
   {#if $showPrefs}
-    <div class="overlay" on:click={()=>($showPrefs = false)}>
+    <div class="overlay" on:click={() => ($showPrefs = false)}>
       <PrefCard {mode} />
       <CloseButton on:click={() => ($showPrefs = false)} />
     </div>
@@ -83,9 +83,9 @@
 
   <CardContainer>
     {#if $whimsy}
-    <DayOfWeekWhimsy/>
+      <DayOfWeekWhimsy />
     {/if}
-    <CountdownCard></CountdownCard>
+    <CountdownCard />
     {#if !$prefsSet && !$showPrefs}
       <PrefCard />
     {/if}
