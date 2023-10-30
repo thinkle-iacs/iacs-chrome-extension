@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  //import FollowMouse from "./FollowMouse.svelte";
+  import FollowMouse from "./FollowMouse.svelte";
 
   onMount(() => {});
 
@@ -10,7 +10,7 @@
       "--custom-body-font": "'Poltawski Nowy', serif",
       "--custom-head-font": "Macondo, cursive, serif",
       "--theme-bg": "var(--material-color-deep-orange)",
-      "--theme-fg": "var(--material-color-deep-purple-a400)",
+      "--theme-fg": "black",
       "--white": "black",
       "--black": "var(--material-color-amber-200)",
       "--darkgrey": "var(--material-color-amber-700)",
@@ -56,8 +56,34 @@
   {/if}
 </svelte:head>
 {#if !hide}
-  <!-- <FollowMouse>Hi</FollowMouse> -->
+  <FollowMouse
+    speed={10}
+    x={400}
+    y={-100}
+    prefs={{
+      updateDelay: 700,
+      speedJitter: 15,
+      targetJitter: 100,
+      targetJitterProb: 0.01,
+      randomTargetResetThreshhold: 15000,
+    }}><div class="ghost">👻</div></FollowMouse
+  >
+  <FollowMouse
+    speed={75}
+    x={-200}
+    y={800}
+    prefs={{
+      updateDelay: 5,
+      speedJitter: 0,
+      rotate: true,
+      targetJitterProb: 0.5,
+      targetJitter: 60,
+      maxSpeed: 150,
+      randomTargetResetThreshhold: 15000,
+    }}><div class="spider">🕷️</div></FollowMouse
+  >
   <div
+    class="banner"
     class:notAnimated={!animating}
     on:animationstart={() => (animating = true)}
     on:click={() => (hide = true)}
@@ -84,7 +110,7 @@
   .notAnimated {
     opacity: 0;
   }
-  div {
+  div.banner {
     display: grid;
     font-family: var(--theme-font, var(--custom-head-font));
     place-content: center;
@@ -117,5 +143,15 @@
       bottom: 50px;
       transform: rotate(-45deg);
     }
+  }
+  .ghost {
+    opacity: 0.3;
+    filter: drop-shadow(10px, 10px, #fffa);
+    font-size: 70px;
+  }
+  .spider {
+    font-size: 32px;
+    filter: drop-shadow(1px 1px #fff);
+    transform: rotate(-90deg);
   }
 </style>
