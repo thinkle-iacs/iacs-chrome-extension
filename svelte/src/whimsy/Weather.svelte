@@ -6,7 +6,6 @@
   import SnowCanvas from "./SnowCanvas.svelte";
 
   async function getWeatherData(lat, lon) {
-    console.log("Fetching weather...");
     try {
       let gridResponse = await fetch(
         `https://api.weather.gov/points/${lat},${lon}`
@@ -18,7 +17,7 @@
       var forecastJson = await forecastResponse.json();
       failed = false;
     } catch (err) {
-      console.log("Error fetching", err);
+      console.log("Error fetching weather", err);
       failed = true;
     }
     //let forecastData = forecastJson.properties.periods[day];
@@ -33,7 +32,6 @@
   }
 
   onMount(getIACSWeather);
-  $: console.log(weatherData);
   let snowInForecast = false;
 
   $: checkForSnow(weatherData);
@@ -44,9 +42,8 @@
       weatherData.properties &&
       weatherData.properties.periods
     ) {
-      for (let p of weatherData.properties.periods.slice(0,3)) {
-        if (p.detailedForecast.search(/\bsnow\b/) > -1) {          
-          console.log("Found snow in", p.detailedForecast);
+      for (let p of weatherData.properties.periods.slice(0, 3)) {
+        if (p.detailedForecast.search(/\bsnow\b/) > -1) {
           snow = true;
         }
       }
