@@ -21,6 +21,7 @@
   import CloseButton from "./CloseButton.svelte";
   import StudentGame from "./StudentGame/StudentGame.svelte";
   import DayOfWeekWhimsy from "./whimsy/DayOfWeekWhimsy.svelte";
+  import HalloweenPlus from "./whimsy/HalloweenPlus.svelte";
 
   let tips = tipDataStore.store;
   let dayNum = new Date().getDate();
@@ -32,6 +33,7 @@
   let routes = {
     "#tipbuilder": "tipbuilder",
     "#snow": "snow",
+    "#halloween": "halloween",
   };
   function checkForSecretHash() {
     let hash = window.location.hash;
@@ -67,6 +69,7 @@
 </script>
 
 {#if route == "snow"}<Snow />{/if}
+
 <main>
   {#if route == "tipbuilder"}
     <TipBuilder />
@@ -115,6 +118,7 @@
     <ScheduleCard />
     <Weather />
   </CardContainer>
+  {#if route == "halloween"}<HalloweenPlus />{/if}
   <div class="hidden">
     We are in {mode} mode :-)
   </div>
