@@ -1,38 +1,6 @@
 <script context="module">
   import { now } from "./now";
   let pixelConversion = 1.5;
-  let colors = [
-    "var(--material-color-blue-light)",
-    "var(--material-color-light-green-light)",
-    "var(--material-color-deep-orange-light)",
-    "var(--material-color-yellow-light)",
-    "var(--material-color-cyan-light)",
-    "var(--material-color-brown-light)",
-    "var(--material-color-blue-grey-light)",
-    "var(--material-color-green-light)",
-    "var(--material-color-teal-light)",
-    "var(--material-color-pink-light)",
-    "var(--material-color-amber-light)",
-    "var(--material-color-orange-light)",
-    "var(--material-color-light-green-light)",
-    "var(--material-color-light-blue-light)",
-  ];
-  let colorMap = {
-    A: "var(--material-color-amber-light)",
-    B: "var(--material-color-light-blue-light)",
-    C: "var(--material-color-green-light)",
-    D: "var(--material-color-deep-orange-light)",
-    E: "var(--material-color-purple-light)",
-    F: "var(--material-color-red-light)",
-    L: "var(--material-color-grey-light)",
-    Lunch: "var(--material-color-grey-light)",
-    LAdv: "var(--material-color-grey-light)",
-    Advisory: "var(--material-color-grey-light)",
-    WINAdv: "var(--material-color-orange-light)",
-    WIN: "var(--material-color-orange-light)",
-    Recess: "var(--material-color-grey-light)",
-  };
-  let colorCount = 0;
   let dayStart = 8 * 60 + 10;
 </script>
 
@@ -48,32 +16,14 @@
 
   import { getOffsetFromTime } from "./schedule";
 
-  function getColor(name) {
-    if (!name) {
-      return "white";
-    }
-    name = name.replace("+Proj", "");
-    name = name.replace(/[+]ELA.?/, "");
-    name = name.replace("9/10", "");
-    name = name.replace("11/12", "");
-    name = name.replace(/[5678]th/,"")
-    name = name.replace(/\W+/g, "");
-    name = name.replace(/[4-9]+/g, "");
-
-    if (colorMap[name]) {
-      return colorMap[name];
-    } else {
-      colorMap[name] = colors[colorCount % colors.length];      
-      colorCount += 1;
-    }
-  }
-
   export let customize = false;
-  import type {ScheduleBlock} from './types'
+  import type { ScheduleBlock } from "./types";
 
   const days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
   import { formatTime } from "./schedule";
-  import { getCustomBlockName, selectedSchedule } from "../prefs";
+  import { getCustomBlockName, selectedSchedule, customColors } from "../prefs";
+  import { getColor, getContrastingColor } from "./colors";
+  import { get } from "svelte/store";
 
   let dayName: string = "";
 
@@ -133,22 +83,35 @@
   let customTitle = null;
 
   $: customTitle = getCustomBlockName($selectedSchedule, block);
+  let bgColor = getColor(customTitle || block.name, $customColors);
+  $: bgColor = getColor(customTitle || block.name, $customColors);
+  let fgColor = "~invalid~";
+  let el: HTMLDivElement;
+  $: if (el && bgColor && $customColors) {
+    let computed = getComputedStyle(el);
+    let currentColor = computed.getPropertyValue("color");
+    let computedBG = computed.getPropertyValue("background-color");
+    fgColor = getContrastingColor(computedBG, currentColor) || "~invalid~";
+  }
 </script>
 
 <div
+  bind:this={el}
   class:fullHeight
   class:forceHeight={heightMode}
   class="block"
   class:horizontal
   class:bold
-  style:background-color={getColor(customTitle || block.name)}
+  style:background-color={bgColor}
   style:--foo="hello?"
   style:--height={`${height}px`}
   style:--yoffset={`${yoffset}px`}
+  style:color={fgColor}
 >
   {#if timeMarker}
     <div
       class="now"
+      class:nomouse={customize}
       class:horizontal
       style:--percentage={timeMarker.percentage}
     >
@@ -190,6 +153,9 @@
     height: var(--percentage);
     z-index: 2;
     background-color: #01010111;
+  }
+  .nomouse {
+    pointer-events: none;
   }
 
   .now.horizontal {
@@ -294,7 +260,7 @@
     --material-color-red-200: #ef9a9a;
     --material-color-red-300: #e57373;
     --material-color-red-400: #ef5350;
-    --material-color-red-500: var(----material-color-red);
+    --material-color-red-500: var(--material-color-red);
     --material-color-red-600: #e53935;
     --material-color-red-700: #d32f2f;
     --material-color-red-800: #c62828;
