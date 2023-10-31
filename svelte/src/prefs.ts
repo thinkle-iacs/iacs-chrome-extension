@@ -3,6 +3,22 @@ import type { Writable } from "svelte/store";
 import type { ScheduleBlock } from "./Schedule/types";
 import type { StudentData } from './StudentGame/types';
 
+function createLocalStorageStore<T>(key: string, startValue: T): Writable<T> {
+  const storedValue = localStorage.getItem(key);
+  let initialValue = startValue;
+  if (storedValue) {
+    try {
+      initialValue = JSON.parse(storedValue);
+    } catch {      
+      console.log('Bad value stored',storedValue,'for key',key,'removing')
+      localStorage.removeItem(key);
+    }
+  }  
+  const store = writable<T>(initialValue);
+  store.subscribe((value) => localStorage.setItem(key, JSON.stringify(value)));
+  return store;
+}
+
 let initialScheduleString = localStorage.getItem("schedule");
 
 export let selectedSchedule: Writable<string> = writable(initialScheduleString);
@@ -173,3 +189,5 @@ collapsedMenus.subscribe(
 hiddenMenuItems.subscribe(
   ($v)=>localStorage.setItem('hidden-menus',JSON.stringify($v))
 );
+type CSSColor = string;
+export const customColors = createLocalStorageStore<{[key : string] : CSSColor }>('custom-colors',{})
