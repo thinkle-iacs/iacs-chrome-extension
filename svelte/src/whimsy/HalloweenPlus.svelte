@@ -48,6 +48,47 @@
 
   let hide = false;
   let animating = false;
+
+  let madGhost = false;
+  function triggerGhostMadness() {
+    madGhost = !madGhost;
+    return true;
+  }
+  let spiderSwarm = [];
+  let spiderPrefs = {
+    updateDelay: 5,
+    speedJitter: 0,
+    rotate: true,
+    targetJitterProb: 0.5,
+    targetJitter: 60,
+    maxSpeed: 150,
+    randomTargetResetThreshhold: 15000,
+  };
+  function triggerSpiderSwarm() {
+    console.log("Swarm of spiders?");
+    if (!spiderSwarm.length) {
+      for (let i = 0; i < Math.random() * 100 + 10; i++) {
+        spiderSwarm.push({
+          x: window.innerWidth * Math.random(),
+          y: window.innerHeight * Math.random(),
+        });
+      }
+      spiderSwarm = spiderSwarm; // react!
+    } else {
+      spiderSwarm = [];
+    }
+    return true;
+  }
+  const makeZombie = () => ({
+    x: Math.random() * window.innerWidth,
+    y: window.innerHeight - 35 - Math.random() * 25,
+  });
+  let zombieSwarm = [makeZombie(), makeZombie(), makeZombie(), makeZombie()];
+  function addToZombieSwarm() {
+    for (let i = 0; i < Math.random() * 10 + 10; i++) {
+      zombieSwarm = [...zombieSwarm, makeZombie()];
+    }
+  }
 </script>
 
 <svelte:head>
@@ -57,6 +98,7 @@
 </svelte:head>
 {#if !hide}
   <FollowMouse
+    onClick={triggerGhostMadness}
     speed={10}
     x={400}
     y={-100}
@@ -66,22 +108,54 @@
       targetJitter: 100,
       targetJitterProb: 0.01,
       randomTargetResetThreshhold: 15000,
-    }}><div class="ghost">👻</div></FollowMouse
+    }}
+    ><div
+      class="ghost"
+      class:mad={madGhost}
+      on:animationend={() => (madGhost = false)}
+    >
+      👻
+    </div></FollowMouse
   >
   <FollowMouse
     speed={75}
     x={-200}
     y={800}
-    prefs={{
-      updateDelay: 5,
-      speedJitter: 0,
-      rotate: true,
-      targetJitterProb: 0.5,
-      targetJitter: 60,
-      maxSpeed: 150,
-      randomTargetResetThreshhold: 15000,
-    }}><div class="spider">🕷️</div></FollowMouse
+    prefs={spiderPrefs}
+    onClick={triggerSpiderSwarm}><div class="spider">🕷️</div></FollowMouse
   >
+  {#each spiderSwarm as spider}
+    <FollowMouse
+      speed={75}
+      x={spider.x}
+      y={spider.y}
+      prefs={spiderPrefs}
+      onClick={triggerSpiderSwarm}><div class="spider">🕷️</div></FollowMouse
+    >
+  {/each}
+
+  {#each zombieSwarm as zombie, n}
+    <FollowMouse
+      speed={5}
+      x={zombie.x}
+      y={zombie.y}
+      prefs={{
+        lockYPos: true,
+        flipX: true,
+      }}
+      onClick={addToZombieSwarm}
+      ><div class="zombie">
+        {#if n % 2}
+          🧟
+        {:else if n % 13 == 0}
+          <span style="font-size: 25%;">🧠</span>
+        {:else}
+          🧟‍♂️
+        {/if}
+      </div></FollowMouse
+    >
+  {/each}
+
   <div
     class="banner"
     class:notAnimated={!animating}
@@ -89,6 +163,7 @@
     on:click={() => (hide = true)}
   >
     Happy Halloween!
+    <div class="close">Click to end the fun :-(</div>
   </div>
 {/if}
 
@@ -153,5 +228,41 @@
     font-size: 32px;
     filter: drop-shadow(1px 1px #fff);
     transform: rotate(-90deg);
+  }
+  .mad {
+    animation-name: mad;
+    animation-duration: 5s;
+    animation-iteration-count: 2;
+    animation-direction: alternate;
+  }
+  @keyframes mad {
+    0% {
+      transform: rotate(0deg);
+    }
+    10% {
+      transform: skewX(10deg) rotate(5deg);
+    }
+    20% {
+      transform: skewX(-10deg) rotate(-5deg);
+    }
+    50% {
+      transform: skewY(15deg) scalerotate(360deg);
+    }
+    100% {
+      transform: scale(10) rotate(920deg);
+      opacity: 1;
+    }
+  }
+  .zombie {
+    font-size: 50px;
+    filter: drop-shadow(1px 1px #fff);
+  }
+  .banner > div {
+    opacity: 0;
+    font-size: var(--small);
+    transition: all 300ms;
+  }
+  .banner:hover > div {
+    opacity: 1;
   }
 </style>

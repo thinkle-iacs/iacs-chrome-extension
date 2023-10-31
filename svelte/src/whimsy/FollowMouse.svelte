@@ -2,6 +2,7 @@
   import { onDestroy, onMount } from "svelte";
   import App from "../App.svelte";
   export let speed = 7;
+  export let onClick;
   type Prefs = {
     speedJitter?: number;
     speedJitterProb?: number;
@@ -12,6 +13,10 @@
     minSpeed?: number;
     rotate?: boolean;
     randomTargetResetThreshhold?: number;
+    lockXPos: false;
+    lockYPos: false;
+    flipX: false;
+    flipY: false;
   };
 
   export let prefs: Prefs = {
@@ -30,6 +35,7 @@
     private lastMoved: number;
     private speed: number;
     private animating: boolean;
+    private timeout: number;
     public prefs: Prefs;
     public angle: number;
     public transform: string;
@@ -61,7 +67,6 @@
       this.timeout = setTimeout(() => {
         this.targetX = event.clientX;
         this.targetY = event.clientY;
-        console.log("New mouse target!", this.targetX, this.targetY);
         this.lastMoved = new Date().getTime();
       }, this.prefs.updateDelay || 300);
     }
@@ -85,14 +90,25 @@
         }
 
         if (vx && vy) {
+          transform = "";
           if (this.prefs.rotate) {
             this.angle = Math.atan2(vy, vx);
             transform = `rotate(${((this.angle * 180) / Math.PI).toFixed(
               1
             )}deg)`;
           }
-          this.x = this.x + vx;
-          this.y = this.y + vy;
+          if (this.prefs.flipX && vx < 0) {
+            transform += "scaleX(-1)";
+          }
+          if (this.prefs.flipY && vy < 0) {
+            transform += "scaleY(-1)";
+          }
+          if (!prefs.lockXPos) {
+            this.x = this.x + vx;
+          }
+          if (!prefs.lockYPos) {
+            this.y = this.y + vy;
+          }
           x = this.x;
           y = this.y;
           // wrap around screen and stuff
@@ -175,6 +191,12 @@
   style:left={`${x.toFixed(0)}px`}
   style:top={`${y.toFixed(0)}px`}
   on:click={() => {
+    if (onClick) {
+      let result = onClick();
+      if (result) {
+        return;
+      } // return true to not toggle animation...
+    }
     mouseFollower.animating = !mouseFollower.animating;
     if (mouseFollower.animating) {
       mouseFollower.animate();
