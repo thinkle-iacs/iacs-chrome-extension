@@ -63,17 +63,26 @@
       colorInput.click();
     }
   }
+  let popup: HTMLDivElement;
+
+  function handleClickOutsidePopup(event) {
+    if (expanded && !popup.contains(event.target)) {
+      expanded = false;
+    }
+  }
 </script>
+
+<svelte:window on:click={handleClickOutsidePopup} />
 
 <button
   style:background-color={color}
   class="color-picker"
   aria-valuetext="Color Picker"
-  on:click={() => (expanded = !expanded)}
+  on:click|stopPropagation={() => (expanded = !expanded)}
   ><Palette />
 </button>
 {#if expanded}
-  <div class="pop-up">
+  <div class="pop-up" bind:this={popup}>
     <div style="position:absolute;right:8px;top:8px;">
       <CloseButton on:click={() => (expanded = false)} />
     </div>
