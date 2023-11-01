@@ -23,7 +23,7 @@
   import { formatTime } from "./schedule";
   import { getCustomBlockName, selectedSchedule, customColors } from "../prefs";
   import { getColor, getContrastingColor } from "./colors";
-  import { get } from "svelte/store";
+  import { tick } from "svelte";
 
   let dayName: string = "";
 
@@ -87,11 +87,21 @@
   $: bgColor = getColor(customTitle || block.name, $customColors);
   let fgColor = "~invalid~";
   let el: HTMLDivElement;
-  $: if (el && bgColor && $customColors) {
-    let computed = getComputedStyle(el);
-    let currentColor = computed.getPropertyValue("color");
-    let computedBG = computed.getPropertyValue("background-color");
-    fgColor = getContrastingColor(computedBG, currentColor) || "~invalid~";
+  $: if (bgColor) {
+    // Once bgColor is set, we wait to compute the style...
+
+    tick().then(checkForFG);
+  }
+  function checkForFG() {
+    if (el) {
+      let computed = getComputedStyle(el);
+      let currentColor = computed.getPropertyValue("color");
+      let computedBG = computed.getPropertyValue("background-color");
+      fgColor = getContrastingColor(computedBG, currentColor) || "~invalid~";
+    } else {
+      // Shouldn't need this, but let's be thorough just in case.
+      setTimeout(checkForFG, 100);
+    }
   }
 </script>
 
