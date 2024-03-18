@@ -1,6 +1,8 @@
+import { familyMenu } from "./menus/familyMenu";
+import { menu } from "./menus/staffMenu";
 import type { Menuitem } from "./types";
 
-export let defaultMenuItems: Menuitem[] = [
+export let genericDefaultMenuItems: Menuitem[] = [
   {
     title: "Grades",
     items: [
@@ -105,3 +107,10 @@ export let defaultMenuItems: Menuitem[] = [
     ],
   },
 ];
+
+const menuItems = {
+  Staff: menu,
+  Family: familyMenu,
+};
+
+export let defaultMenuItems = menuItems["MODE"] || genericDefaultMenuItems;

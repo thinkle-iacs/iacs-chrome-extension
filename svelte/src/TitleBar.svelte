@@ -2,6 +2,12 @@
   import TimeDisplay from "./TimeDisplay.svelte";
   export let mode = "Staff";
   import Menu from "./Menu.svelte";
+  import MenuItem from "./MenuItem.svelte";
+  import {
+    WEBSITE,
+    STAFF_DIRECTORY,
+    SCHOOL_CALENDAR,
+  } from "./menus/commonMenuItems";
 </script>
 
 <div class="top">
@@ -9,7 +15,16 @@
     <img src="./icons/IACS_logo.png" />
     <h1>Launcher <span class="mode">{mode}</span></h1>
   </div>
-  <TimeDisplay {mode} />
+  {#if mode !== "Family"}
+    <TimeDisplay {mode} />
+  {/if}
+  {#if mode == "Family"}
+    <div class="top-links">
+      <MenuItem mi={WEBSITE} editable={false} />
+      <MenuItem editable={false} mi={SCHOOL_CALENDAR} />
+      <MenuItem mi={STAFF_DIRECTORY} editable={false} />
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -67,5 +82,11 @@
       filter: grayscale(1) invert(1);
       -webkit-filter: grayscale(1) invert(1);
     }
+  }
+  .top-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
   }
 </style>
