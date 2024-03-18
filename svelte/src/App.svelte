@@ -45,7 +45,7 @@
   onhashchange = checkForSecretHash;
   checkForSecretHash();
 
-  const mode: "Staff" | "HS" | "MS" = "MODE";
+  const mode: "Staff" | "HS" | "MS" | "Family" = "MODE";
   if (mode == "HS") {
     $school = "HS";
   }
@@ -93,7 +93,7 @@
       <PrefCard />
     {/if}
     <RemoteCards />
-    {#if $tips.length}
+    {#if $tips.length && mode !== "Family"}
       {#key tipIndex}
         <TipCard
           tip={$tips[tipIndex]}
