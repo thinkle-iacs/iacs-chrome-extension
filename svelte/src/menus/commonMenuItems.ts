@@ -164,3 +164,15 @@ export const LINKS = {
   title: "Links",
   items: [WEBSITE, INNOVATOR, LIBRARY, STAFF_DIRECTORY],
 };
+export const PARKING_FORM = {
+  title: "Student Parking Application",
+  link: "https://docs.google.com/document/d/1cjkcmqIjnYPS4PxXfsL-Xmz9fc0TOT3Ujc_aJ3KP3zo/edit?usp=sharing",
+};
+export const WORK_PERMIT = {
+  title: "Work Permit Information",
+  link: "https://docs.google.com/document/d/1cjkcmqIjnYPS4PxXfsL-Xmz9fc0TOT3Ujc_aJ3KP3zo/edit?usp=sharing",
+};
+export const COMM_SERV = {
+  title: "Community Service Form",
+  link: "https://docs.google.com/document/d/1mG5Z99WGS5pTlAIp1MvUigzkHdV8gwpbmxx9FySN5G8/edit?usp=sharing",
+};
