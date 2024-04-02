@@ -1,4 +1,5 @@
 <script lang="ts">
+  export let mode: "Staff" | "HS" | "MS" | "Family";
   import type { Menuitem } from "./types";
   import { derived } from "svelte/store";
   import SubMenu from "./SubMenu.svelte";
@@ -7,7 +8,7 @@
   import UpdateButton from "./util/UpdateButton.svelte";
   import { onMount } from "svelte";
   import { defaultMenuItems } from "./menuItems";
-  import { showPrefs } from "./prefs";
+  import { collapsedMenus, showPrefs } from "./prefs";
   import { GASURL } from "./shimURL";
   import { customMenuStore } from "./CustomMenus/customMenu";
   import CustomMenuEditor from "./CustomMenus/CustomMenuEditor.svelte";
@@ -18,14 +19,112 @@
     expiresAfter: 8 * 60 * 60 * 1000,
     name: "menu",
   });
+
+  type IACSMenuItem = {
+    ID: number;
+    title: string;
+    url: string;
+    parent: string;
+  };
+
+  type IACSMenuJson = {
+    status: "OK";
+    code: number;
+    data: {
+      menu_id: number;
+      menu_name: string;
+      menu_items: IACSMenuItem[];
+    }[];
+  };
+
+  const iacsMenuToMenu = (
+    item: IACSMenuItem,
+    menu: IACSMenuItem[],
+    level: number = 0
+  ): Menuitem => {
+    let items = menu
+      .filter((i) => parseInt(i.parent) == item.ID)
+      .map((i) => iacsMenuToMenu(i, menu, level + 1));
+    let menuitem: Menuitem = {
+      title: item.title,
+    };
+    if (item.url && item.url != "#") {
+      menuitem.link = item.url;
+    }
+    if (items.length) {
+      menuitem.items = items;
+    }
+    if (level >= 1 && items.length) {
+      $collapsedMenus[item.title] = true;
+    }
+    if (menuitem.title.search(/\bhs\b/i)) {
+      menuitem.school = "HS";
+    } else if (menuitem.title.search(/\bms\b/i)) {
+      menuitem.school = "MS";
+    }
+    return menuitem;
+  };
+
+  let cachedIacsMenu = new CachedDataStore({
+    url: `https://www.innovationcharter.org/wp-json/wcra/v1/getmenu/?secret_key=xvUGieok96ky4rDPgsSCf5B8HRsiejzo`,
+    defaultValue: [],
+    expiresAfter: 8 * 60 * 60 * 1000,
+    name: "iacsMenu",
+    transformer: (jsonResponse: IACSMenuJson) => {
+      if (jsonResponse.code != 200) {
+        console.error(
+          "Invalid response from IACS menu: ",
+          jsonResponse.code,
+          jsonResponse
+        );
+        return [];
+      }
+      let menu = jsonResponse.data.find((m) => m.menu_name == "Main Menu");
+      if (!menu) {
+        console.error(
+          "No main menu found in IACS menu response: ",
+          jsonResponse
+        );
+        return [];
+      }
+      const parents = ["MS Athletics", "HS Athletics"];
+      let parentsItems = menu.menu_items.filter((item) =>
+        parents.includes(item.title)
+      );
+      return [
+        {
+          items: parentsItems.map((i) => iacsMenuToMenu(i, menu.menu_items, 1)),
+        },
+      ];
+    },
+  });
+
   let remoteMenuItems: Writable<Menuitem[]> = cachedMenuGetter.store;
+  let iacsMenuItems: Writable<Menuitem[]> = cachedIacsMenu.store;
   let menuItems: Readable<Menuitem[]> = derived(
-    [cachedMenuGetter.store, customMenuStore],
-    ([$a, $b]) => [...$a, ...$b]
+    [cachedMenuGetter.store, iacsMenuItems, customMenuStore],
+    ([$a, $b, $c]) => [...$a, ...$b, ...$c]
   );
   $: console.log("Wow, menuitems are:", $menuItems);
+
+  const crawlForAutoCollapsingMenus = (menuItem: Menuitem) => {
+    if (menuItem.items) {
+      for (let item of menuItem.items) {
+        crawlForAutoCollapsingMenus(item);
+      }
+      if (menuItem.collapse) {
+        $collapsedMenus[menuItem.title] = true;
+      }
+    }
+  };
+
+  $: $menuItems.map(crawlForAutoCollapsingMenus);
+
   onMount(() => {
     cachedMenuGetter.update();
+    if (mode == "Family") {
+      cachedIacsMenu.update();
+    }
   });
 </script>
 
@@ -86,7 +185,10 @@
     height: 2em;
     border-radius: 50%;
     border: 1px solid var(--lightgrey);
-    transition: border, background-color, color 300ms;
+    transition:
+      border,
+      background-color,
+      color 300ms;
   }
   button.active {
     background-color: var(--darkgrey);
