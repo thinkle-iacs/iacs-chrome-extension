@@ -85,7 +85,7 @@
   {/if}
 
   <CardContainer>
-    {#if $whimsy}
+    {#if $whimsy && mode !== "Family"}
       <DayOfWeekWhimsy />
     {/if}
     <CountdownCard />
@@ -116,7 +116,9 @@
     {/if}
     <CalendarCard />
     <ScheduleCard />
-    <Weather />
+    {#if mode !== "Family"}
+      <Weather />
+    {/if}
   </CardContainer>
   {#if route == "halloween"}<HalloweenPlus />{/if}
   <div class="hidden">
