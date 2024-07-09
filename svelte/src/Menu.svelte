@@ -145,8 +145,8 @@
       >
         ⚙
       </button>
+      <CustomMenuEditor />
     {/if}
-    <CustomMenuEditor />
     <UpdateButton cds={cachedMenuGetter} />
   </div>
 </div>
