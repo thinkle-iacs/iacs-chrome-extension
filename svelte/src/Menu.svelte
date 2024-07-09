@@ -1,4 +1,5 @@
 <script lang="ts">
+  export let mode: "Family" | "HS" | "MS" | "Staff";
   import type { Menuitem } from "./types";
   import { derived } from "svelte/store";
   import SubMenu from "./SubMenu.svelte";
@@ -39,12 +40,14 @@
     {/if} -->
   </nav>
   <div class="float-me">
-    <button
-      class:active={$showPrefs}
-      on:click={() => ($showPrefs = !$showPrefs)}
-    >
-      ⚙
-    </button>
+    {#if mode !== "Family"}
+      <button
+        class:active={$showPrefs}
+        on:click={() => ($showPrefs = !$showPrefs)}
+      >
+        ⚙
+      </button>
+    {/if}
     <CustomMenuEditor />
     <UpdateButton cds={cachedMenuGetter} />
   </div>
@@ -86,7 +89,10 @@
     height: 2em;
     border-radius: 50%;
     border: 1px solid var(--lightgrey);
-    transition: border, background-color, color 300ms;
+    transition:
+      border,
+      background-color,
+      color 300ms;
   }
   button.active {
     background-color: var(--darkgrey);

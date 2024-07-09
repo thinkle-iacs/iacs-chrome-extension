@@ -9,6 +9,7 @@ export type Menuitem = {
   blackIcon?: boolean;
   school?: SchoolType;
   editable?: boolean;
+  collapse?: boolean;
 };
 
 export type Card = {

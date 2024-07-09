@@ -19,6 +19,12 @@ export const familyMenu: Menuitem[] = [
     items: [
       ASPEN,
       {
+        title: "Make a Payment",
+        detail: "Payment forms for athletics, transportation, fees & more.",
+        link: "https://www.innovationcharter.org/make-a-payment/",
+        icon: "./icons/payment.png",
+      },
+      {
         title: "IACA",
         detail: "The Innovation Academy Community Association",
         link: "https://www.facebook.com/iacatyngsboro",
@@ -38,7 +44,7 @@ export const familyMenu: Menuitem[] = [
       },
       {
         icon: "./icons/payment.png",
-        title: "Pay Online",
+        title: "Lunch Payments",
         link: "https://www.schoolpaymentportal.com/Default.aspx",
       },
       {
@@ -84,7 +90,6 @@ export const familyMenu: Menuitem[] = [
         title: "After School Program",
         link: "https://www.innovationcharter.org/current-students/after-school-program/",
       },
-
       {
         title: "Middle School Page",
         link: "https://www.innovationcharter.org/middle-school/",
@@ -146,6 +151,7 @@ export const familyMenu: Menuitem[] = [
       },
       {
         title: "Homework Boards",
+        collapse: true,
         items: [
           {
             title: "5/6 Homework Board",

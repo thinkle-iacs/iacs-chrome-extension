@@ -71,7 +71,7 @@ export default {
     }),
     replace({
       "process.env.GASURL": process.env.GASURL || "",
-      MODE: process.env.MODE || "staff",
+      MODE: process.env.MODE || "Family",
     }),
     // In dev mode, call `npm run start` once
     // the bundle has been generated

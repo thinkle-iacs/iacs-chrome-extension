@@ -52,6 +52,9 @@
   if (mode == "MS") {
     $school = "MS";
   }
+  if (mode == "Family") {
+    $whimsy = false;
+  }
   let showCount = true;
   let counters = [
     {
@@ -90,7 +93,7 @@
     {/if}
     <CountdownCard />
     {#if !$prefsSet && !$showPrefs}
-      <PrefCard />
+      <PrefCard {mode} />
     {/if}
     <RemoteCards />
     {#if $tips.length && mode !== "Family"}
@@ -115,8 +118,10 @@
       </Card>
     {/if}
     <CalendarCard />
-    <ScheduleCard />
-    <Weather />
+    {#if mode !== "Family"}
+      <ScheduleCard />
+      <Weather />
+    {/if}
   </CardContainer>
   {#if route == "halloween"}<HalloweenPlus />{/if}
   <div class="hidden">

@@ -19,11 +19,11 @@ function createLocalStorageStore<T>(key: string, startValue: T): Writable<T> {
   return store;
 }
 
-export let selectedSchedule: Writable<string> = createLocalStorageStore('schedule','') //writable(initialScheduleString);
+export let selectedSchedule: Writable<string> = createLocalStorageStore('schedule','');
 
 
 export type SchoolType = "HS" | "MS" | "All" | null;
-export let school: Writable<SchoolType> = createLocalStorageStore('school',null);
+export let school: Writable<SchoolType> = createLocalStorageStore('school',"All");
 
 school.subscribe((value) => {
   let $selectedSchedule = get(selectedSchedule);
