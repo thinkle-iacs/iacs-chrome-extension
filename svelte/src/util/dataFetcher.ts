@@ -10,17 +10,20 @@ export class CachedDataStore {
   url: string;
   expirationStore: Writable<number>;
   updatingStore: Writable<boolean>;
+  transformer: (value: any) => any;
 
   constructor({
     expiresAfter = 24 * 60 * 60 * 1000,
     url = "",
     name = "store",
     defaultValue = {},
+    transformer = (value) => value,
   }: {
     expiresAfter: number;
     url: string;
     name: string;
     defaultValue: any;
+    transformer?: (any) => any | null;
   }) {
     this.expirationStore = writable(NaN);
     this.updatingStore = writable(false);
@@ -29,6 +32,7 @@ export class CachedDataStore {
     this.store = writable(defaultValue);
     this.name = name;
     this.expireName = `${name}-expires`;
+    this.transformer = transformer;
     this.updateFromLocal();
   }
 
@@ -93,6 +97,10 @@ export class CachedDataStore {
       let request = await fetch(this.url, { redirect: "follow" });
       let value = await request.json();
       console.log("Got JSON", value, "from", this.url);
+      if (this.transformer) {
+        value = this.transformer(value);
+        console.log("Transformed value to:", value);
+      }
       this.storeLocalValue(value);
       this.store.set(value);
       this.updatingStore.set(false);

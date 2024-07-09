@@ -88,7 +88,7 @@
   {/if}
 
   <CardContainer>
-    {#if $whimsy}
+    {#if $whimsy && mode !== "Family"}
       <DayOfWeekWhimsy />
     {/if}
     <CountdownCard />

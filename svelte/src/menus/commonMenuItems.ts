@@ -155,7 +155,7 @@ export const SCHOOL_CALENDAR = {
   icon: "./icons/school-calendar.png",
 };
 export const STAFF_DIRECTORY = {
-  title: "Staff Directory",
+  title: "Directory",
   icon: "./icons/directory.png",
 
   link: "https://www.innovationcharter.org/about-iacs/faculty/",

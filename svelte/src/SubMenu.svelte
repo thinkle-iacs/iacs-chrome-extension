@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { fly } from "svelte/transition";  
+  import { fly } from "svelte/transition";
   import MenuItem from "./MenuItem.svelte";
   import { collapsedMenus, hiddenMenuItems, school, SchoolType } from "./prefs";
 
@@ -11,52 +11,58 @@
     title: string;
     school?: SchoolType;
   };
-  export let menuitem: Menuitem;  
+  export let menuitem: Menuitem;
 </script>
 
 <nav>
   {#if !$school || $school == "All" || !menuitem.school || menuitem.school == $school}
-    {#if menuitem.link}
+    {#if menuitem.link && !menuitem.items}
       <MenuItem mi={menuitem} />
     {:else if menuitem.title}
-      <h2 on:click={()=>{$collapsedMenus[menuitem.title]=!$collapsedMenus[menuitem.title]}}>
+      <h2
+        on:click={() => {
+          $collapsedMenus[menuitem.title] = !$collapsedMenus[menuitem.title];
+        }}
+      >
         {#if menuitem.items}
-          <button 
-            class="collapse" 
+          <button
+            class="collapse"
             class:collapsed={$collapsedMenus[menuitem.title]}
-            aria-label="Collapse"            
+            aria-label="Collapse"
           ></button>
         {/if}
-        {menuitem.title}</h2>
+        {menuitem.title}
+        {#if menuitem.link}
+          <a href={menuitem.link} on:click|stopPropagation>↗</a>
+        {/if}
+      </h2>
     {/if}
     {#if menuitem.items && !$collapsedMenus[menuitem.title]}
       <ul>
-        {#each menuitem.items as mi,n}
-          {#if
-          !$hiddenMenuItems[mi.title] && 
-          (!mi.school || !$school || $school == "All" || mi.school == $school)}
+        {#each menuitem.items as mi, n}
+          {#if !$hiddenMenuItems[mi.title] && (!mi.school || !$school || $school == "All" || mi.school == $school)}
             {#if mi.items}
-              <li 
-                class="sub" 
-                class:headless={!menuitem.title && n==0}
-                transition:fly={{y:-200}}>
+              <li
+                class="sub"
+                class:headless={!menuitem.title && n == 0}
+                transition:fly={{ y: -200 }}
+              >
                 <svelte:self menuitem={mi} />
               </li>
             {:else}
-              <li transition:fly={{y:-200}}                
-              >
+              <li transition:fly={{ y: -200 }}>
                 <MenuItem {mi} />
               </li>
             {/if}
-          {/if}          
-        {/each}        
+          {/if}
+        {/each}
       </ul>
       <!-- Hidden items -->
-      {#if menuitem.items.find((i)=>$hiddenMenuItems[i.title])}
+      {#if menuitem.items.find((i) => $hiddenMenuItems[i.title])}
         <div class="hidden-container">
           {#each menuitem.items as mi}
             {#if $hiddenMenuItems[mi.title]}
-              <MenuItem {mi}/>
+              <MenuItem {mi} />
             {/if}
           {/each}
         </div>
@@ -65,7 +71,7 @@
   {/if}
 </nav>
 
-<style>  
+<style>
   h2 {
     margin-top: 0;
     margin-bottom: var(--spacer);
@@ -103,13 +109,13 @@
     color: var(--mediumgrey);
   }
   .collapse {
-    color : transparent;
+    color: transparent;
     border: none;
     background-color: transparent;
-    --height : var(--small);
+    --height: var(--small);
     /* divide by sqrt(3) -- 30/60/90 triangle
        in the middle of our equilateral triangle */
-    --side : calc(var(--height)/1.73205080757);
+    --side: calc(var(--height) / 1.73205080757);
     /* Let's build a triangle out of the top border! */
     border-top: var(--height) solid var(--black);
     border-left: var(--side) solid transparent;
@@ -123,9 +129,9 @@
     transition: scale 300ms;
   }
   h2:hover .collapse {
-    scale : 1.1;
+    scale: 1.1;
   }
-  .collapsed {    
+  .collapsed {
     transform: rotate(-90deg);
   }
   ul {
@@ -145,7 +151,7 @@
     height: var(--small);
     opacity: 0;
     transition: opacity 300ms;
-  }  
+  }
   nav:hover .hidden-container {
     opacity: 1;
   }
