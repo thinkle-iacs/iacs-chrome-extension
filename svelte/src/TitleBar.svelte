@@ -1,4 +1,6 @@
 <script lang="ts">
+  import GoogleTranslate from "./GoogleTranslate.svelte";
+
   import TimeDisplay from "./TimeDisplay.svelte";
   export let mode = "Staff";
   import Menu from "./Menu.svelte";
@@ -19,10 +21,13 @@
     <TimeDisplay {mode} />
   {/if}
   {#if mode == "Family"}
-    <div class="top-links">
-      <MenuItem mi={WEBSITE} editable={false} />
-      <MenuItem editable={false} mi={SCHOOL_CALENDAR} />
-      <MenuItem mi={STAFF_DIRECTORY} editable={false} />
+    <div class="family-links">
+      <GoogleTranslate></GoogleTranslate>
+      <div class="top-links">
+        <MenuItem mi={WEBSITE} editable={false} />
+        <MenuItem editable={false} mi={SCHOOL_CALENDAR} />
+        <MenuItem mi={STAFF_DIRECTORY} editable={false} />
+      </div>
     </div>
   {/if}
 </div>
@@ -83,10 +88,22 @@
       -webkit-filter: grayscale(1) invert(1);
     }
   }
+  .family-links {
+    display: flex;
+    flex-direction: row;
+    gap: var(--pad);
+    align-items: center;
+  }
   .top-links {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
+  }
+  @media screen and (max-width: 800px) {
+    .family-links {
+      flex-direction: column-reverse;
+      gap: 0;
+    }
   }
 </style>
