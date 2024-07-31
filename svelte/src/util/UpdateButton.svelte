@@ -1,24 +1,26 @@
 <script lang="ts">
-  import TooltipContainer from "./TooltipContainer.svelte";  
+  import TooltipContainer from "./TooltipContainer.svelte";
   import type { CachedDataStore } from "./dataFetcher";
   import type { Writable } from "svelte/store";
-  export let cds: CachedDataStore;  
+  export let cds: CachedDataStore;
   const RIGHT = 1;
   export let position = RIGHT;
   let updating: Writable<boolean> = cds.updatingStore;
   let expiration: Writable<number> = cds.expirationStore;
   let lastUpdateDate;
   $: lastUpdateDate = $expiration && new Date($expiration - cds.expiresAfter);
-  
 </script>
+
 <TooltipContainer>
   <button
-    slot="control"    
+    slot="control"
+    aria-label="Refresh data"
     class:updating={$updating}
     disabled={$updating}
     on:click={() => cds.updateFromRemote()}
   >
     <svg
+      aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
       version="1.1"
@@ -55,10 +57,7 @@
       <g />
     </svg>
   </button>
-  <div
-    slot="tip"
-    class="tooltip"    
-  >
+  <div slot="tip" class="tooltip">
     {#if lastUpdateDate}
       {#if $updating}
         Fetching new data...
@@ -72,12 +71,10 @@
         hours: "numeric",
         minutes: "2-digit",
       })}
-      {/if}
+    {/if}
   </div>
-  
 </TooltipContainer>
 
-  
 <style>
   button.updating {
     animation: spin 1000ms infinite;
@@ -91,7 +88,6 @@
     }
   }
 
-  
   button {
     border: none;
     background-color: unset;
