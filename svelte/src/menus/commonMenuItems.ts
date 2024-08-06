@@ -166,7 +166,7 @@ export const LINKS = {
 };
 export const PARKING_FORM = {
   title: "Student Parking Application",
-  link: "https://docs.google.com/document/d/1cjkcmqIjnYPS4PxXfsL-Xmz9fc0TOT3Ujc_aJ3KP3zo/edit?usp=sharing",
+  link: "https://docs.google.com/forms/d/e/1FAIpQLSfhMlrKkvh7T9bRZg0cSFX3yZqW2kUZjvobb8C7soxMq4jJWA/viewform",
 };
 export const WORK_PERMIT = {
   title: "Work Permit Information",
