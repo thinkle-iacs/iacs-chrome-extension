@@ -26,11 +26,13 @@ export const HS_HANDBOOK: Menuitem = {
   title: "HS Student Handbook",
   link: "https://www.innovationcharter.org/high-school/handbook/",
   school: "HS",
+  icon : "./icons/hs-handbook.png",
 };
 export const MS_HANDBOOK: Menuitem = {
   title: "MS Student Handbook",
   link: "https://docs.google.com/document/d/1MsR1ZJ2WVpAbKEnvhbG-a7w711mpT6Hl7wzOZ6idiI4/edit",
   school: "MS",
+  icon : "./icons/ms-handbook.png",
 };
 export const DESMOS: Menuitem = {
   title: "Desmos Calculator",
@@ -148,6 +150,7 @@ export const INNOVATOR = {
 export const LIBRARY = {
   title: "Library",
   link: "https://iacs.library.site",
+  icon: "./icons/library.png",
 };
 export const SCHOOL_CALENDAR = {
   title: "Calendar",
@@ -166,13 +169,17 @@ export const LINKS = {
 };
 export const PARKING_FORM = {
   title: "Student Parking Application",
+  icon: "./icons/parking.png",
   link: "https://docs.google.com/forms/d/e/1FAIpQLSfhMlrKkvh7T9bRZg0cSFX3yZqW2kUZjvobb8C7soxMq4jJWA/viewform",
 };
 export const WORK_PERMIT = {
   title: "Work Permit Information",
-  link: "https://docs.google.com/document/d/1cjkcmqIjnYPS4PxXfsL-Xmz9fc0TOT3Ujc_aJ3KP3zo/edit?usp=sharing",
+  link: "https://docs.google.com/document/d/1cjkcmqIjnYPS4PxXfsL-Xmz9fc0TOT3Ujc_aJ3KP3zo/edit?usp=sharing",,
+  icon : "./icons/work-permit.png",
 };
 export const COMM_SERV = {
   title: "Community Service Form",
   link: "https://docs.google.com/document/d/1mG5Z99WGS5pTlAIp1MvUigzkHdV8gwpbmxx9FySN5G8/edit?usp=sharing",
+  icon: "./icons/service.png",
+  blackIcon : true,
 };

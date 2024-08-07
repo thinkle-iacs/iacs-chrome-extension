@@ -43,7 +43,7 @@ export const familyMenu: Menuitem[] = [
         link: "https://drive.google.com/drive/folders/0B-fhMzqaF6ywMDNpZXFqMFk1dUE?resourcekey=0-Rl9upCRc9k7TfJJxYY0Csg",
       },
       {
-        icon: "./icons/payment.png",
+        icon: "./icons/lunch-payment.png",
         title: "Lunch Payments",
         link: "https://www.schoolpaymentportal.com/Default.aspx",
       },
@@ -131,15 +131,20 @@ export const familyMenu: Menuitem[] = [
       },
       {
         title: "DCAP",
+        detail: "District Curriculum Accommodation Plan",
         link: "https://www.innovationcharter.org/student-services/dcap/",
+        icon: "./icons/dcap.png",
+        blackIcon: true,
       },
       {
         title: "Section 504",
         link: "https://www.innovationcharter.org/student-services/section-504/",
+        icon: "./icons/504.png",
       },
       {
         title: "Multilingual Learners",
         link: "https://www.innovationcharter.org/student-services/multilingual-learners/",
+        icon: "./icons/mll.png",
       },
       {
         title: "Special Education",
@@ -147,7 +152,10 @@ export const familyMenu: Menuitem[] = [
       },
       {
         title: "SEPAC",
+        detail: "Special Education Parent Advisory Council",
         link: "https://www.innovationcharter.org/families/sepac/",
+        icon: "./icons/council.png",
+        blackIcon: true,
       },
       {
         title: "Homework Boards",

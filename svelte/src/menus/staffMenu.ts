@@ -199,6 +199,7 @@ export const menu = [
             title: "MLL Policy and Procedures",
             link: "https://docs.google.com/document/d/141BkxSbPY6diXJnwFKJo3OOyh4BzTkuSWs1NskCPJ48/edit",
             detail: "Overview of Multilingual Learner program",
+            icon : "./icons/mll.png",
           },
           {
             title: "504 Manual",

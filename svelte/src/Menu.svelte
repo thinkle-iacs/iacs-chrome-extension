@@ -1,7 +1,7 @@
 <script lang="ts">
   export let mode: "Staff" | "HS" | "MS" | "Family";
   import type { Menuitem } from "./types";
-  import { derived } from "svelte/store";
+  import { derived, writable } from "svelte/store";
   import SubMenu from "./SubMenu.svelte";
   import { CachedDataStore } from "./util/dataFetcher";
   import type { Writable, Readable } from "svelte/store";
@@ -13,12 +13,14 @@
   import { customMenuStore } from "./CustomMenus/customMenu";
   import CustomMenuEditor from "./CustomMenus/CustomMenuEditor.svelte";
 
-  let cachedMenuGetter = new CachedDataStore({
+  /* let cachedMenuGetter = new CachedDataStore({
     url: `${GASURL}&menu=true`,
     defaultValue: defaultMenuItems,
     expiresAfter: 8 * 60 * 60 * 1000,
     name: "menu",
-  });
+  }); */
+
+  let menuStore = writable(defaultMenuItems);
 
   type IACSMenuItem = {
     ID: number;
@@ -57,9 +59,9 @@
     if (level >= 1 && items.length) {
       $collapsedMenus[item.title] = true;
     }
-    if (menuitem.title.search(/\bhs\b/i)) {
+    if (menuitem.title.search(/\bhs\b/i) != -1) {
       menuitem.school = "HS";
-    } else if (menuitem.title.search(/\bms\b/i)) {
+    } else if (menuitem.title.search(/\bms\b/i) != -1) {
       menuitem.school = "MS";
     }
     return menuitem;
@@ -99,10 +101,17 @@
     },
   });
 
-  let remoteMenuItems: Writable<Menuitem[]> = cachedMenuGetter.store;
-  let iacsMenuItems: Writable<Menuitem[]> = cachedIacsMenu.store;
+  let remoteMenuItems: Writable<Menuitem[]> = menuStore; // cachedMenuGetter.store;
+
+  let iacsMenuItems: Writable<Menuitem[]> =
+    mode == "Staff" ? writable([]) : cachedIacsMenu.store;
   let menuItems: Readable<Menuitem[]> = derived(
-    [cachedMenuGetter.store, iacsMenuItems, customMenuStore],
+    [
+      //cachedMenuGetter.store,
+      menuStore,
+      iacsMenuItems,
+      customMenuStore,
+    ],
     ([$a, $b, $c]) => [...$a, ...$b, ...$c]
   );
   $: console.log("Wow, menuitems are:", $menuItems);
@@ -121,10 +130,8 @@
   $: $menuItems.map(crawlForAutoCollapsingMenus);
 
   onMount(() => {
-    cachedMenuGetter.update();
-    if (mode == "Family") {
-      cachedIacsMenu.update();
-    }
+    //cachedMenuGetter.update();
+    if (mode !== " Staff") cachedIacsMenu.update();
   });
 </script>
 
@@ -147,7 +154,7 @@
       </button>
       <CustomMenuEditor />
     {/if}
-    <UpdateButton cds={cachedMenuGetter} />
+    <!-- <UpdateButton cds={cachedMenuGetter} /> -->
   </div>
 </div>
 

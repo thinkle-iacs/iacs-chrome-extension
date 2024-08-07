@@ -20,7 +20,7 @@ import {
 
 const studentapps = [ASPEN, GC, EHallpass];
 
-const hsmenu = [
+export const hsmenu = [
   {
     title: "",
     items: [
@@ -76,7 +76,7 @@ const hsmenu = [
   LINKS,
 ];
 
-const msmenu = [
+export const msmenu = [
   {
     title: "Assignments",
     items: [ASPEN, GC],
