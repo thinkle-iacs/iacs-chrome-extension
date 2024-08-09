@@ -6,6 +6,10 @@
     "build": "rollup -c",
     "dev-gas": "GASURL=https://script.google.com/macros/s/AKfycbzSsUiEWUgK9hQOh3XDAUQodQs61JJapMueCzuSOP5n_rIMk1amWaBvFXftJIdO1Qwn/exec rollup -c -w",
     "dev": "rollup -c -w",
+    "dev-staff" : "MODE=Staff rollup -c -w",
+    "dev-family" : "MODE=Family rollup -c -w",
+    "dev-hs" : "MODE=HS rollup -c -w",
+    "dev-ms" : "MODE=MS rollup -c -w",
     "start": "sirv public --no-clear",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
