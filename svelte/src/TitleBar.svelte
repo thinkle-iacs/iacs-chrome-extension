@@ -15,7 +15,13 @@
 <div class="top">
   <div class="logo-block">
     <img src="./icons/IACS_logo.png" />
-    <h1>Launcher <span class="mode">{mode}</span></h1>
+    <h1>
+      {#if mode == "Family"}
+        Family Page
+      {:else}
+        Launcher <span class="mode">{mode}</span>
+      {/if}
+    </h1>
   </div>
   {#if mode !== "Family"}
     <TimeDisplay {mode} />
