@@ -35,8 +35,8 @@ export const menu = [
       },
       {
         title: "7/8 Advisory Calendar",
-        school: "MS",
-        link: "https://docs.google.com/document/d/1XfLnmvO-iT4quwFEcKriOSImcAzenHzIw-zFY0eat9E/edit?usp=sharing",
+        school: "MS",        
+        link: 'https://docs.google.com/spreadsheets/d/1py0K2nYK1Ea9ER_gVWV6Tcf38eNqxl66oQ8B-FGYMTM/edit?gid=0#gid=0',
       },
     ],
   },
