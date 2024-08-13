@@ -3,7 +3,6 @@ import {
   COMM_SERV,
   CREATIVECLOUD,
   DESMOS,
-  EHallpass,
   EXPRESS,
   GC,
   GOOGLE_APPS,
@@ -18,7 +17,7 @@ import {
   STELLA,
 } from "./commonMenuItems";
 
-const studentapps = [ASPEN, GC, EHallpass];
+const studentapps = [ASPEN, GC];
 
 export const hsmenu = [
   {
@@ -38,8 +37,6 @@ export const hsmenu = [
   {
     title: "Tools",
     items: [
-      EHallpass,
-      //FTM,
       SCOIR,
       {
         title: "",

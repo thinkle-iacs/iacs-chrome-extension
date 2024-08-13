@@ -5,8 +5,7 @@ export const menu = [
     title: "Teaching",
     items: [
       ASPEN,
-      GC,
-      EHallpass,
+      GC,      
       {
         title: "Portfolios",
         detail: "Student Digital Portfolios in Google Drive",
