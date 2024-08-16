@@ -92,7 +92,8 @@ export const menu = [
         icon: "./icons/help.png",
       },
       {
-        name : 'Substitute Teacher Feedback Form',
+        title : 'Sub Feedback',
+        detail : 'Substitute Teacher Feedback Form',
         link : 'https://docs.google.com/forms/d/e/1FAIpQLScGaOkF-KTtzG4BmjorjkP2TFKP3iyvGkfHDqbgeMUTTf6bGA/viewform'
       },
       {
