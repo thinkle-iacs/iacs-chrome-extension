@@ -183,3 +183,8 @@ export const COMM_SERV = {
   icon: "./icons/service.png",
   blackIcon : true,
 };
+
+export const BULLYING_PLAN = {  
+  title : 'Bullying Prevention and Intervention Plan',
+  link : 'https://docs.google.com/document/d/1pcJK2w42f02P1_15uAOE3lTEW5kw9znxUQ5SzHJPrDA/edit'
+}

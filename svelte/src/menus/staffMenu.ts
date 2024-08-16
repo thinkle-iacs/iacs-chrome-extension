@@ -1,4 +1,4 @@
-import {ASPEN,GC,EHallpass,RESTORATIVE_FORM,STELLA, SCOIR, HS_ANNOUNCEMENTS, MS_ANNOUNCEMENTS, MS_HANDBOOK, HS_HANDBOOK, GOOGLE_APPS_WITH_ADOBE} from './commonMenuItems';,
+import {ASPEN,GC,EHallpass,RESTORATIVE_FORM,STELLA, SCOIR, HS_ANNOUNCEMENTS, MS_ANNOUNCEMENTS, MS_HANDBOOK, HS_HANDBOOK, GOOGLE_APPS_WITH_ADOBE, BULLYING_PLAN} from './commonMenuItems';,
 
 export const menu = [
   {
@@ -90,6 +90,10 @@ export const menu = [
         detail: "IACS Tech How-To's and support",
         blackIcon: true,
         icon: "./icons/help.png",
+      },
+      {
+        name : 'Substitute Teacher Feedback Form',
+        link : 'https://docs.google.com/forms/d/e/1FAIpQLScGaOkF-KTtzG4BmjorjkP2TFKP3iyvGkfHDqbgeMUTTf6bGA/viewform'
       },
       {
         title: "Counseling Check-In Form",
@@ -209,6 +213,7 @@ export const menu = [
             link: "https://docs.google.com/document/d/16VQZ6wxBYWr2yyow8oa9RKs7tl41xINi53FcnBAk3xw/edit",
             detail: "Multi-Tiered Systems of Support",
           },
+          BULLYING_PLAN
         ],
       },
     ],

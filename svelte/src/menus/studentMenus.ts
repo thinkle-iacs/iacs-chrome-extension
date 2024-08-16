@@ -1,5 +1,6 @@
 import {
   ASPEN,
+  BULLYING_PLAN,
   COMM_SERV,
   CREATIVECLOUD,
   DESMOS,
@@ -50,6 +51,7 @@ export const hsmenu = [
     items: [
       HS_ANNOUNCEMENTS,
       HS_HANDBOOK,
+      BULLYING_PLAN,
       {
         title: "Forms",
         items: [
@@ -86,6 +88,7 @@ export const msmenu = [
     title: "Resources",
     items: [
       MS_HANDBOOK,
+      BULLYING_PLAN,
       {
         title: "Forms",
         items: [
