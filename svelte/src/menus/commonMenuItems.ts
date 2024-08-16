@@ -185,6 +185,7 @@ export const COMM_SERV = {
 };
 
 export const BULLYING_PLAN = {  
-  title : 'Bullying Prevention and Intervention Plan',
+  title : 'Anti-Bullying Plan',
+  detail : 'Bullying Prevention and Intervention Plan',
   link : 'https://docs.google.com/document/d/1pcJK2w42f02P1_15uAOE3lTEW5kw9znxUQ5SzHJPrDA/edit'
 }
