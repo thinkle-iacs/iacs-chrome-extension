@@ -34,8 +34,8 @@ export let hs_schedule: ScheduleBlock[] = [
   },
   {
     day: M,
-    start: "13:19",
-    end: "14:44",
+    start: "13:22",
+    end: "14:45",
     name: "D",
   },
   // Tuesday
@@ -72,7 +72,7 @@ export let hs_schedule: ScheduleBlock[] = [
   {
     day: T,
     start: "13:22",
-    end: "14:44",
+    end: "14:45",
     name: "F",
   },
   // Wednesday
@@ -140,7 +140,7 @@ export let hs_schedule: ScheduleBlock[] = [
   {
     day: R,
     start: "13:22",
-    end: "14:44",
+    end: "14:45",
     name: "A",
   },
   // Friday
@@ -177,7 +177,7 @@ export let hs_schedule: ScheduleBlock[] = [
   {
     day: F,
     start: "13:22",
-    end: "14:44",
+    end: "14:45",
     name: "Flex Block",
   },
 ];
