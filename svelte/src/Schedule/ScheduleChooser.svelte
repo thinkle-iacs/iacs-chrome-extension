@@ -16,6 +16,7 @@
     ms_56_trans,
     ms_78_trans,
   } from "./ms_schedule";
+  import { writable } from "svelte/store";
 
   let hardcoded_schedule_options = [
     {
@@ -55,14 +56,14 @@
     },
   ];
 
-  let scheduleLoader = new CachedDataStore({
+  /* let scheduleLoader = new CachedDataStore({
     expiresAfter: 24 * 60 * 60 * 1000,
     url: `${GASURL}&schedule=true`,
     defaultValue: hardcoded_schedule_options,
     name: "schedules",
-  });
-  let schedule_options = scheduleLoader.store;
-  onMount(() => scheduleLoader.update());
+  }); */
+  let schedule_options = writable(hardcoded_schedule_options); // scheduleLoader.store;
+  // onMount(() => scheduleLoader.update());
 
   if (!$selectedSchedule) {
     console.log("Trigger sched update");
@@ -72,7 +73,7 @@
       $selectedSchedule = "HS";
     }
   }
-  let activeOptions = []
+  let activeOptions = [];
   let scheduleObject;
   $: scheduleObject = $schedule_options.find(
     (o) => o.name == $selectedSchedule
@@ -80,24 +81,28 @@
   $: scheduleObject && onChange(scheduleObject);
   $: {
     activeOptions = $schedule_options.filter(
-      (option)=>!option.school || !$school || $school =='All' || $school == option.school
-    );    
+      (option) =>
+        !option.school ||
+        !$school ||
+        $school == "All" ||
+        $school == option.school
+    );
   }
-  
 </script>
 
 {#if activeOptions.length > 1}
   <select bind:value={$selectedSchedule}>
     {#each activeOptions as option}
       <!-- {#if !option.school || !$school || $school == "All" || $school == option.school} -->
-        <option value={option.name}>{option.name}</option>
+      <option value={option.name}>{option.name}</option>
       <!-- {/if} -->
     {/each}
   </select>
 {/if}
-{#if showUpdate}
+
+<!-- {#if showUpdate}
   <UpdateButton cds={scheduleLoader} />
-{/if}
+{/if} -->
 
 <style>
 </style>
