@@ -7,7 +7,6 @@
   import { GASURL } from "../shimURL";
   export let onChange;
   import { hs_schedule } from "./hs_schedule";
-
   import {
     ms_56_ela,
     ms_78_ela,
@@ -21,36 +20,43 @@
   let hardcoded_schedule_options = [
     {
       name: "HS",
+      school: "HS",
       url: "https://docs.google.com/document/d/1E5J9z_fa_PHb-xvwR1W0NvGeV1kGUbgAg-wcvg9bXIQ/edit",
       schedule: hs_schedule,
     },
     {
       name: "5/6 Simple",
+      school: "MS",
       url: "https://docs.google.com/document/d/1suZQXiTsE5QfTgKm1bRyB1fnQDV78WS6DB1c10iSB0c/edit",
       schedule: ms_56_simple,
     },
     {
       name: "7/8 Simple",
+      school: "MS",
       url: "https://docs.google.com/document/d/1suZQXiTsE5QfTgKm1bRyB1fnQDV78WS6DB1c10iSB0c/edit",
       schedule: ms_78_simple,
     },
     {
       name: "5/6 Transitions",
+      school: "MS",
       url: "https://docs.google.com/document/d/1suZQXiTsE5QfTgKm1bRyB1fnQDV78WS6DB1c10iSB0c/edit",
       schedule: ms_56_trans,
     },
     {
       name: "7/8 Transitions",
+      school: "MS",
       url: "https://docs.google.com/document/d/1suZQXiTsE5QfTgKm1bRyB1fnQDV78WS6DB1c10iSB0c/edit",
       schedule: ms_78_trans,
     },
     {
       name: "5/6 (ELA)",
+      school: "MS",
       url: "https://docs.google.com/document/d/1suZQXiTsE5QfTgKm1bRyB1fnQDV78WS6DB1c10iSB0c/edit",
       schedule: ms_56_ela,
     },
     {
       name: "7/8 (ELA)",
+      school: "MS",
       url: "https://docs.google.com/document/d/1suZQXiTsE5QfTgKm1bRyB1fnQDV78WS6DB1c10iSB0c/edit",
       schedule: ms_78_ela,
     },
