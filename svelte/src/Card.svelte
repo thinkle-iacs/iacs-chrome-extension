@@ -42,7 +42,14 @@
 
 {#if rightSchool}
   {#if !id || !$hiddenCards[id]}
-    <div class="card" class:bare class:double class:small class:fullwidth on:click>
+    <div
+      class="card"
+      class:bare
+      class:double
+      class:small
+      class:fullwidth
+      on:click
+    >
       <div class="head">
         <slot name="head" />
         {#if id}<div class="pad-left">
@@ -105,12 +112,15 @@
   }
   .pad-left {
     margin-left: var(--pad);
-  } 
+  }
   .bare {
     border: none;
     box-shadow: none;
   }
   .bare * {
     border: none;
+  }
+  .card {
+    max-width: var(--max-card-width);
   }
 </style>

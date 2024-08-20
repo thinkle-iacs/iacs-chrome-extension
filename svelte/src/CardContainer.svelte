@@ -18,6 +18,8 @@
       flex-direction: column;
       justify-content: start;
       align-items: center;
+      --max-card-width: calc(100% - var(--pad) * 2);
+      width: var(--max-card-width);
     }
   }
 </style>

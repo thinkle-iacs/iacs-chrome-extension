@@ -53,6 +53,14 @@
   }
 
   let customScheduleStuff = {};
+  let dayToShow = $now.getDay();
+
+  function changeDayToShow(delta, recursionCount = 0) {
+    dayToShow = (dayToShow + delta + 7) % 7;
+    if (!byDay[dayToShow] && recursionCount < 7) {
+      changeDayToShow(delta, recursionCount + 1);
+    }
+  }
 </script>
 
 <Card double={true} fullwidth={customize}>
@@ -71,25 +79,32 @@
     </div>
 
     <div class="row">
-      <ScheduleChooser onChange={setActive} showUpdate={true} />
+      {#if !customize}
+        <ScheduleChooser onChange={setActive} showUpdate={true} />
+      {:else}
+        <em>Edit Mode</em>
+      {/if}
     </div>
   </div>
   <div slot="body">
+    <div class="controls">
+      <button on:click={() => changeDayToShow(6)}>←</button>
+      <button on:click={() => changeDayToShow(1)}>→</button>
+    </div>
     <div
       class="schedule-grid"
       style:grid-template-rows={`repeat(${60 * 24},auto)`}
       style:grid-template-columns="2em auto"
     >
-     
-      {#each [8,9,10,11,12,13,14,15] as hour}
-        <div class="hour-block" style={getGridStyle(
-            {
-              day : 0,
-              start : `${hour}:00`,
-              end : `${hour+1}:00`
-            }
-
-        )}>
+      {#each [8, 9, 10, 11, 12, 13, 14, 15] as hour}
+        <div
+          class="hour-block"
+          style={getGridStyle({
+            day: 0,
+            start: `${hour}:00`,
+            end: `${hour + 1}:00`,
+          })}
+        >
           {#if hour < 13}
             {hour}am
           {:else}
@@ -97,7 +112,7 @@
           {/if}
         </div>
       {/each}
-     
+
       {#each days as day, n}
         {#if byDay[n]}
           <div
@@ -107,6 +122,8 @@
             style:grid-row-end="2"
             style:grid-column-start={n + 1}
             style:grid-column-end={n + 1}
+            class:highlight={n == dayToShow}
+            class:next-to-highlight={Math.abs(n - dayToShow) == 1}
           >
             <!-- {#if $now.getDay() == n}
               ▶
@@ -119,6 +136,9 @@
         {#each activeOption.schedule as block, n (`${n}${block.day}${block.name}${block.start}${block.end}`)}
           <div
             style={getGridStyle(block)}
+            class="block-container"
+            class:highlight-block={dayToShow == block.day}
+            class:next-to-highlight-block={Math.abs(block.day - dayToShow) == 1}
             class:current={block == currentBlock}
             class:next={nextBlocks && nextBlocks.indexOf(block) > -1}
             class:previous={previousBlock == block}
@@ -184,5 +204,48 @@
     display: grid;
     place-content: start center;
     font-size: var(--tiny);
+  }
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--pad);
+    padding: var(--pad);
+  }
+  .controls {
+    display: none;
+  }
+  @media (max-width: 800px) {
+    .controls {
+      display: flex;
+    }
+    /* Three day display */
+    .dayheader,
+    .block-container {
+      display: none;
+    }
+    .dayheader.highlight,
+    .highlight-block {
+      display: block;
+      grid-column-start: 1;
+      grid-column-end: 2;
+    }
+    .dayheader.next-to-highlight,
+    .next-to-highlight-block {
+      display: block;
+      grid-column-start: 2;
+      grid-column-end: 3;
+    }
+  }
+  @media (max-width: 550px) {
+    .dayheader.next-to-highlight,
+    .next-to-highlight-block {
+      display: none;
+    }
+    .dayheader.highlight,
+    .highlight-block {
+      grid-column-start: 1;
+      grid-column-end: 2;
+    }
   }
 </style>

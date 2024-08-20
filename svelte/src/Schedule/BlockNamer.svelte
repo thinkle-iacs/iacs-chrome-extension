@@ -39,14 +39,14 @@
 
 <div class="form">
   {#if linkedMode}
-    <label>Name</label>
+    <label class="name-label">Name</label>
     <input
       class="input"
       type="text"
       bind:value={$customSchedule[$selectedSchedule].byBlock[block.name]}
     />
-    <label>Color</label>
-    <div class="input">
+
+    <div class="input color">
       <ColorPicker
         bind:color={$customColors[
           $customSchedule[$selectedSchedule].byBlock[block.name] || block.name
@@ -54,7 +54,7 @@
       />
     </div>
   {:else}
-    <label>Name</label>
+    <label class="name-label">Name</label>
     <input
       class="input"
       type="text"
@@ -62,8 +62,8 @@
         block.name
       ]}
     />
-    <label>Color</label>
-    <div class="input">
+
+    <div class="color input">
       <ColorPicker
         bind:color={$customColors[
           $customSchedule[$selectedSchedule].byDay[block.day][block.name] ||
@@ -88,11 +88,34 @@
   label.link.active span {
     opacity: 1;
   }
+
+  .form {
+    display: grid;
+    grid-template-areas:
+      "label label"
+      "name name"
+      "color link";
+  }
+
   .form > * {
     margin-top: var(--pad);
   }
   .form > .input {
-    margin-left: var(--normal);
     margin-bottom: var(--normal);
+  }
+  input {
+    width: 100%;
+  }
+  .name-label {
+    grid-area: label;
+  }
+  .input {
+    grid-area: name;
+  }
+  .color {
+    grid-area: color;
+  }
+  .link {
+    grid-area: link;
   }
 </style>
