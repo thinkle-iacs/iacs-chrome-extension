@@ -258,7 +258,7 @@ export const make_ms_simple = (middle = make_56_middle, wednesday = wed_56) => {
         day,
         name: blocks[0],
         start: "8:36",
-        end: "9:26",
+        end: "9:24",
       },
       {
         day,
