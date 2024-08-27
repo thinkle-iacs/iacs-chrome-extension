@@ -1,4 +1,4 @@
-import {ASPEN,GC,EHallpass,RESTORATIVE_FORM,STELLA, SCOIR, HS_ANNOUNCEMENTS, MS_ANNOUNCEMENTS, MS_HANDBOOK, HS_HANDBOOK, GOOGLE_APPS_WITH_ADOBE, BULLYING_PLAN} from './commonMenuItems';,
+import {ASPEN,GC,EHallpass,RESTORATIVE_FORM,STELLA, SCOIR, HS_ANNOUNCEMENTS, MS_ANNOUNCEMENTS, MS_HANDBOOK, HS_HANDBOOK, GOOGLE_APPS_WITH_ADOBE, BULLYING_PLAN, AMPLIFY, IXL} from './commonMenuItems';,
 
 export const menu = [
   {
@@ -48,6 +48,8 @@ export const menu = [
       {
         title: "Subscriptions",
         items: [
+          AMPLIFY,
+          IXL,
           {
             title: "Newsela",
             icon: "https://media-thumbs.golden.com/siO12OnGRxyTHjHnxMJLawNzTks=/200x200/smart/golden-storage-production.s3.amazonaws.com%2Ftopic_images%2F4dbe7e04d38d4d08b418252113d4fb4f.jpeg",

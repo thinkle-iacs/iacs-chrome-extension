@@ -1,5 +1,19 @@
 import type { Menuitem } from "../types";
 
+export const AMPLIFY = {
+  title: "Amplify",
+  link: "https://my.amplify.com",
+  detail: "Science (MS)",
+  icon: "https://my.amplify.com/favicon.ico",
+};
+
+export const IXL = {
+  title: "IXL",
+  link: "https://www.ixl.com/signin/innovationacs",
+  detail: "Math and ELA practice (MS)",
+  icon: "https://www.ixl.com/favicon.ico",
+};
+
 export const RESTORATIVE_FORM: Menuitem = {
   title: "Restorative Circle Request",
   link: "https://docs.google.com/forms/d/e/1FAIpQLSfW4kDo1JEy2W6Htqp9e5DMuuzYEmInYy9EoyMRTTtdsdlcvw/viewform",

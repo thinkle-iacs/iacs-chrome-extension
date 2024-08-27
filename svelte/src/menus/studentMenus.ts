@@ -1,4 +1,5 @@
 import {
+  AMPLIFY,
   ASPEN,
   BULLYING_PLAN,
   COMM_SERV,
@@ -78,7 +79,7 @@ export const hsmenu = [
 export const msmenu = [
   {
     title: "Assignments",
-    items: [ASPEN, GC],
+    items: [ASPEN, GC, AMPLIFY],
   },
   {
     title: "",
