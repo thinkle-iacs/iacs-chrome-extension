@@ -21,7 +21,7 @@
     {
       name: "HS",
       school: "HS",
-      url: "https://docs.google.com/document/d/1E5J9z_fa_PHb-xvwR1W0NvGeV1kGUbgAg-wcvg9bXIQ/edit",
+      url: "https://docs.google.com/document/d/1eImEt2_wV7mgS5r1gUqDGzvUGyrzDFiTU8V3qLjkkI8/edit?tab=t.0#heading=h.2j7v39y9x97q",
       schedule: hs_schedule,
     },
     {
