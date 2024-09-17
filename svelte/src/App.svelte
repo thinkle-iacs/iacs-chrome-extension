@@ -22,6 +22,7 @@
   import StudentGame from "./StudentGame/StudentGame.svelte";
   import DayOfWeekWhimsy from "./whimsy/DayOfWeekWhimsy.svelte";
   import HalloweenPlus from "./whimsy/HalloweenPlus.svelte";
+  import HawkCard from "./Hawk/HawkCard.svelte";
 
   let tips = tipDataStore.store;
   let dayNum = new Date().getDate();
@@ -96,6 +97,7 @@
       <PrefCard {mode} />
     {/if}
     <RemoteCards />
+    <HawkCard/>
     {#if $tips.length && mode !== "Family"}
       {#key tipIndex}
         <TipCard
