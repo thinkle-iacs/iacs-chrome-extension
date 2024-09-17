@@ -155,7 +155,7 @@
     </div>
   </div>
   <div slot="footer">
-    {#if activeOption}
+    {#if activeOption?.url}
       <a href={activeOption.url}>Google Doc Version</a>
     {/if}
   </div>
