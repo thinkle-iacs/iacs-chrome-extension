@@ -1,4 +1,4 @@
-import {ASPEN,GC,EHallpass,RESTORATIVE_FORM,STELLA, SCOIR, HS_ANNOUNCEMENTS, MS_ANNOUNCEMENTS, MS_HANDBOOK, HS_HANDBOOK, GOOGLE_APPS_WITH_ADOBE, BULLYING_PLAN, AMPLIFY, IXL} from './commonMenuItems';,
+import {ASPEN,GC,EHallpass,RESTORATIVE_FORM,STELLA, SCOIR, HS_ANNOUNCEMENTS, MS_ANNOUNCEMENTS, MS_HANDBOOK, HS_HANDBOOK, GOOGLE_APPS_WITH_ADOBE, BULLYING_PLAN, AMPLIFY, IXL, CLEVER} from './commonMenuItems';,
 
 export const menu = [
   {
@@ -62,6 +62,7 @@ export const menu = [
             detail:
               "You need the educator code which is <strong><a href='https://sites.google.com/innovationcharter.org/teacher-tech/web-apps-subscriptions'>on our support page.</a></strong>",
           },
+          CLEVER
         ],
       },
       {

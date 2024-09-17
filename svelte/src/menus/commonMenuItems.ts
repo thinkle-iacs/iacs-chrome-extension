@@ -203,3 +203,10 @@ export const BULLYING_PLAN = {
   detail : 'Bullying Prevention and Intervention Plan',
   link : 'https://docs.google.com/document/d/1pcJK2w42f02P1_15uAOE3lTEW5kw9znxUQ5SzHJPrDA/edit'
 }
+
+export const CLEVER = {
+  title : 'Clever Portal',
+  link : 'https://clever.com/in/innovation-academy-charter-school-2f6799e/',
+  icon : 'https://clever.com/favicon.ico',
+  detail : 'Single sign-on for Renaissance (Star Testing) and other apps',
+}

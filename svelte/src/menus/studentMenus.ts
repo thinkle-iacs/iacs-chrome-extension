@@ -2,6 +2,7 @@ import {
   AMPLIFY,
   ASPEN,
   BULLYING_PLAN,
+  CLEVER,
   COMM_SERV,
   CREATIVECLOUD,
   DESMOS,
@@ -33,6 +34,7 @@ export const hsmenu = [
         title: "Adobe",
         items: [EXPRESS, CREATIVECLOUD],
       },
+      CLEVER
     ],
   },
 
@@ -83,7 +85,7 @@ export const msmenu = [
   },
   {
     title: "",
-    items: [GOOGLE_APPS, EXPRESS],
+    items: [GOOGLE_APPS, EXPRESS, CLEVER],
   },
   {
     title: "Resources",
