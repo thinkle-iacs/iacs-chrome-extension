@@ -1,4 +1,4 @@
-import {ASPEN,GC,EHallpass,RESTORATIVE_FORM,STELLA, SCOIR, HS_ANNOUNCEMENTS, MS_ANNOUNCEMENTS, MS_HANDBOOK, HS_HANDBOOK, GOOGLE_APPS_WITH_ADOBE, BULLYING_PLAN, AMPLIFY, IXL, CLEVER} from './commonMenuItems';,
+import {ASPEN,GC,EHallpass,RESTORATIVE_FORM,STELLA, SCOIR, HS_ANNOUNCEMENTS, MS_ANNOUNCEMENTS, MS_HANDBOOK, HS_HANDBOOK, GOOGLE_APPS_WITH_ADOBE, BULLYING_PLAN, AMPLIFY, IXL, CLEVER, CHROMEBOOK_REPAIR_FORM} from './commonMenuItems';,
 
 export const menu = [
   {
@@ -94,6 +94,7 @@ export const menu = [
         blackIcon: true,
         icon: "./icons/help.png",
       },
+      CHROMEBOOK_REPAIR_FORM,
       {
         title : 'Sub Feedback',
         detail : 'Substitute Teacher Feedback Form',

@@ -210,3 +210,10 @@ export const CLEVER = {
   icon : 'https://clever.com/favicon.ico',
   detail : 'Single sign-on for Renaissance (Star Testing) and other apps',
 }
+
+export const CHROMEBOOK_REPAIR_FORM = {
+  title : 'Chromebook Problem',
+  link : 'https://docs.google.com/forms/d/e/1FAIpQLScVUG8AZ-TGg3ODcWSXEQt5WQ60iWciuz_9iYxfpAVZhU_Kqg/viewform',
+  detail : 'Use this to get help with student Chromebook Problems',
+  icon : './icons/chromebook-help.png'
+}

@@ -2,6 +2,7 @@ import {
   AMPLIFY,
   ASPEN,
   BULLYING_PLAN,
+  CHROMEBOOK_REPAIR_FORM,
   CLEVER,
   COMM_SERV,
   CREATIVECLOUD,
@@ -58,6 +59,7 @@ export const hsmenu = [
       {
         title: "Forms",
         items: [
+          CHROMEBOOK_REPAIR_FORM,
           {
             title: "Incident Reporting Form",
             link: "https://docs.google.com/forms/d/e/1FAIpQLSe9qasAJbfEcJvF1wzXS4UWC3NSuX_IT0Ep_jwV7Qbr-zVYvQ/viewform",
@@ -95,6 +97,7 @@ export const msmenu = [
       {
         title: "Forms",
         items: [
+          CHROMEBOOK_REPAIR_FORM,
           {
             title: "Incident Reporting Form",
             link: "https://docs.google.com/forms/d/e/1FAIpQLSe9qasAJbfEcJvF1wzXS4UWC3NSuX_IT0Ep_jwV7Qbr-zVYvQ/viewform",
