@@ -201,6 +201,10 @@ export const menu = [
             title: "Faculty Handbook",
             link: "https://docs.google.com/document/d/1yq_lDqkH9_LN1EaYXOUpcJRPPY2E1lMVTfCZsah7opU/edit",
           },
+          {
+            title: 'IACS Grading Handbook',
+            link : 'https://docs.google.com/document/d/1bbq0SNJsc0pBALq9IRNollzPZ9ukwZc48UNC-Kws7es/edit?tab=t.0#heading=h.hvntzso5rv2'
+          },
           MS_HANDBOOK,
           HS_HANDBOOK,
           {
