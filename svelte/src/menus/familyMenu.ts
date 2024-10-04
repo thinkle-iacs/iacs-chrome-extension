@@ -32,6 +32,11 @@ export const familyMenu: Menuitem[] = [
       },
       LIBRARY,
       INNOVATOR,
+      {
+        title : "Health Office",
+        link : "https://www.innovationcharter.org/health-office/",
+        detail : "Information, forms & documents from the health office"
+      }
     ],
   },
   {
