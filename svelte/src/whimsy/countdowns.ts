@@ -1,6 +1,6 @@
 import { CachedDataStore } from "../util/dataFetcher";
 import { GASURL } from "../shimURL";
-import { derived } from "svelte/store";
+import { derived, writable } from "svelte/store";
 const days = ['Su','M','T','W','R','F','Sat'];
 
 type DayTime = {
@@ -28,16 +28,59 @@ type Countdown = {
 }
 
 export let countdownData: (RepeatCountdown | CountdownData)[] = [
+  // Semester 1 items
   {
-    name: "First Day of School",
-    countdownStart: "2023-05-20 13:25",
-    target: "2023-08-29 08:05",
+    name: "End of Semester 1",
+    target: "2025-01-16T14:45:00",
+    countdownStart: "2024-08-27T08:05:00",
   },
   {
-    name: "Summer 2023",
-    countdownStart: "2022-08-27 8:10",
-    target: "2023-06-10 13:25",
+    name: "Winter Break",
+    target: "2024-12-23T14:45:00",
+    countdownStart: "2024-08-27T08:05:00",
   },
+  {
+    name: "Fall Break",
+    target: "2024-11-28T14:45:00",
+    countdownStart: "2024-08-27T08:05:00",
+  },
+  {
+    countdownStart: "2024-08-27T08:05:00",
+    target: "2024-10-11T14:45:00",
+    name: "Indigenous People's Day Weekend",
+  },
+  {
+    countdownStart: "2024-10-15T08:05:00",
+    target: "2024-11-08T14:45:00",
+    name: "Veteran's Day Weekend",
+  },
+  {
+    countdownStart: "2024-08-27T08:05:00",
+    target: "2025-06-11T14:45:00",
+    name: "End of School Year",
+  },
+  // Semester 2 items
+  {
+    countdownStart: "2025-01-21T08:05:00",
+    target: "2025-06-11T14:45:00",
+    name: "End of Semester 2",
+  },
+  {
+    countdownStart: "2025-01-21T08:05:00",
+    target: "2025-02-14T14:45:00",
+    name: "February Break",
+  },
+  {
+    countdownStart: "2025-01-21T08:05:00",
+    target: "2025-04-18T14:45:00",
+    name: "April Break",
+  },
+  {
+    countdownStart: "2025-04-28T08:05:00",
+    target: "2025-05-23T14:45:00",
+    name: "Memorial Day Weekend",
+  },
+  // Repeating counters...
   {
     name: "The Weekend",
     repeatStart: {
@@ -47,6 +90,19 @@ export let countdownData: (RepeatCountdown | CountdownData)[] = [
     },
     repeatEnd: {
       day: "F",
+      hour: 14,
+      minute: 45,
+    },
+  },
+  {
+    name: "The Day",
+    repeatStart: {
+      day: "Every",
+      hour: 8,
+      minute: 5,
+    },
+    repeatEnd: {
+      day: "Every",
       hour: 14,
       minute: 45,
     },
@@ -118,6 +174,9 @@ function getCounter (c : RepeatCountdown|CountdownData) : Countdown {
     }
   }
 }
+$: console.log(countdownData);
+
+export const counters = writable(countdownData.map(getCounter));
 
 export const countdownFetcher = new CachedDataStore({
   url: `${GASURL}&countdowns=true`,
@@ -126,14 +185,3 @@ export const countdownFetcher = new CachedDataStore({
   defaultValue: countdownData,
 });
 
-export const counters = derived(
-  countdownFetcher.store,
-  (counterData)=>{
-    try {
-      return counterData.map(getCounter)  
-    } catch (err) {
-      console.log('Error mapping counters:',counters);
-      return []
-    }
-  }
-)

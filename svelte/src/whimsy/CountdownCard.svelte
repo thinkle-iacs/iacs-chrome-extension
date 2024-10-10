@@ -13,12 +13,10 @@
   import Countdown from "../whimsy/Countdown.svelte";
 
   let showCount = true;
-  import { counters, countdownFetcher } from "./countdowns";
+  import { counters } from "./countdowns";
   import UpdateButton from "../util/UpdateButton.svelte";
   import { now } from "../Schedule/now";
-  onMount(async () => {
-    await countdownFetcher.update();
-  });
+  
   let activeCounters = [];
   let theCounter;
 
@@ -53,7 +51,7 @@
               <option value={counter}>{counter.name}</option>
             {/each}
           </select>
-          <UpdateButton cds={countdownFetcher} />
+          <!-- <UpdateButton cds={countdownFetcher} /> -->
         {:else}
           <h2>
             Countdown to {counters[0].name}
@@ -133,5 +131,8 @@
   }
   .top:hover .close {
     opacity: 1;
+  }
+  select {
+    max-width: 100%;
   }
 </style>
