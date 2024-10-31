@@ -67,7 +67,7 @@
   function triggerSpiderSwarm() {
     console.log("Swarm of spiders?");
     if (!spiderSwarm.length) {
-      for (let i = 0; i < Math.random() * 100 + 10; i++) {
+      for (let i = 0; i < Math.random() * 5 + 10; i++) {
         spiderSwarm.push({
           x: window.innerWidth * Math.random(),
           y: window.innerHeight * Math.random(),
@@ -85,7 +85,7 @@
   });
   let zombieSwarm = [makeZombie(), makeZombie(), makeZombie(), makeZombie()];
   function addToZombieSwarm() {
-    for (let i = 0; i < Math.random() * 10 + 10; i++) {
+    for (let i = 0; i < Math.random() * 2 + 10; i++) {
       zombieSwarm = [...zombieSwarm, makeZombie()];
     }
   }
@@ -97,6 +97,8 @@
   {/if}
 </svelte:head>
 {#if !hide}
+<!-- Temporarily disable animations -->
+ <!--
   <FollowMouse
     onClick={triggerGhostMadness}
     speed={10}
@@ -155,6 +157,7 @@
       </div></FollowMouse
     >
   {/each}
+-->
 
   <div
     class="banner"
