@@ -208,7 +208,7 @@ export const CLEVER = {
   title : 'Clever Portal',
   link : 'https://clever.com/in/innovation-academy-charter-school-2f6799e/',
   icon : 'https://clever.com/favicon.ico',
-  detail : 'Single sign-on for Renaissance (Star Testing) and other apps',
+  detail : 'Single sign-on for Renaissance (Star Testing)',
 }
 
 export const CHROMEBOOK_REPAIR_FORM = {
