@@ -14,8 +14,9 @@
   export let menuitem: Menuitem;
 </script>
 
-<nav>
+
   {#if !$school || $school == "All" || !menuitem.school || menuitem.school == $school}
+  <nav>
     {#if menuitem.link && !menuitem.items}
       <MenuItem mi={menuitem} />
     {:else if menuitem.title}
@@ -68,8 +69,9 @@
         </div>
       {/if}
     {/if}
+    </nav>
   {/if}
-</nav>
+
 
 <style>
   h2 {
