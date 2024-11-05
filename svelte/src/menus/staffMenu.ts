@@ -79,54 +79,76 @@ export const menu = [
     ],
   },
   {
-    title: "Resources",
-    items: [
+    title : '', // Column for Resources & Forms
+    items : [
       {
-        title: "Facilities Request Form",
-        blackIcon: true,
-        link: "https://docs.google.com/forms/d/e/1FAIpQLSeP4d1PEy7Ja4T1cuke0zReP3A4A9vIGHy_gYUkcTc_RYkQfw/viewform",
-        icon: "./icons/hammer.png",
+        title : 'Forms',
+        items : [
+          {
+            title: "Facilities Request Form",
+            blackIcon: true,
+            link: "https://docs.google.com/forms/d/e/1FAIpQLSeP4d1PEy7Ja4T1cuke0zReP3A4A9vIGHy_gYUkcTc_RYkQfw/viewform",
+            icon: "./icons/hammer.png",
+          },
+          CHROMEBOOK_REPAIR_FORM,
+          {
+            title: "Counseling Check-In Form",
+            link: "https://forms.gle/Dy7h4yRReG7Etyxf7",
+            detail: "Counseling Check-In Form for Students",
+            icon: "https://img.icons8.com/external-flaticons-lineal-color-flat-icons/344/external-counseling-funeral-service-flaticons-lineal-color-flat-icons.png",
+          },
+          RESTORATIVE_FORM,
+          {
+            title: "Incident Reporting Form",
+            link: "https://docs.google.com/forms/d/e/1FAIpQLSe9qasAJbfEcJvF1wzXS4UWC3NSuX_IT0Ep_jwV7Qbr-zVYvQ/viewform",
+          },
+          {
+            title : 'Schedule a Library Visit',
+            detail : 'Use this calendar to schedule a class library visit',
+            link : 'https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0VBVUnW9qSeonzAzktEzQ4Vy9vJ6hciTEAcItgYcJAxeu4MPjZyG2RaBhE6rG2ZeBkowfcIDCt?gv=true'
+          },
+          
+        ]
       },
+
       {
-        title: "Tech Support",
-        link: "https://support.innovationcharter.org",
-        detail: "IACS Tech How-To's and support",
-        blackIcon: true,
-        icon: "./icons/help.png",
+        title: "Resources",
+        items: [         
+          {
+            title: "Tech Support",
+            link: "https://support.innovationcharter.org",
+            detail: "IACS Tech How-To's and support",
+            blackIcon: true,
+            icon: "./icons/help.png",
+          },   
+          {
+            title: "Computer Inventory",
+            detail: "Finding Chromebooks",
+            link: "https://cb.innovationcharter.org",
+          },                         
+          {
+            title: "School Website",
+            link: "https://www.innovationcharter.org",
+            icon: "./icons/iacs-icon.png",
+          },
+          {
+            title: "Library",
+            link: "https://iacs.library.site",
+          },
+          
+          {
+            title: "Phone Extensions",
+            link: "https://docs.google.com/spreadsheets/d/1kdsz1qF3F5E8BPgaQDOfOgqH0L0V2c8ICtqRxVFDf8Y/edit?usp=share_link",
+            icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Telephone_icon_blue_gradient.svg/56px-Telephone_icon_blue_gradient.svg.png",
+          },
+          {
+            title: "Staff Directory",
+            link: "https://www.innovationcharter.org/about-iacs/faculty/",
+          },
+          SCOIR,
+        ],
       },
-      CHROMEBOOK_REPAIR_FORM,
-      {
-        title : 'Sub Feedback',
-        detail : 'Substitute Teacher Feedback Form',
-        link : 'https://docs.google.com/forms/d/e/1FAIpQLScGaOkF-KTtzG4BmjorjkP2TFKP3iyvGkfHDqbgeMUTTf6bGA/viewform'
-      },
-      {
-        title: "Counseling Check-In Form",
-        link: "https://forms.gle/Dy7h4yRReG7Etyxf7",
-        detail: "Counseling Check-In Form for Students",
-        icon: "https://img.icons8.com/external-flaticons-lineal-color-flat-icons/344/external-counseling-funeral-service-flaticons-lineal-color-flat-icons.png",
-      },
-      RESTORATIVE_FORM,
-      {
-        title: "School Website",
-        link: "https://www.innovationcharter.org",
-        icon: "./icons/iacs-icon.png",
-      },
-      {
-        title: "Library",
-        link: "https://iacs.library.site",
-      },
-      {
-        title: "Phone Extensions",
-        link: "https://docs.google.com/spreadsheets/d/1kdsz1qF3F5E8BPgaQDOfOgqH0L0V2c8ICtqRxVFDf8Y/edit?usp=share_link",
-        icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Telephone_icon_blue_gradient.svg/56px-Telephone_icon_blue_gradient.svg.png",
-      },
-      {
-        title: "Staff Directory",
-        link: "https://www.innovationcharter.org/about-iacs/faculty/",
-      },
-      SCOIR,
-    ],
+  ]
   },
   {
     title: "", // column,
@@ -155,11 +177,7 @@ export const menu = [
           {
             link: "https://drive.google.com/file/d/15YW0SKdI3gNOCNOPu4GpGZrKOzRsSssv/view?usp=sharing",
             title: "IACS Employee Handbook",
-          },
-          {
-            title: "Incident Reporting Form",
-            link: "https://docs.google.com/forms/d/e/1FAIpQLSe9qasAJbfEcJvF1wzXS4UWC3NSuX_IT0Ep_jwV7Qbr-zVYvQ/viewform",
-          },
+          },          
         ],
       },
       {
@@ -171,11 +189,7 @@ export const menu = [
             icon: "./icons/procurify.png",
             link: "https://iacs.procurify.com",
           },
-          {
-            title: "Computer Inventory",
-            detail: "Finding Chromebooks",
-            link: "https://cb.innovationcharter.org",
-          },
+          
         ],
       },
     ],
