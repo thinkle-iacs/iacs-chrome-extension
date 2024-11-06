@@ -3,8 +3,9 @@
   import { Fireworks } from "@fireworks-js/svelte";
   import type { FireworksOptions } from "@fireworks-js/svelte";
   let messages = ["Hurrah!", "Yippee!", "Woot!"];
-
+  let canvasResolution = {x : 200, y: 400};
   let animator;
+  let animating = true;
   let sync;
   onMount(() => {
     animator = setInterval(() => {
@@ -19,29 +20,41 @@
         clearInterval(animator);
       }
     }, 75);
-    return () => clearInterval(animator);
+    doAnimation();
+    return () => {
+      clearInterval(animator);
+      animating = false;
+    }
   });
   $: if (sync) {
     displayPercentage = percentage;
   }
   export let percentage;
   let displayPercentage = 0;
-  let grainsOfSand = 1000;
+  let grainsOfSand = 5000;
 
   function randomColor() {
     let colorList = [
-      /*"--material-color-brown-500",
-      "--material-color-brown-600",
-      "--material-color-brown-700",
-      "--material-color-brown-800",*/
-      "--material-color-yellow-700",
-      "--material-color-yellow-800",
-      "--material-color-yellow-900",
-      "--material-color-deep-orange-500",
-      "--material-color-deep-orange-600",
+      "#f9a825", // --material-color-yellow-700
+      "#f57f17", // --material-color-yellow-800
+      "#f57f17", // --material-color-yellow-900 (appears to be the same as 800 in the example)
+      "#ff5722", // --material-color-deep-orange-500 (resolved from the nested variable)
+      "#f4511e", // --material-color-deep-orange-600
     ];
     let index = Math.floor(Math.random() * colorList.length);
     return colorList[index];
+  }
+
+  function drawGrains () {
+    let ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvasResolution.x,canvasResolution.y);
+    for (let i = 0; i < grains.length; i++) {
+      ctx.strokeStyle = 'transparent';
+      ctx.fillStyle = grains[i].color;
+      ctx.beginPath();
+      ctx.arc(grains[i].x * canvasResolution.x, grains[i].y * canvasResolution.y*1, grains[i].size, 0, Math.PI * 2);
+      ctx.fill();
+    }
   }
 
   function makeGrains() {
@@ -51,8 +64,9 @@
         id: n,
         x: undefined,
         y: 0,
+        size : 1 + Math.random() * canvasResolution.x/50,
         top: true,
-        color: `var(${randomColor()}`,
+        color: `${randomColor()}`,
         speed: Math.random() + 1,
       });
     }
@@ -60,8 +74,20 @@
   }
   let lastOnTop = 0;
   let grains = makeGrains(grainsOfSand);
+  console.log('Grains=',grains);
+  console.log('A grain',grains[10])
   calculateGrainPositions(displayPercentage);
-  function calculateGrainPositions(force) {
+  
+  function doAnimation () {
+    if (canvas) {
+      drawGrains();
+      calculateGrainPositions();
+    }     
+    if (animating) requestAnimationFrame(doAnimation);
+  }
+
+  
+  function calculateGrainPositions() {
     if (displayPercentage == percentage && percentage > 1) {
       //console.log('Calculate explosion!')
       calculateExplosion(percentage);
@@ -83,6 +109,11 @@
           grains[i].falling = true;
         }
         grains[i].top = false;
+        // Add a shuffling effect
+        if (Math.random() < 0.01) { // 10% chance of shuffling
+          grains[i].x += (Math.random() - 0.5) * 0.02; // Small horizontal shuffle
+          grains[i].x = Math.max(0, Math.min(1, grains[i].x)); // Keep within bounds
+        }
       } else {
         // Top...
         let nthOnTop = numberOnTop - (numberOnTop - (i - numberOnBottom));
@@ -98,8 +129,7 @@
       if (Math.abs(0.5 - grains[i].x) > distanceFromCenter) {
         grains[i].x = 0.5 + distanceFromCenter * (Math.random() - 0.5);
       }
-    }
-    requestAnimationFrame(calculateGrainPositions);
+    }    
   }
 
   let explosionCounter = -1.3;
@@ -135,9 +165,17 @@
   $: if (explosionCounter > 0) {
     letters = Array(...message.slice(0, explosionCounter));
   }
+  let canvas : HTMLCanvasElement;
 </script>
 
-<section class="hourglass" class:exploded={explosionCounter > 0}>
+<section class="hourglass" class:exploded={explosionCounter > 0}
+  on:dblclick={()=>{
+    percentage=1;
+    console.log('percent=>1');
+    displayPercentage = percentage;
+    explosionCounter = 0.01;
+  }}
+  >
   {#if explosionCounter > 0}
     <div class="fire"><Fireworks /></div>
   {/if}
@@ -152,14 +190,15 @@
       {/each}
     </div>
   {/if}
-  {#each grains as g (g.id)}
+  <canvas width={canvasResolution.x} height={canvasResolution.y} bind:this={canvas}/>
+  <!-- {#each grains as g (g.id)}
     <div
       class="grain"
       style:--x={g.x}
       style:--y={g.y}
       style:--color={g.color}
     />
-  {/each}
+  {/each} -->
 </section>
 
 <style>
@@ -259,5 +298,11 @@
     place-content: center;
     text-align: center;
     align-items: center;
+  }
+  canvas {
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    position: absolute;
   }
 </style>
