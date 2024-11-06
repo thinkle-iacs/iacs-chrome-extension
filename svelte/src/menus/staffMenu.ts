@@ -7,7 +7,13 @@ export const menu = [
     title: "Teaching",
     items: [
       ASPEN,
-      GC,      
+      GC, 
+      {
+        title : 'Panorama',
+        icon : 'https://www.panoramaed.com/hubfs/logos/favicon.ico',
+        link: 'https://mystudents.panoramaed.com/home/sg/innovationcharterma',
+        detail: 'MTSS and Student Data'
+      },
       {
         title: "Portfolios",
         detail: "Student Digital Portfolios in Google Drive",
