@@ -11,7 +11,7 @@ export const menu = [
       {
         title : 'Panorama',
         icon : 'https://www.panoramaed.com/hubfs/logos/favicon.ico',
-        link: 'https://mystudents.panoramaed.com/home/sg/innovationcharterma',
+        link: 'https://mystudents.panoramaed.com/',
         detail: 'MTSS and Student Data'
       },
       {
