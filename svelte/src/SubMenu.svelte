@@ -68,7 +68,10 @@
           {/each}
         </div>
       {/if}
-    {/if}
+      {:else}    
+        <!-- Inexplicably fix folding for Athletics menu with 
+         an empty block -->    
+      {/if}
     </nav>
   {/if}
 
