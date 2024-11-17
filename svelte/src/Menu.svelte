@@ -131,7 +131,7 @@
 
   onMount(() => {
     //cachedMenuGetter.update();
-    if (mode !== " Staff") cachedIacsMenu.update();
+    if (mode !== "Staff") cachedIacsMenu.update();
   });
 </script>
 
