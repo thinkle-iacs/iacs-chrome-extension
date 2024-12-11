@@ -25,6 +25,11 @@ export const menu = [
         school: "HS",
         link: "https://docs.google.com/spreadsheets/d/14DnCFpaOSrULEHEIZQpwlkIc1KipZAn73owybMHoLZE/edit#gid=1301432640",
       },      
+      {
+        title : 'HS Teacher Detentions',
+        link: 'https://docs.google.com/spreadsheets/d/1qLBtRQpOr88ZAs-SPZ5jr-z041AewQ48tgnDQeOk9T4/edit?gid=1154834993#gid=1154834993',
+        school : 'HS'
+      }
     ]},
   {
     title : 'WIN/Advisory',
@@ -83,6 +88,11 @@ export const menu = [
             blackIcon: true,
             link: "https://docs.google.com/forms/d/e/1FAIpQLSeP4d1PEy7Ja4T1cuke0zReP3A4A9vIGHy_gYUkcTc_RYkQfw/viewform",
             icon: "./icons/hammer.png",
+          },
+          {
+            title : 'Hall Pass Violation Form',
+            link: 'https://docs.google.com/forms/d/e/1FAIpQLSc99BN_olPWybkPcWSfx84OiiDV5Umh9T_NyK8EDp9uigBzPw/viewform',
+            school: 'HS'
           },
         {
           title: "Counseling Check-In Form",
