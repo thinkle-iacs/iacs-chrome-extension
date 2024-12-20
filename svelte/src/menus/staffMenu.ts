@@ -159,39 +159,34 @@ export const menu = [
         },
         SCOIR
       ],
-    },
-  {
-    title: "", // column,
-    items: [
-      {
-        title: "HR",
-        items: [
-          {
-            title: "ADP",
-            link: "https://workforcenow.adp.com/",
-            blackIcon: true,
-            detail: "Time Off and Paycheck Info",
-            icon: "./icons/adp.png",
-          },
-          {
-            title: "Employee Navigator",
-            link: "https://fredcchurch.employeenavigator.com/",
-            detail: "Benefits",
-          },
-          {
-            link: "https://www.ezschoolapps.com/",
-            title: "EZ Substitute",
-            detail:
-              'More info <a href="https://sites.google.com/innovationcharter.org/teacher-tech/staff-absences-ez-substitute-management">here</a>',
-          },
-          {
-            link: "https://drive.google.com/file/d/15YW0SKdI3gNOCNOPu4GpGZrKOzRsSssv/view?usp=sharing",
-            title: "IACS Employee Handbook",
-          },          
-        ],
-      },      
-    ],
-  },  
+    },  
+    {
+      title: "HR",
+      items: [
+        {
+          title: "ADP",
+          link: "https://workforcenow.adp.com/",
+          blackIcon: true,
+          detail: "Time Off and Paycheck Info",
+          icon: "./icons/adp.png",
+        },
+        {
+          title: "Employee Navigator",
+          link: "https://fredcchurch.employeenavigator.com/",
+          detail: "Benefits",
+        },
+        {
+          link: "https://www.ezschoolapps.com/",
+          title: "EZ Substitute",
+          detail:
+            'More info <a href="https://sites.google.com/innovationcharter.org/teacher-tech/staff-absences-ez-substitute-management">here</a>',
+        },
+        {
+          link: "https://drive.google.com/file/d/15YW0SKdI3gNOCNOPu4GpGZrKOzRsSssv/view?usp=sharing",
+          title: "IACS Employee Handbook",
+        },          
+      ],
+    },          
     {
       title: "Announcements",
       items: [

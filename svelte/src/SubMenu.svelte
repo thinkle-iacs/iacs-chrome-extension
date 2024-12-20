@@ -18,8 +18,7 @@
 </script>
 
 
-  {#if !$school || $school == "All" || !menuitem.school || menuitem.school == $school}
-  <nav>
+
     {#if menuitem.link && !menuitem.items}
       <MenuItem mi={menuitem} />
     {:else if menuitem.title}
@@ -49,9 +48,10 @@
               <li
                 class="sub"
                 class:headless={!menuitem.title && n == 0}
-                
+                in:receive={{key:mi.id}}
+                out:send={{key:mi.id}}
               >
-                <svelte:self menuitem={mi} />
+                <nav><svelte:self menuitem={mi} /></nav>
               </li>
             {:else}
               <li>
@@ -75,8 +75,7 @@
         <!-- Inexplicably fix folding for Athletics menu with 
          an empty block -->    
       {/if}
-    </nav>
-  {/if}
+ 
 
 
 <style>

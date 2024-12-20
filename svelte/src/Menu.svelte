@@ -283,9 +283,9 @@ onMount(() => {
 </script>
 
 <div class="float-wrap">
-  <nav>
+  <nav class="nav-grid">
     {#each $displayMenuItems as menuitem (menuitem.id)}     
-      <SubMenu {menuitem} />      
+      <nav animate:flip={{duration:400, delay:200}} in:receive={{key:menuitem.id}} out:send={{key:menuitem.id}}><SubMenu {menuitem} /></nav>
     {/each}
     <!-- {#if $menuItems.length % 2}
       <div class="filler">&nbsp;</div>
@@ -306,6 +306,7 @@ onMount(() => {
 </div>
 
 <style>
+ 
   .float-wrap {
     position: relative;
   }
@@ -317,7 +318,7 @@ onMount(() => {
     flex-direction: row;
     gap: var(--pad);
   }
-  nav {
+  nav.nav-grid {
     position: relative;
     margin-right: 2em;
     display: grid;
@@ -352,5 +353,13 @@ onMount(() => {
   }
   button:hover {
     border: 1px solid var(--black, "black");
+  }
+
+  nav  nav {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: start;
+    align-items: start;
   }
 </style>
