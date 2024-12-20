@@ -1,7 +1,10 @@
 <script lang="ts">
+	import { flip } from 'svelte/animate';
   import { fly } from "svelte/transition";
   import MenuItem from "./MenuItem.svelte";
   import { collapsedMenus, hiddenMenuItems, school, SchoolType } from "./prefs";
+  import { send, receive } from "./menuCrossfade";
+  
 
   type Menuitem = {
     link?: string;
@@ -40,22 +43,22 @@
     {/if}
     {#if menuitem.items && !$collapsedMenus[menuitem.title]}
       <ul>
-        {#each menuitem.items as mi, n}
-          {#if !$hiddenMenuItems[mi.title] && (!mi.school || !$school || $school == "All" || mi.school == $school)}
+        {#each menuitem.items as mi, n (mi.id)}                      
+          {#if !$hiddenMenuItems[mi.title]}
             {#if mi.items}
               <li
                 class="sub"
                 class:headless={!menuitem.title && n == 0}
-                transition:fly={{ y: -200 }}
+                
               >
                 <svelte:self menuitem={mi} />
               </li>
             {:else}
-              <li transition:fly={{ y: -200 }}>
+              <li>
                 <MenuItem {mi} />
               </li>
             {/if}
-          {/if}
+          {/if}          
         {/each}
       </ul>
       <!-- Hidden items -->

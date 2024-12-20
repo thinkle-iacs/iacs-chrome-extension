@@ -1,6 +1,7 @@
 <script lang="ts">
   export let mode: "Staff" | "HS" | "MS" | "Family";
   import type { Menuitem } from "./types";
+  import {flip} from "svelte/animate";
   import { derived, writable } from "svelte/store";
   import SubMenu from "./SubMenu.svelte";
   import { CachedDataStore } from "./util/dataFetcher";
@@ -8,10 +9,11 @@
   import UpdateButton from "./util/UpdateButton.svelte";
   import { onMount } from "svelte";
   import { defaultMenuItems } from "./menuItems";
-  import { collapsedMenus, showPrefs } from "./prefs";
+  import { collapsedMenus, showPrefs, school } from "./prefs";
   import { GASURL } from "./shimURL";
   import { customMenuStore } from "./CustomMenus/customMenu";
   import CustomMenuEditor from "./CustomMenus/CustomMenuEditor.svelte";
+  import { send, receive } from "./menuCrossfade";
 
   /* let cachedMenuGetter = new CachedDataStore({
     url: `${GASURL}&menu=true`,
@@ -105,6 +107,22 @@
 
   let iacsMenuItems: Writable<Menuitem[]> =
     mode == "Staff" ? writable([]) : cachedIacsMenu.store;
+
+  function assignIds(menus: Menuitem[], parentId = ""): Menuitem[] {
+      return menus.map((menu, index) => {
+        const id = parentId ? `${parentId}-${index}` : `${index}`; // Unique hierarchical ID
+        const newMenu = { ...menu, id }; // Assign the ID
+
+        // Recursively assign IDs to sub-menu items
+        if (menu.items && menu.items.length > 0) {
+          newMenu.items = assignIds(menu.items, id);
+        }
+
+        return newMenu;
+      });
+  }
+
+
   let menuItems: Readable<Menuitem[]> = derived(
     [
       //cachedMenuGetter.store,
@@ -112,9 +130,10 @@
       iacsMenuItems,
       customMenuStore,
     ],
-    ([$a, $b, $c]) => [...$a, ...$b, ...$c]
+    ([$a, $b, $c]) => assignIds([...$a, ...$b, ...$c])
   );
   $: console.log("Wow, menuitems are:", $menuItems);
+  $: console.log('Display items are ', $displayMenuItems);
 
   const crawlForAutoCollapsingMenus = (menuItem: Menuitem) => {
     if (menuItem.items) {
@@ -129,7 +148,135 @@
 
   $: $menuItems.map(crawlForAutoCollapsingMenus);
 
-  onMount(() => {
+/**
+ * Derived store to reorganize and filter menu items.
+ */
+ const displayMenuItemsOG = derived(
+  [menuItems, collapsedMenus, school],
+  ([$menuItems, $collapsedMenus, $school]) => {
+    const reorganizedMenus = [];
+    let priorMenuToCollapse = null;
+    let extraId = 0;
+
+    for (const menu of $menuItems) {
+      // Filter menus based on school
+      if ($school && $school !== "All" && menu.school && menu.school !== $school) {
+        continue;
+      }
+      let thisMenu = {...menu};
+      if (priorMenuToCollapse) {
+        if (thisMenu.title) {
+          // If we were a named column...
+          thisMenu = {
+            title: '',
+            items: [priorMenuToCollapse,thisMenu],
+            id: `extra-${extraId++}`,
+          };
+          extraId++;
+        } else {
+          // if we were already a column...
+          thisMenu.items = [priorMenuToCollapse, ...thisMenu.items]; // add prior menu to top...          
+        }
+        priorMenuToCollapse = null;
+      }
+
+      const isCollapsed = $collapsedMenus[menu.title]; // also if we are a title-less column organizer, check if *all* our children are collapsed
+      
+
+      if (isCollapsed) {
+        // set priorMenuToCollapse to US
+        priorMenuToCollapse = thisMenu;        
+      } else {
+        reorganizedMenus.push(thisMenu);
+      }
+    }
+    if (priorMenuToCollapse) {
+      // if we still have one, just add it to our list...
+      reorganizedMenus.push(priorMenuToCollapse);
+    }
+        
+   
+    return reorganizedMenus;
+  }
+);
+
+const displayMenuItems = derived(
+  [menuItems, collapsedMenus, school],
+  ([$menuItems, $collapsedMenus, $school]) => {
+    const reorganizedMenus = [];
+    const collapsedMenusContainer = {
+      title: 'Hidden',
+      items: [],
+      id: 'collapsed-container', // Ensure a stable ID for this container
+    };
+
+    // Helper function for recursive filtering
+    function filterBySchool(menu, school) {
+      // Skip menus that don't match the school
+      if (school && school !== "All" && menu.school && menu.school !== school) {
+        return null;
+      }
+
+      // If the menu has nested items, recursively filter them
+      if (menu.items && menu.items.length > 0) {
+        const filteredItems = menu.items
+          .map((item) => filterBySchool(item, school))
+          .filter((item) => item !== null); // Remove null entries
+
+        // If all sub-items are removed, also remove this menu
+        if (filteredItems.length === 0) {
+          return null;
+        }
+
+        return { ...menu, items: filteredItems };
+      }
+
+      // Otherwise, return the menu as is
+      return { ...menu };
+    }
+
+    // Helper function to determine if a menu is entirely collapsed
+    function isMenuCollapsed(menu) {
+      // Check if this menu is explicitly collapsed
+      const isDirectlyCollapsed = $collapsedMenus[menu.title];
+
+      // If the menu is a column organizer (no title), check if all children are collapsed
+      if (!menu.title && menu.items && menu.items.length > 0) {
+        return menu.items.every((child) => isMenuCollapsed(child));
+      }
+
+      // Return direct collapse state for regular menus
+      return isDirectlyCollapsed;
+    }
+
+    // Filter the top-level menus
+    const filteredMenus = $menuItems
+      .map((menu) => filterBySchool(menu, $school))
+      .filter((menu) => menu !== null); // Remove null entries
+
+    for (const menu of filteredMenus) {
+      const isCollapsed = isMenuCollapsed(menu);
+
+      if (isCollapsed) {
+        // Add to collapsed menus container
+        collapsedMenusContainer.items.push({ ...menu });
+      } else {
+        // Push non-collapsed menu into reorganizedMenus
+        reorganizedMenus.push({ ...menu });
+      }
+    }
+
+    // Add the collapsed menus container if it has items
+    if (collapsedMenusContainer.items.length > 0) {
+      reorganizedMenus.push(collapsedMenusContainer);
+    }
+
+    return reorganizedMenus;
+  }
+);
+  
+
+onMount(() => {
     //cachedMenuGetter.update();
     if (mode !== "Staff") cachedIacsMenu.update();
   });
@@ -137,8 +284,8 @@
 
 <div class="float-wrap">
   <nav>
-    {#each $menuItems as menuitem}
-      <SubMenu {menuitem} />
+    {#each $displayMenuItems as menuitem (menuitem.id)}     
+      <SubMenu {menuitem} />      
     {/each}
     <!-- {#if $menuItems.length % 2}
       <div class="filler">&nbsp;</div>
