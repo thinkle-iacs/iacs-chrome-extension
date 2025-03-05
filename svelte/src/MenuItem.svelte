@@ -201,7 +201,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: start;
-    gap: 2px;
+    gap: 8px;
     padding: var(--pad);
     transition: background-color 350ms;
   }
