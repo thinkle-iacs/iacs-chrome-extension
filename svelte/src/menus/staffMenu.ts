@@ -164,6 +164,14 @@ export const menu = [
       title: "HR",
       items: [
         {
+          title: 'PayCom',
+          link: 'https://www.paycomonline.net/v4/ee/web.php/app/login',
+          icon: 'https://www.paycomonline.net/favicon.ico',
+          //detail: 'Time Off and Paycheck Info (new in 2025)',
+          detail : 'Open Enrollment',
+          blackIcon : false,
+      },
+        {
           title: "ADP",
           link: "https://workforcenow.adp.com/",
           blackIcon: true,
