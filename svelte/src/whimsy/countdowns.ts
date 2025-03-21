@@ -80,6 +80,11 @@ export let countdownData: (RepeatCountdown | CountdownData)[] = [
     target: "2025-05-23T14:45:00",
     name: "Memorial Day Weekend",
   },
+  {
+    countdownStart: "2024-08-27T08:05:00",
+    target: "2025-05-23T14:45:00", 
+    name : 'Last Day for Seniors!',
+  },
   // Repeating counters...
   {
     name: "The Weekend",
