@@ -168,16 +168,16 @@ export const menu = [
           link: 'https://www.paycomonline.net/v4/ee/web.php/app/login',
           icon: 'https://www.paycomonline.net/favicon.ico',
           //detail: 'Time Off and Paycheck Info (new in 2025)',
-          detail : 'Open Enrollment',
+          detail : 'Open Enrollment, Time Off & Paycheck Info',
           blackIcon : false,
       },
-        {
+        /* {
           title: "ADP",
           link: "https://workforcenow.adp.com/",
           blackIcon: true,
           detail: "Time Off and Paycheck Info",
           icon: "./icons/adp.png",
-        },
+        }, */
         {
           title: "Employee Navigator",
           link: "https://fredcchurch.employeenavigator.com/",
