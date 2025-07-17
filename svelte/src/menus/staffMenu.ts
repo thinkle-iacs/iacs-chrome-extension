@@ -129,7 +129,7 @@ export const menu = [
           {
           title : 'Schedule a Library Visit',
           detail : 'Use this calendar to schedule a class library visit',
-          link : 'https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0VBVUnW9qSeonzAzktEzQ4Vy9vJ6hciTEAcItgYcJAxeu4MPjZyG2RaBhE6rG2ZeBkowfcIDCt?gv=true'
+          link : 'https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2Ee1vc8x2yC-2ptQJ5v2bXi6QFdvaoN39RQ8AHRZ3-JXcDCS8GeqdWyurAwAq7sAtzUPr1_-mM',
         }, 
           {
             title: "Computer Inventory",
