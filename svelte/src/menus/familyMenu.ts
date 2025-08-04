@@ -33,10 +33,10 @@ export const familyMenu: Menuitem[] = [
       LIBRARY,
       INNOVATOR,
       {
-        title : "Health Office",
-        link : "https://www.innovationcharter.org/health-office/",
-        detail : "Information, forms & documents from the health office"
-      }
+        title: "Health Office",
+        link: "https://www.innovationcharter.org/health-office/",
+        detail: "Information, forms & documents from the health office",
+      },
     ],
   },
   {
@@ -63,6 +63,12 @@ export const familyMenu: Menuitem[] = [
     title: "Logistics",
     items: [
       {
+        title: "Emergency Medical Forms",
+        link: "https://drive.google.com/drive/folders/0B-fhMzqaF6yweWNhSGYwTVBiaWc?resourcekey=0-fRTg8W-qfSA4QzsfKOQlXw",
+        detail: "Enrollment forms for the current school year.",
+        icon: "./icons/emergency-med-form.png",
+      },
+      {
         title: "Transportation",
         link: "https://www.innovationcharter.org/transportation/",
         icon: "./icons/bus.png",
@@ -76,6 +82,7 @@ export const familyMenu: Menuitem[] = [
       PARKING_FORM,
       WORK_PERMIT,
       COMM_SERV,
+
       {
         title: "Forms",
         icon: "./icons/forms.png",
