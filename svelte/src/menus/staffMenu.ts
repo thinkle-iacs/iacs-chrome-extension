@@ -53,7 +53,7 @@ export const menu = [
       {
         title: "7/8 Advisory Calendar",
         school: "MS",        
-        link: 'https://docs.google.com/spreadsheets/d/1py0K2nYK1Ea9ER_gVWV6Tcf38eNqxl66oQ8B-FGYMTM/edit?gid=0#gid=0',
+        link: 'https://docs.google.com/document/d/1reyB6WIH_wAw9iARf6qMls2aoDPRLQYuiVH8vEwC0jA/edit?tab=t.0'        
       },
     ],
   },
