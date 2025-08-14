@@ -207,7 +207,7 @@ export const BULLYING_PLAN = {
 export const CLEVER = {
   title : 'Clever Portal',
   link : 'https://clever.com/in/innovation-academy-charter-school-2f6799e/',
-  icon : 'https://clever.com/favicon.ico',
+  icon : 'https://www.clever.com/wp-content/uploads/2023/06/cropped-Favicon-512px-32x32.png',
   detail : 'Single sign-on for Renaissance (Star Testing)',
 }
 
