@@ -25,9 +25,9 @@
   console.log("dayOfMonth", dayOfMonth, "month", month);
 </script>
 
-<!-- {#if dayNum == 4}
+{#if dayNum == 4}
   <PurpleThursday />
-{/if} -->
+{/if}
 {#if month == 9 && dayOfMonth == 31}
   <HalloweenPlus />
 {/if}
