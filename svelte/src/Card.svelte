@@ -123,4 +123,15 @@
   .card {
     max-width: var(--max-card-width);
   }
+  .card :global(img) {
+    max-width: calc(100% - 2 * var(--pad));
+  }
+  .card :global(table) {
+    max-width: 100%;
+    overflow-x: auto;
+    display: block;
+  }
+  .card {
+    word-break: break-word;
+  }
 </style>
