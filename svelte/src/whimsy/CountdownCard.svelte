@@ -16,7 +16,7 @@
   import { counters } from "./countdowns";
   import UpdateButton from "../util/UpdateButton.svelte";
   import { now } from "../Schedule/now";
-  
+
   let activeCounters = [];
   let theCounter;
 
@@ -54,7 +54,7 @@
           <!-- <UpdateButton cds={countdownFetcher} /> -->
         {:else}
           <h2>
-            Countdown to {counters[0].name}
+            Countdown to {activeCounters[0].name}
           </h2>
         {/if}
         <button
