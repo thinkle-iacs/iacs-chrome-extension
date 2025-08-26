@@ -54,25 +54,28 @@
 
 <div class="countdown">
   <div class="icon">
-    {#key target}<Hourglass {percentage} /> {/key}
+    {#key target}<Hourglass {percentage} />
+    {/key}
   </div>
   <div class="words">
     {#if remaining > 0}
-      {#if daysLeft}
-        <span class="days">
-          <span class="digits-3">{daysLeft}</span>
-          <span class="unit">days</span>
-        </span>
-      {/if}
-      {#if hoursLeft}
-        <span class="hours"
-          ><span class="digits-2">{hoursLeft}</span>
-          <span class="unit">hours</span></span
+      <span class="time-string">
+        {#if daysLeft}
+          <span class="days">
+            <span class="digits-3">{daysLeft}</span>
+            <span class="unit">days</span>
+          </span>
+        {/if}
+        {#if hoursLeft}
+          <span class="hours"
+            ><span class="digits-2">{hoursLeft}</span>
+            <span class="unit">hours</span></span
+          >
+        {/if}
+        <span class="time digits-4"
+          >{zeroPad(minutesLeft)}:{zeroPad(secondsLeft)}</span
         >
-      {/if}
-      <span class="time digits-4"
-        >{zeroPad(minutesLeft)}:{zeroPad(secondsLeft)}</span
-      >
+      </span>
       <span class="until"
         >until <b class="target" on:dblclick={makeItNow}>{name}</b></span
       >
@@ -120,5 +123,8 @@
     width: 2.67em;
     display: inline-flex;
     justify-content: end;
+  }
+  .time-string {
+    white-space: nowrap;
   }
 </style>
