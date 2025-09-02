@@ -8,6 +8,13 @@
   import TooltipContainer from "./util/TooltipContainer.svelte";
   let showingMenu = false;
   let showInput = false;
+  let error = false;
+  let lastImage = "";
+  $: if (mi.icon !== lastImage) {
+    lastImage = mi.icon;
+    error = false;
+  }
+
   function showEditMenu(e) {
     e.preventDefault();
     showingMenu = true;
@@ -37,8 +44,13 @@
         on:click={() => ($hiddenMenuItems[mi.title] = false)}
       >
         <div class="icon-holder" class:black={mi.blackIcon}>
-          {#if mi.icon}
-            <img class="icon" src={mi.icon} alt={mi.title + " icon"} />
+          {#if mi.icon && !error}
+            <img
+              class="icon"
+              src={mi.icon}
+              alt={mi.title + " icon"}
+              on:error={() => (error = true)}
+            />
           {:else}
             {mi.title[0]}
           {/if}
@@ -53,8 +65,13 @@
   <div class="linkholder menuitem">
     <a href={mi.link}>
       <div class="icon-holder" class:black={mi.blackIcon}>
-        {#if mi.icon}
-          <img class="icon" src={mi.icon} alt={mi.title + " icon"} />
+        {#if mi.icon && !error}
+          <img
+            class="icon"
+            src={mi.icon}
+            alt={mi.title + " icon"}
+            on:error={() => (error = true)}
+          />
         {/if}
       </div>
       <div class="content">
@@ -180,8 +197,9 @@
     font-size: var(--normal);
   }
   .icon {
-    max-width: var(--icon-size, 32px);
-    max-height: var(--icon-size, 32px);
+    width: var(--icon-size, 32px);
+    height: var(--icon-size, 32px);
+    object-fit: contain;
   }
   .icon-holder {
     width: var(--icon-size);
