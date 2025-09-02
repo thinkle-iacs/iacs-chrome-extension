@@ -101,7 +101,17 @@ export const hsmenu = [
 export const msmenu = [
   {
     title: "Assignments",
-    items: [ASPEN, GC, AMPLIFY],
+    items: [
+      ASPEN,
+      GC,
+      AMPLIFY,
+      {
+        title: "Lexia",
+        detail: "Lexia Core 5 Reading Program",
+        link: "https://www.lexiacore5.com/register",
+        icon: "https://www.lexiacore5.com/icons/icon.svg",
+      },
+    ],
   },
   {
     title: "",
