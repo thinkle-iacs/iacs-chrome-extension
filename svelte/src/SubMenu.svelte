@@ -15,12 +15,13 @@
     school?: SchoolType;
   };
   export let menuitem: Menuitem;
+  export let mode: "Staff" | "HS" | "MS" | "Family" = "Staff";
 </script>
 
 
 
     {#if menuitem.link && !menuitem.items}
-      <MenuItem mi={menuitem} />
+      <MenuItem mi={menuitem} {mode} />
     {:else if menuitem.title}
       <h2
         on:click={() => {
@@ -51,11 +52,11 @@
                 in:receive={{key:mi.id}}
                 out:send={{key:mi.id}}
               >
-                <nav><svelte:self menuitem={mi} /></nav>
+                <nav><svelte:self menuitem={mi} {mode} /></nav>
               </li>
             {:else}
               <li>
-                <MenuItem {mi} />
+                <MenuItem mi={mi} {mode} />
               </li>
             {/if}
           {/if}          

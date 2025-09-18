@@ -184,7 +184,7 @@
         in:receive={{ key: menuitem.id }}
         out:send={{ key: menuitem.id }}
       >
-        <SubMenu {menuitem} />
+        <SubMenu {menuitem} {mode} />
       </nav>
     {/each}
     <!-- {#if $menuItems.length % 2}
