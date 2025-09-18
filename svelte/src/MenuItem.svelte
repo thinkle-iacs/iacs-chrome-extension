@@ -1,8 +1,10 @@
 <script lang="ts">
   import { hiddenMenuItems, school } from "./prefs";
+  import { showSettingsToast } from "./toastStore";
   import type { Menuitem } from "./types";
   export let mi: Menuitem;
   export let editable = true;
+  export let mode: "Staff" | "HS" | "MS" | "Family" = "Staff";
   import MenuItemInput from "./CustomMenus/MenuItemInput.svelte";
   import { customManager } from "./CustomMenus/customMenu";
   import TooltipContainer from "./util/TooltipContainer.svelte";
@@ -32,6 +34,13 @@
   }
   function moveDown(e) {
     e.preventDefault();
+  }
+
+  function hideItem() {
+    $hiddenMenuItems[mi.title] = true;
+    showingMenu = false;
+    // Show toast notification to guide user to settings
+    showSettingsToast();
   }
 </script>
 
@@ -83,7 +92,7 @@
         {/if}
       </div>
     </a>
-    {#if editable}
+    {#if editable && mode !== "Family"}
       <button on:click={showEditMenu} class="editbutton">⋮</button>
     {/if}
     {#if showingMenu}
@@ -113,9 +122,9 @@
           <button on:click={moveDown}>Move Down</button> -->
           {/if}
         {/if}
-        <button on:click={() => ($hiddenMenuItems[mi.title] = true)}>
-          Hide
-        </button>
+        {#if mode !== "Family"}
+          <button on:click={hideItem}> Hide </button>
+        {/if}
       </div>
     {/if}
   </div>

@@ -18,11 +18,13 @@
   import ScheduleCard from "./Schedule/ScheduleCard.svelte";
   import CardContainer from "./CardContainer.svelte";
   import { school, prefsSet, showPrefs, whimsy } from "./prefs";
+  import { toastMessage, showToast, highlightSettings } from "./toastStore";
   import CloseButton from "./CloseButton.svelte";
   import StudentGame from "./StudentGame/StudentGame.svelte";
   import DayOfWeekWhimsy from "./whimsy/DayOfWeekWhimsy.svelte";
   import HalloweenPlus from "./whimsy/HalloweenPlus.svelte";
   import HawkCard from "./Hawk/HawkCard.svelte";
+  import Toast from "./Toast.svelte";
 
   let tips = tipDataStore.store;
   let dayNum = new Date().getDate();
@@ -97,7 +99,7 @@
       <PrefCard {mode} />
     {/if}
     <RemoteCards />
-    <HawkCard/>
+    <HawkCard />
     {#if $tips.length && mode !== "Family"}
       {#key tipIndex}
         <TipCard
@@ -129,6 +131,13 @@
   <div class="hidden">
     We are in {mode} mode :-)
   </div>
+
+  <!-- Toast notification -->
+  <Toast
+    message={$toastMessage}
+    bind:visible={$showToast}
+    highlightSettings={$highlightSettings}
+  />
 </main>
 
 <style>
