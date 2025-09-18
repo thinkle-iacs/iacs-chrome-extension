@@ -1,10 +1,9 @@
 <script lang="ts">
-	import { flip } from 'svelte/animate';
+  import { flip } from "svelte/animate";
   import { fly } from "svelte/transition";
   import MenuItem from "./MenuItem.svelte";
   import { collapsedMenus, hiddenMenuItems, school, SchoolType } from "./prefs";
   import { send, receive } from "./menuCrossfade";
-  
 
   type Menuitem = {
     link?: string;
@@ -18,66 +17,62 @@
   export let mode: "Staff" | "HS" | "MS" | "Family" = "Staff";
 </script>
 
-
-
-    {#if menuitem.link && !menuitem.items}
-      <MenuItem mi={menuitem} {mode} />
-    {:else if menuitem.title}
-      <h2
-        on:click={() => {
-          $collapsedMenus[menuitem.title] = !$collapsedMenus[menuitem.title];
-        }}
-      >
-        {#if menuitem.items}
-          <button
-            class="collapse"
-            class:collapsed={$collapsedMenus[menuitem.title]}
-            aria-label="Collapse"
-          ></button>
-        {/if}
-        {menuitem.title}
-        {#if menuitem.link}
-          <a href={menuitem.link} on:click|stopPropagation>↗</a>
-        {/if}
-      </h2>
+{#if menuitem.link && !menuitem.items}
+  <MenuItem mi={menuitem} {mode} />
+{:else if menuitem.title}
+  <h2
+    on:click={() => {
+      $collapsedMenus[menuitem.title] = !$collapsedMenus[menuitem.title];
+    }}
+  >
+    {#if menuitem.items}
+      <button
+        class="collapse"
+        class:collapsed={$collapsedMenus[menuitem.title]}
+        aria-label="Collapse"
+      ></button>
     {/if}
-    {#if menuitem.items && !$collapsedMenus[menuitem.title]}
-      <ul>
-        {#each menuitem.items as mi, n (mi.id)}                      
-          {#if !$hiddenMenuItems[mi.title]}
-            {#if mi.items}
-              <li
-                class="sub"
-                class:headless={!menuitem.title && n == 0}
-                in:receive={{key:mi.id}}
-                out:send={{key:mi.id}}
-              >
-                <nav><svelte:self menuitem={mi} {mode} /></nav>
-              </li>
-            {:else}
-              <li>
-                <MenuItem mi={mi} {mode} />
-              </li>
-            {/if}
-          {/if}          
-        {/each}
-      </ul>
-      <!-- Hidden items -->
-      {#if menuitem.items.find((i) => $hiddenMenuItems[i.title])}
-        <div class="hidden-container">
-          {#each menuitem.items as mi}
-            {#if $hiddenMenuItems[mi.title]}
-              <MenuItem {mi} />
-            {/if}
-          {/each}
-        </div>
+    {menuitem.title}
+    {#if menuitem.link}
+      <a href={menuitem.link} on:click|stopPropagation>↗</a>
+    {/if}
+  </h2>
+{/if}
+{#if menuitem.items && !$collapsedMenus[menuitem.title]}
+  <ul>
+    {#each menuitem.items as mi, n (mi.id)}
+      {#if !$hiddenMenuItems[mi.title]}
+        {#if mi.items}
+          <li
+            class="sub"
+            class:headless={!menuitem.title && n == 0}
+            in:receive={{ key: mi.id }}
+            out:send={{ key: mi.id }}
+          >
+            <nav><svelte:self menuitem={mi} {mode} /></nav>
+          </li>
+        {:else}
+          <li>
+            <MenuItem {mi} {mode} />
+          </li>
+        {/if}
       {/if}
-      {:else}    
-        <!-- Inexplicably fix folding for Athletics menu with 
-         an empty block -->    
-      {/if}
- 
-
+    {/each}
+  </ul>
+  <!-- Hidden items -->
+  {#if menuitem.items.find((i) => $hiddenMenuItems[i.title])}
+    <div class="hidden-container">
+      {#each menuitem.items as mi}
+        {#if $hiddenMenuItems[mi.title]}
+          <MenuItem {mi} />
+        {/if}
+      {/each}
+    </div>
+  {/if}
+{:else}
+  <!-- Inexplicably fix folding for Athletics menu with 
+         an empty block -->
+{/if}
 
 <style>
   h2 {
