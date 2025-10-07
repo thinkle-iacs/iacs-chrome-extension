@@ -114,6 +114,8 @@
   .grid {
     display: grid;
     grid-template-columns: auto auto;
+    background-color: var(--white);
+    padding: var(--pad);
   }
   .span-2 {
     grid-column-start: 1;

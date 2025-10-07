@@ -10,6 +10,7 @@ export type Menuitem = {
   school?: SchoolType;
   editable?: boolean;
   collapse?: boolean;
+  id?: string;
 };
 
 export type Card = {
