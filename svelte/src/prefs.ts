@@ -47,6 +47,7 @@ export let hiddenCards : Writable<object> = createLocalStorageStore('hidden',{})
 export let customSchedule : Writable<{}> = createLocalStorageStore('customSchedule',{});
 
 export let showPrefs : Writable<boolean> = writable(false);
+export const videoPlayerToastClicked : Writable<number> = createLocalStorageStore('video-player-toast-clicked', 0);
 
 export function getCustomBlockName (sched : string, block : ScheduleBlock) {
   let custom = get(customSchedule);
