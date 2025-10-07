@@ -2,7 +2,7 @@ import type { Menuitem } from "../types";
 
 export const AMPLIFY = {
   title: "Amplify",
-  link: "https://my.amplify.com",
+  link: "https://learning.amplify.com/home/student/",
   detail: "Science (MS)",
   icon: "https://my.amplify.com/favicon.ico",
 };

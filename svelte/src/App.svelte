@@ -1,4 +1,6 @@
 <script lang="ts">
+  import Innovator from "./whimsy/Innovator.svelte";
+
   import CountdownCard from "./whimsy/CountdownCard.svelte";
 
   import TipBuilder from "./TipBuilder.svelte";
@@ -91,6 +93,9 @@
   {/if}
 
   <CardContainer>
+    {#if mode == "HS" || mode == "Staff"}
+      <Innovator></Innovator>
+    {/if}
     {#if $whimsy && mode !== "Family"}
       <DayOfWeekWhimsy />
     {/if}
