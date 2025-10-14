@@ -178,11 +178,11 @@ export const menu = [
           detail: "Time Off and Paycheck Info",
           icon: "./icons/adp.png",
         }, */
-        {
+        /* {
           title: "Employee Navigator",
           link: "https://fredcchurch.employeenavigator.com/",
           detail: "Benefits",
-        },
+        }, */
         {
           link: "https://www.ezschoolapps.com/",
           title: "EZ Substitute",
