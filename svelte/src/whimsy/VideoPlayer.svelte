@@ -52,10 +52,10 @@
       </div>
     {/each}
   </div>
-  <div slot="footer">
+  <div slot="footer" class="tab-bar">
     {#if videoLinks.length > 1}
       <!-- Tabbed interface for changing the active video -->
-      <div class="tab-bar">
+      <div class="button-group">
         {#each videoLinks as { title, tabtitle }, j}
           <button
             class="tab"
@@ -73,6 +73,7 @@
         {/each}
       </div>
     {/if}
+    <slot name="footer-extra"></slot>
   </div>
 </Card>
 
@@ -88,10 +89,19 @@
   }
   .tab-bar {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     gap: 0.5rem;
     margin-top: 0.5rem;
     width: 100%;
+    align-items: center;
+    flex-grow: 1;
+  }
+  .button-group {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: start;
+    align-items: center;
   }
   .tab {
     display: flex;

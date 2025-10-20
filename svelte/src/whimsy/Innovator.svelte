@@ -33,7 +33,11 @@
         tabtitle: "YouTube",
       },
     ]}
-  />
+  >
+    <a slot="footer-extra" href="https://theinnovator.org">
+      See more at theinnovator.org
+    </a>
+  </VideoPlayer>
 {/if}
 
 <style>
