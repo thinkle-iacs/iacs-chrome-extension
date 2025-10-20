@@ -190,7 +190,7 @@ export const menu = [
             'More info <a href="https://sites.google.com/innovationcharter.org/teacher-tech/staff-absences-ez-substitute-management">here</a>',
         },
         {
-          link: "https://docs.google.com/document/d/16Ot670CdokUNUto9WmIor-zKqH0zFbiH1aATHxR-7iY/edit?usp=sharing",
+          link: "https://docs.google.com/document/d/1aalXni6KBd0ZRetBc_-2YQrSuDDKrnL4YQElecUGKSc/",
           title: "IACS Employee Handbook",
         },          
       ],
