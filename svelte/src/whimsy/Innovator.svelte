@@ -23,13 +23,13 @@
       {
         url: "https://drive.google.com/file/d/1hfkpi9fTaXuvqUD6uNkpBOYySJKz_Nof/view?usp=sharing",
         type: "google-drive",
-        title: "Innovator First Video Edition",
+        title: "Innovator Second Video Edition: Highlighting Student Art",
         tabtitle: "Drive",
       },
       {
         url: "https://youtu.be/0iE5uY-WdmU",
         type: "youtube",
-        title: "Innovator First Video Edition",
+        title: "Innovator Second Video Edition: Highlighting Student Art",
         tabtitle: "YouTube",
       },
     ]}
