@@ -11,6 +11,7 @@ import {
   GC,
   GOOGLE_APPS,
   HS_ANNOUNCEMENTS,
+  HS_EXTRA_HELP,
   HS_HANDBOOK,
   LINKS,
   MS_ANNOUNCEMENTS,
@@ -71,7 +72,7 @@ export const hsmenu = [
     items: [
       {
         title: "Resources",
-        items: [HS_ANNOUNCEMENTS, HS_HANDBOOK, BULLYING_PLAN],
+        items: [HS_ANNOUNCEMENTS, HS_EXTRA_HELP, HS_HANDBOOK, BULLYING_PLAN],
       },
       {
         title: "Forms",

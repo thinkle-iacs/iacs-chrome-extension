@@ -1,13 +1,19 @@
 import type { Menuitem } from "../types";
 
-export const AMPLIFY = {
+export const HS_EXTRA_HELP : Menuitem = {
+  link: 'https://docs.google.com/spreadsheets/d/1J7EsmdzPMPgchXrGjmwoDW8Pmy0t2Gtd5dH3G4JKLHk/edit?gid=0#gid=0',
+  title: 'Extra Help',
+  detail: 'HS Extra Help Schedule',
+}
+
+export const AMPLIFY : Menuitem = {
   title: "Amplify",
   link: "https://learning.amplify.com/home/student/",
   detail: "Science (MS)",
   icon: "https://my.amplify.com/favicon.ico",
 };
 
-export const IXL = {
+export const IXL : Menuitem = {
   title: "IXL",
   link: "https://www.ixl.com/signin/innovationacs",
   detail: "Math and ELA practice (MS)",

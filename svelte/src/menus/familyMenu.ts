@@ -2,6 +2,7 @@ import type { Menuitem } from "../types";
 import {
   ASPEN,
   COMM_SERV,
+  HS_EXTRA_HELP,
   HS_HANDBOOK,
   INNOVATOR,
   LIBRARY,
@@ -115,6 +116,7 @@ export const familyMenu: Menuitem[] = [
         title: "Course Syllabi (HS)",
         link: "https://drive.google.com/drive/folders/1EiO_lQ-3cSRwd81-MEKAm15qs1vD7NeQ?usp=sharing",
       },
+      HS_EXTRA_HELP,
       HS_HANDBOOK,
       {
         title: "College Counseling",
@@ -128,6 +130,7 @@ export const familyMenu: Menuitem[] = [
         title: "Morning Announcements for Students",
         link: "https://docs.google.com/presentation/d/1x-mqD_2JWQJQyo00htRrQIDKbsNAxmn8EzV-dGGAUm0/edit?usp=sharing",
       },
+
       {
         title: "High School Page",
         link: "https://www.innovationcharter.org/high-school/",
