@@ -103,8 +103,8 @@ export let countdownData: (RepeatCountdown | CountdownData)[] = [
     countdownStart: "2025-09-02T08:05:00",
   },
   {
-    name: "Veterans Day Weekend",
-    target: "2025-11-07T14:45:00", // Friday before Veterans Day
+    name: "Veterans Day",
+    target: "2025-11-11T00:00:00",
     countdownStart: "2025-10-28T08:05:00",
   },
   {
