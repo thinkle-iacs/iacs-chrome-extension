@@ -2,7 +2,7 @@
   import VideoPlayer from "../whimsy/VideoPlayer.svelte";
   import VideoPlayerToast from "./VideoPlayerToast.svelte";
   import { school, whimsy, videoPlayerToastClicked } from "../prefs";
-  let edition = 2;
+  let edition = 3;
 </script>
 
 {#if $school === "HS" || $school === "All"}
@@ -21,15 +21,16 @@
     id={`innovator-${edition}`}
     videoLinks={[
       {
-        url: "https://drive.google.com/file/d/1hfkpi9fTaXuvqUD6uNkpBOYySJKz_Nof/view?usp=sharing",
+        //url: "https://drive.google.com/file/d/1hfkpi9fTaXuvqUD6uNkpBOYySJKz_Nof/view?usp=sharing",
+        url: "https://drive.google.com/file/d/1FN18cyyGEbl9DqEWCBx4HK7nmrod2vwV/view?usp=drive_link",
         type: "google-drive",
-        title: "Innovator Second Video Edition: Highlighting Student Art",
+        title: "Innovator Third Video Edition: A Harvest of Memories",
         tabtitle: "Drive",
       },
       {
-        url: "https://youtu.be/0iE5uY-WdmU",
+        url: "https://www.youtube.com/watch?v=xG5rpfxizKY",
         type: "youtube",
-        title: "Innovator Second Video Edition: Highlighting Student Art",
+        title: "Innovator Third Video Edition: A Harvest of Memories",
         tabtitle: "YouTube",
       },
     ]}
