@@ -2,7 +2,7 @@
   import VideoPlayer from "../whimsy/VideoPlayer.svelte";
   import VideoPlayerToast from "./VideoPlayerToast.svelte";
   import { school, whimsy, videoPlayerToastClicked } from "../prefs";
-  let edition = 3;
+  let edition = 4;
 </script>
 
 {#if $school === "HS" || $school === "All"}
@@ -22,17 +22,18 @@
     videoLinks={[
       {
         //url: "https://drive.google.com/file/d/1hfkpi9fTaXuvqUD6uNkpBOYySJKz_Nof/view?usp=sharing",
-        url: "https://drive.google.com/file/d/1FN18cyyGEbl9DqEWCBx4HK7nmrod2vwV/view?usp=drive_link",
+        //url: "https://drive.google.com/file/d/1FN18cyyGEbl9DqEWCBx4HK7nmrod2vwV/view?usp=drive_link",
+        url: "https://drive.google.com/file/d/1CvWm6E3ng-jRalDF3vBITh304sIzOtBW/view?usp=drive_link",
         type: "google-drive",
-        title: "Innovator Third Video Edition: A Harvest of Memories",
+        title: "Innovator Fourth Video Edition: Join Us!",
         tabtitle: "Drive",
       },
-      {
+      /* {
         url: "https://www.youtube.com/watch?v=xG5rpfxizKY",
         type: "youtube",
         title: "Innovator Third Video Edition: A Harvest of Memories",
         tabtitle: "YouTube",
-      },
+      }, */
     ]}
   >
     <a slot="footer-extra" href="https://theinnovator.org">
