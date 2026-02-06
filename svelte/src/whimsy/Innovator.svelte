@@ -2,7 +2,7 @@
   import VideoPlayer from "../whimsy/VideoPlayer.svelte";
   import VideoPlayerToast from "./VideoPlayerToast.svelte";
   import { school, whimsy, videoPlayerToastClicked } from "../prefs";
-  let edition = 4;
+  let edition = 8;
 </script>
 
 {#if $school === "HS" || $school === "All"}
@@ -23,9 +23,10 @@
       {
         //url: "https://drive.google.com/file/d/1hfkpi9fTaXuvqUD6uNkpBOYySJKz_Nof/view?usp=sharing",
         //url: "https://drive.google.com/file/d/1FN18cyyGEbl9DqEWCBx4HK7nmrod2vwV/view?usp=drive_link",
-        url: "https://drive.google.com/file/d/1CvWm6E3ng-jRalDF3vBITh304sIzOtBW/view?usp=drive_link",
+        //url: "https://drive.google.com/file/d/1CvWm6E3ng-jRalDF3vBITh304sIzOtBW/view?usp=drive_link",
+        url: "https://drive.google.com/file/d/16ujbl7L_z5Jf0y6uO1ZOeo4TipmuePdH/view?usp=sharing",
         type: "google-drive",
-        title: "Innovator Fourth Video Edition: Join Us!",
+        title: "Innovator Eighth Video Edition: Fit Check!",
         tabtitle: "Drive",
       },
       /* {
