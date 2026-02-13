@@ -130,7 +130,7 @@ export let countdownData: (RepeatCountdown | CountdownData)[] = [
   },
   {
     name: "February Break",
-    target: "2026-02-20T14:45:00", // Friday before break starts
+    target: "2026-02-13T14:45:00", // Friday before break starts
     countdownStart: "2026-02-11T08:05:00",
   },
   {
