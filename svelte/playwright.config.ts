@@ -1,19 +1,11 @@
-import { defineConfig, devices } from "@playwright/test";
+import { defineConfig } from "@playwright/test";
 
 /**
  * Playwright configuration for IACS Chrome Extension dashboard testing.
  *
- * Tests run against pre-built dashboard modes (Staff, HS, MS, Family)
- * across multiple viewport sizes to ensure consistent rendering.
+ * Tests manage their own viewports explicitly so that Staff & Family
+ * are tested across all 4 sizes while HS & MS use a single size.
  */
-
-/* Viewport definitions for target devices */
-const viewports = {
-  mobile: { width: 375, height: 667 },
-  chromebook: { width: 1366, height: 768 },
-  macbook: { width: 1440, height: 900 },
-  desktop: { width: 1920, height: 1080 },
-};
 
 export default defineConfig({
   testDir: "./tests",
@@ -21,37 +13,17 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? 2 : undefined,
-  reporter: "html",
+  reporter: process.env.CI ? [["github"], ["html"]] : "html",
 
-  /* Shared settings for all projects */
   use: {
     baseURL: "http://localhost:5050",
     trace: "on-first-retry",
-    /* Wait for network idle so icons/fonts load */
     actionTimeout: 10000,
   },
 
-  /* Test projects — one per viewport size */
-  projects: [
-    {
-      name: "mobile",
-      use: { viewport: viewports.mobile },
-    },
-    {
-      name: "chromebook",
-      use: { viewport: viewports.chromebook },
-    },
-    {
-      name: "macbook",
-      use: { viewport: viewports.macbook },
-    },
-    {
-      name: "desktop",
-      use: { viewport: viewports.desktop },
-    },
-  ],
+  /* 30s per test — each test creates its own context */
+  timeout: 30000,
 
-  /* Local dev server for test builds */
   webServer: {
     command: "npx sirv test-builds --port 5050 --no-clear",
     port: 5050,
