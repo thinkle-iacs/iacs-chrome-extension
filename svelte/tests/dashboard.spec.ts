@@ -132,7 +132,7 @@ function addContrastTest(
   scheme: "light" | "dark",
   viewport: { width: number; height: number }
 ) {
-  test(`text contrast WCAG AA – ${scheme} (${viewport.width}×${viewport.height})`, async ({
+  test(`text contrast WCAG AA - ${scheme} (${viewport.width}×${viewport.height})`, async ({
     browser,
   }) => {
     const { context, page } = await openDashboard(
@@ -161,7 +161,7 @@ function addContrastTest(
 
           function lum(rgb: string) {
             const m = rgb.match(/[\d.]+/g);
-            if (!m) return 0;
+            if (!m || m.length < 3) return 0;
             const [r, g, b] = [m[0], m[1], m[2]].map((c) => {
               const v = parseInt(c, 10) / 255;
               return v <= 0.03928
@@ -203,7 +203,7 @@ function addContrastTest(
 for (const mode of ["Staff", "Family"] as const) {
   test.describe(`${mode} dashboard`, () => {
     for (const [device, vp] of Object.entries(VIEWPORTS)) {
-      test(`light screenshot – ${device} (${vp.width}×${vp.height})`, async ({
+      test(`light screenshot - ${device} (${vp.width}×${vp.height})`, async ({
         browser,
       }) => {
         const { context, page } = await openDashboard(browser, mode, vp);
@@ -214,7 +214,7 @@ for (const mode of ["Staff", "Family"] as const) {
         await context.close();
       });
 
-      test(`dark screenshot – ${device} (${vp.width}×${vp.height})`, async ({
+      test(`dark screenshot - ${device} (${vp.width}×${vp.height})`, async ({
         browser,
       }) => {
         const { context, page } = await openDashboard(
@@ -230,7 +230,7 @@ for (const mode of ["Staff", "Family"] as const) {
         await context.close();
       });
 
-      test(`menu screenshot – ${device} (${vp.width}×${vp.height})`, async ({
+      test(`menu screenshot - ${device} (${vp.width}×${vp.height})`, async ({
         browser,
       }) => {
         const { context, page } = await openDashboard(browser, mode, vp);
@@ -258,7 +258,7 @@ for (const mode of ["HS", "MS"] as const) {
   test.describe(`${mode} dashboard`, () => {
     const vp = VIEWPORTS.desktop;
 
-    test(`light screenshot – desktop`, async ({ browser }) => {
+    test(`light screenshot - desktop`, async ({ browser }) => {
       const { context, page } = await openDashboard(browser, mode, vp);
       await expect(page).toHaveScreenshot(`${mode}-desktop-dashboard.png`, {
         fullPage: true,
@@ -267,7 +267,7 @@ for (const mode of ["HS", "MS"] as const) {
       await context.close();
     });
 
-    test(`dark screenshot – desktop`, async ({ browser }) => {
+    test(`dark screenshot - desktop`, async ({ browser }) => {
       const { context, page } = await openDashboard(
         browser,
         mode,
