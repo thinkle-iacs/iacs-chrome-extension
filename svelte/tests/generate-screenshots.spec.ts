@@ -30,8 +30,8 @@ for (const mode of MODES) {
 
       await page.goto(`/${mode}/index.html`);
       await page.waitForSelector(".menuitem, .linkholder", { timeout: 10000 });
-      /* Allow fonts & icons to load */
-      await page.waitForTimeout(1000);
+      /* Wait for fonts & icons to finish loading */
+      await page.waitForLoadState("networkidle");
 
       const filename = `${mode}-${deviceName}-${viewport.width}x${viewport.height}.png`;
       await page.screenshot({

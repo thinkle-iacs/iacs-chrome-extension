@@ -17,8 +17,8 @@ for (const mode of MODES) {
       await page.goto(`/${mode}/index.html`);
       /* Wait for the Svelte app to mount and menus to render */
       await page.waitForSelector(".menuitem, .linkholder", { timeout: 10000 });
-      /* Give fonts and icons a moment to load */
-      await page.waitForTimeout(500);
+      /* Wait for fonts and icons to finish loading */
+      await page.waitForLoadState("networkidle");
     });
 
     test("full page screenshot for regression", async ({ page }, testInfo) => {
