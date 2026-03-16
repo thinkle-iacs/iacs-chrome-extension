@@ -157,6 +157,11 @@ export const menu = [
           title: "Staff Directory",
           link: "https://www.innovationcharter.org/about-iacs/faculty/",
         },
+        {
+          title: 'Wellness Committee Resources',
+          link: 'https://drive.google.com/drive/folders/1F0Ww3UT7yUtGcrxsj6-NKDWtYTQqp_rF',
+          detail: 'Resources from the IACS Wellness Committee',          
+        },
         SCOIR
       ],
     },  
