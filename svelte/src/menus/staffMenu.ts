@@ -109,7 +109,12 @@ export const menu = [
           title : 'Sub Feedback',
           detail : 'Substitute Teacher Feedback Form',
           link : 'https://docs.google.com/forms/d/e/1FAIpQLScGaOkF-KTtzG4BmjorjkP2TFKP3iyvGkfHDqbgeMUTTf6bGA/viewform'
-        },
+      },
+      {
+        title: 'Field Trip Procedures',
+        detail: 'Field Trip Request Form and Procedures',
+        link: 'https://docs.google.com/document/d/1yq_lDqkH9_LN1EaYXOUpcJRPPY2E1lMVTfCZsah7opU/edit?tab=t.0#heading=h.oahocniqrexy',
+        }
       ]
   },
   {
@@ -160,7 +165,9 @@ export const menu = [
         {
           title: 'Wellness Committee Resources',
           link: 'https://drive.google.com/drive/folders/1F0Ww3UT7yUtGcrxsj6-NKDWtYTQqp_rF',
-          detail: 'Resources from the IACS Wellness Committee',          
+          detail: 'Resources from the IACS Wellness Committee',         
+          icon: './icons/wellness-committee.png',
+          blackIcon: true,
         },
         SCOIR
       ],
