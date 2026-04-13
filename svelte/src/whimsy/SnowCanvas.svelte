@@ -1,64 +1,108 @@
 <script lang="ts">
   import { Rotater3D } from "../util/draw3d";
   import { onMount, onDestroy } from "svelte";
-  let walls = [];
+  import {
+    createWhimsyCanvas,
+    type WhimsyFrame,
+    type WhimsyTarget,
+  } from "./whimsyCanvas";
+
+  type Flake = {
+    angle: number;
+    broken?: boolean;
+    url: string;
+    vax?: number;
+    vay?: number;
+    vx?: number;
+    vy?: number;
+    x: number;
+    xangle: number;
+    y: number;
+    yangle: number;
+  };
+
+  const urls = Array.from(
+    {
+      length: 99,
+    },
+    (_, index) => `/snowflakes/snowflake${index + 1}.svg`
+  );
+
+  const snowLayer = createWhimsyCanvas({
+    mode: "absolute",
+    maxFps: 30,
+  });
+
   let flakeSize = 32;
   let animating = false;
   let lastAnimation = 0;
+  let startTimer = 0;
+  let breezeTimer = 0;
 
   let breeze = {
     vx: 4,
     vy: 5,
   };
 
-  function findWalls() {
-    walls = [];
-    for (let div of document.querySelectorAll(".card")) {
-      walls.push(div);
-    }
-  }
-  function isTouchingAny(flake, divs) {
-    for (let d of divs) {
-      if (isTouchingTop(flake, d)) {
+  function isTouchingAny(flake: Flake, targets: WhimsyTarget[]) {
+    for (let target of targets) {
+      if (isTouchingTop(flake, target)) {
         return true;
       }
     }
     return false;
   }
 
-  function isTouchingTop(flake, div: HTMLDivElement) {
+  function isTouchingTop(flake: Flake, target: WhimsyTarget) {
+    const rect = target.rect;
     if (flake.y < 0) {
-      return;
+      return false;
     }
-    if (flake.x > div.offsetLeft) {
-      if (flake.x < div.offsetLeft + div.clientWidth) {
-        if (flake.y > div.offsetTop - flakeSize / 2) {
-          if (flake.y < div.offsetTop + flakeSize / 2) {
+    if (flake.x > rect.left) {
+      if (flake.x < rect.right) {
+        if (flake.y > rect.top - flakeSize / 2) {
+          if (flake.y < rect.top + flakeSize / 2) {
             return true;
           }
         }
       }
     }
+    return false;
   }
 
   function removeBroken() {
     flakes = flakes.filter((f) => !f.broken);
   }
 
+  function canDrawImage(image?: HTMLImageElement) {
+    return !!image && image.complete && image.naturalWidth > 0;
+  }
+
   onMount(() => {
-    setTimeout(startSnow, 1000);
-    setTimeout(removeBroken, 3000);
+    snowLayer.attach(canvas);
+    startTimer = window.setTimeout(startSnow, 400);
+    window.setTimeout(removeBroken, 3000);
   });
   onDestroy(() => {
     animating = false;
+    if (startTimer) {
+      window.clearTimeout(startTimer);
+    }
+    if (breezeTimer) {
+      window.clearTimeout(breezeTimer);
+    }
+    snowLayer.destroy();
   });
   let maxBreeze = 30;
 
   function startSnow() {
-    findWalls();
+    if (animating) {
+      return;
+    }
     animating = true;
-    makeFlakes();
-    requestAnimationFrame(animateSnow);
+    const { width } = snowLayer.getCanvasSize();
+    makeFlakes(width);
+    snowLayer.start(animateSnow);
     updateBreeze();
   }
 
@@ -72,34 +116,32 @@
     if (Math.abs(breeze.vy) > maxBreeze) {
       breeze.vy *= 0.8;
     }
-    console.log("New breeze:", breeze);
     if (animating) {
-      setTimeout(updateBreeze, gustTime);
+      breezeTimer = window.setTimeout(updateBreeze, gustTime);
     }
   }
 
-  function animateSnow(ts) {
+  function animateSnow({
+    clear,
+    ctx,
+    elapsed,
+    getTargets,
+    height,
+    now,
+    width,
+  }: WhimsyFrame) {
     if (!animating) {
       return;
     }
-    let elapsed = 0;
     if (lastAnimation) {
-      elapsed = ts - lastAnimation;
-    } else {
-      elapsed = 0;
+      elapsed = now - lastAnimation;
     }
-    lastAnimation = ts;
-    flakes.forEach((flake) => updateFlake(flake, elapsed));
-    //flakes = flakes.filter((flake) => flake.y < window.innerHeight);
-    if (animating) {
-      requestAnimationFrame(animateSnow);
-    }
-    let ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
-    canvas.height = document.querySelector("main").clientHeight;
-    canvas.style.width = `${canvas.width}px`;
-    canvas.style.height = `${canvas.height}px`;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    lastAnimation = now;
+
+    const restingTargets = [...getTargets("card"), ...getTargets("menu-icon")];
+    flakes.forEach((flake) => updateFlake(flake, elapsed, width, height, restingTargets));
+
+    clear();
     let rotater = Rotater3D(ctx);
     flakes.forEach((flake) => {
       if (flake.y < 0) {
@@ -112,53 +154,35 @@
         (flake.yangle * Math.PI) / 180,
         (flake.angle * Math.PI) / 180,
         () => {
+          const image = flakeImages[flake.url];
+          if (!canDrawImage(image)) {
+            flake.broken = false;
+            return;
+          }
           try {
             ctx.drawImage(
-              flakeImages[flake.url],
+              image,
               -flakeSize / 2,
               -flakeSize / 2,
               flakeSize,
               flakeSize
             );
             flake.broken = false;
-          } catch (err) {
+          } catch (error) {
             flake.broken = true;
           }
         }
       );
-      /*
-      ctx.resetTransform();
-      ctx.translate(flake.x, flake.y);
-      //let scaleAmount = Math.cos((180 * flake.yangle) / Math.PI);
-      //ctx.scale(scaleAmount, 1);
-      ctx.rotate(flake.angle);
-      try {
-        ctx.drawImage(
-          flakeImages[flake.url],
-          -flakeSize / 2,
-          -flakeSize / 2,
-          flakeSize,
-          flakeSize
-        );
-        flake.broken = false;
-      } catch (err) {
-        flake.broken = true;
-      }
-      */
     });
-
-    /*if (flakes.length == 0 && animating) {
-      animating = false;
-      lastAnimation = 0;
-      let delay = 10000 + Math.random() * 240000;
-      console.log("Running snow again in", delay / 1000, "seconds");
-      setTimeout(startSnow, delay);
-    }
-    */
   }
 
-  function updateFlake(flake, elapsed) {
-    canvas.width = window.innerWidth;
+  function updateFlake(
+    flake: Flake,
+    elapsed: number,
+    width: number,
+    height: number,
+    restingTargets: WhimsyTarget[]
+  ) {
     if (!flake.vx) {
       flake.vx = Math.random() * 20 - 10;
     }
@@ -181,7 +205,7 @@
     flake.xangle += (flake.vax / 1000) * elapsed;
     // Let our z rotation come from our x movement
     flake.angle += ((5 * (flake.vx + breeze.vx)) / 1000) * elapsed;
-    if (isTouchingAny(flake, walls)) {
+    if (isTouchingAny(flake, restingTargets)) {
       flake.y += 0;
       flake.xangle = 0;
       flake.yangle = 0;
@@ -192,35 +216,28 @@
       flake.y += ((flake.vy + breeze.vy) / 1000) * elapsed;
     }
     flake.x += ((flake.vx + breeze.vx) / 1000) * elapsed;
-    if (flake.x > canvas.width) {
-      //console.log("flake off canvas, move from ", flake.x);
-      flake.x = flake.x % canvas.width;
-      //console.log("=>", flake.x);
+    if (flake.x > width) {
+      flake.x = flake.x % width;
     }
     while (flake.x < 0) {
-      flake.x = canvas.width + flake.x;
+      flake.x = width + flake.x;
     }
-    if (flake.y > canvas.height) {
+    if (flake.y > height) {
       flake.y = -500 * Math.random();
     }
   }
 
-  let urls = [];
-  let flakeImages = {};
-  let flakes = [];
-  function makeFlakes() {
-    for (let i = 1; i < 100; i++) {
-      urls.push(`/snowflakes/snowflake${i}.svg`);
-    }
+  let flakeImages: Record<string, HTMLImageElement> = {};
+  let flakes: Flake[] = [];
+  function makeFlakes(width: number) {
     flakes = urls.map((u) => ({
       url: u,
-      x: Math.random() * 111000,
+      x: Math.random() * width,
       y: Math.random() * -10000,
       angle: Math.random() * 360,
       yangle: 0,
       xangle: 0,
     }));
-    urls = urls;
   }
   let canvas: HTMLCanvasElement;
 </script>
