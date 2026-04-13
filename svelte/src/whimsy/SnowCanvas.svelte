@@ -2,9 +2,19 @@
   import { Rotater3D } from "../util/draw3d";
   import { onMount, onDestroy } from "svelte";
   let walls = [];
+  const urls = Array.from(
+    {
+      length: 99,
+    },
+    (_, index) => `/snowflakes/snowflake${index + 1}.svg`
+  );
   let flakeSize = 32;
   let animating = false;
   let lastAnimation = 0;
+  let startTimer = 0;
+  let idleStartHandle: number | null = null;
+  let brokenCleanupTimer = 0;
+  let breezeTimer = 0;
 
   let breeze = {
     vx: 4,
@@ -45,12 +55,57 @@
     flakes = flakes.filter((f) => !f.broken);
   }
 
+  function preloadFlakeImages() {
+    urls.forEach((url) => {
+      if (flakeImages[url]) {
+        return;
+      }
+      const image = new Image();
+      image.src = url;
+      flakeImages[url] = image;
+    });
+  }
+
+  function canDrawImage(image?: HTMLImageElement) {
+    return !!image && image.complete && image.naturalWidth > 0;
+  }
+
+  function scheduleStartSnow() {
+    const begin = () => {
+      idleStartHandle = null;
+      startTimer = 0;
+      startSnow();
+    };
+
+    if ("requestIdleCallback" in window) {
+      idleStartHandle = window.requestIdleCallback(begin, {
+        timeout: 2000,
+      });
+      return;
+    }
+
+    startTimer = window.setTimeout(begin, 1800);
+  }
+
   onMount(() => {
-    setTimeout(startSnow, 1000);
-    setTimeout(removeBroken, 3000);
+    preloadFlakeImages();
+    scheduleStartSnow();
+    brokenCleanupTimer = window.setTimeout(removeBroken, 3000);
   });
   onDestroy(() => {
     animating = false;
+    if (startTimer) {
+      window.clearTimeout(startTimer);
+    }
+    if (brokenCleanupTimer) {
+      window.clearTimeout(brokenCleanupTimer);
+    }
+    if (breezeTimer) {
+      window.clearTimeout(breezeTimer);
+    }
+    if (idleStartHandle != null && "cancelIdleCallback" in window) {
+      window.cancelIdleCallback(idleStartHandle);
+    }
   });
   let maxBreeze = 30;
 
@@ -72,9 +127,8 @@
     if (Math.abs(breeze.vy) > maxBreeze) {
       breeze.vy *= 0.8;
     }
-    console.log("New breeze:", breeze);
     if (animating) {
-      setTimeout(updateBreeze, gustTime);
+      breezeTimer = window.setTimeout(updateBreeze, gustTime);
     }
   }
 
@@ -112,9 +166,14 @@
         (flake.yangle * Math.PI) / 180,
         (flake.angle * Math.PI) / 180,
         () => {
+          const image = flakeImages[flake.url];
+          if (!canDrawImage(image)) {
+            flake.broken = false;
+            return;
+          }
           try {
             ctx.drawImage(
-              flakeImages[flake.url],
+              image,
               -flakeSize / 2,
               -flakeSize / 2,
               flakeSize,
@@ -205,13 +264,9 @@
     }
   }
 
-  let urls = [];
-  let flakeImages = {};
+  let flakeImages: Record<string, HTMLImageElement> = {};
   let flakes = [];
   function makeFlakes() {
-    for (let i = 1; i < 100; i++) {
-      urls.push(`/snowflakes/snowflake${i}.svg`);
-    }
     flakes = urls.map((u) => ({
       url: u,
       x: Math.random() * 111000,
@@ -220,23 +275,13 @@
       yangle: 0,
       xangle: 0,
     }));
-    urls = urls;
   }
   let canvas: HTMLCanvasElement;
 </script>
 
 <canvas bind:this={canvas} />
-<section>
-  <!-- snowflake assets-->
-  {#each urls as url}
-    <img alt="" src={url} bind:this={flakeImages[url]} />
-  {/each}
-</section>
 
 <style>
-  section {
-    display: none;
-  }
   canvas {
     width: 100%;
     height: 100%;
