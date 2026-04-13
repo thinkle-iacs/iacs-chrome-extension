@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Rotater3D } from "../util/draw3d";
-  import { onMount, onDestroy } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import {
     createWhimsyCanvas,
     type WhimsyFrame,
@@ -37,6 +37,8 @@
   let animating = false;
   let lastAnimation = 0;
   let startTimer = 0;
+  let idleStartHandle: number | null = null;
+  let brokenCleanupTimer = 0;
   let breezeTimer = 0;
 
   let breeze = {
@@ -74,25 +76,62 @@
     flakes = flakes.filter((f) => !f.broken);
   }
 
+  function preloadFlakeImages() {
+    urls.forEach((url) => {
+      if (flakeImages[url]) {
+        return;
+      }
+      const image = new Image();
+      image.src = url;
+      flakeImages[url] = image;
+    });
+  }
+
   function canDrawImage(image?: HTMLImageElement) {
     return !!image && image.complete && image.naturalWidth > 0;
   }
 
+  function scheduleStartSnow() {
+    const begin = () => {
+      idleStartHandle = null;
+      startTimer = 0;
+      startSnow();
+    };
+
+    if ("requestIdleCallback" in window) {
+      idleStartHandle = window.requestIdleCallback(begin, {
+        timeout: 2000,
+      });
+      return;
+    }
+
+    startTimer = window.setTimeout(begin, 1800);
+  }
+
   onMount(() => {
     snowLayer.attach(canvas);
-    startTimer = window.setTimeout(startSnow, 400);
-    window.setTimeout(removeBroken, 3000);
+    preloadFlakeImages();
+    scheduleStartSnow();
+    brokenCleanupTimer = window.setTimeout(removeBroken, 3000);
   });
+
   onDestroy(() => {
     animating = false;
     if (startTimer) {
       window.clearTimeout(startTimer);
     }
+    if (brokenCleanupTimer) {
+      window.clearTimeout(brokenCleanupTimer);
+    }
     if (breezeTimer) {
       window.clearTimeout(breezeTimer);
     }
+    if (idleStartHandle != null && "cancelIdleCallback" in window) {
+      window.cancelIdleCallback(idleStartHandle);
+    }
     snowLayer.destroy();
   });
+
   let maxBreeze = 30;
 
   function startSnow() {
@@ -139,7 +178,9 @@
     lastAnimation = now;
 
     const restingTargets = [...getTargets("card"), ...getTargets("menu-icon")];
-    flakes.forEach((flake) => updateFlake(flake, elapsed, width, height, restingTargets));
+    flakes.forEach((flake) =>
+      updateFlake(flake, elapsed, width, height, restingTargets)
+    );
 
     clear();
     let rotater = Rotater3D(ctx);
@@ -203,10 +244,8 @@
     }
     flake.yangle += (flake.vay / 1000) * elapsed;
     flake.xangle += (flake.vax / 1000) * elapsed;
-    // Let our z rotation come from our x movement
     flake.angle += ((5 * (flake.vx + breeze.vx)) / 1000) * elapsed;
     if (isTouchingAny(flake, restingTargets)) {
-      flake.y += 0;
       flake.xangle = 0;
       flake.yangle = 0;
       if (Math.random() * 1000 < 1) {
@@ -229,6 +268,7 @@
 
   let flakeImages: Record<string, HTMLImageElement> = {};
   let flakes: Flake[] = [];
+
   function makeFlakes(width: number) {
     flakes = urls.map((u) => ({
       url: u,
@@ -239,21 +279,13 @@
       xangle: 0,
     }));
   }
+
   let canvas: HTMLCanvasElement;
 </script>
 
 <canvas bind:this={canvas} />
-<section>
-  <!-- snowflake assets-->
-  {#each urls as url}
-    <img alt="" src={url} bind:this={flakeImages[url]} />
-  {/each}
-</section>
 
 <style>
-  section {
-    display: none;
-  }
   canvas {
     width: 100%;
     height: 100%;

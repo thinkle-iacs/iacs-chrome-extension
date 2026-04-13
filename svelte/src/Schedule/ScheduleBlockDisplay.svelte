@@ -23,7 +23,6 @@
   import { formatTime } from "./schedule";
   import { getCustomBlockName, selectedSchedule, customColors } from "../prefs";
   import { getColor, getContrastingColor } from "./colors";
-  import { tick } from "svelte";
 
   let dayName: string = "";
 
@@ -85,28 +84,11 @@
   $: customTitle = getCustomBlockName($selectedSchedule, block);
   let bgColor = getColor(customTitle || block.name, $customColors);
   $: bgColor = getColor(customTitle || block.name, $customColors);
-  let fgColor = "~invalid~";
-  let el: HTMLDivElement;
-  $: if (bgColor) {
-    // Once bgColor is set, we wait to compute the style...
-
-    tick().then(checkForFG);
-  }
-  function checkForFG() {
-    if (el) {
-      let computed = getComputedStyle(el);
-      let currentColor = computed.getPropertyValue("color");
-      let computedBG = computed.getPropertyValue("background-color");
-      fgColor = getContrastingColor(computedBG, currentColor) || "~invalid~";
-    } else {
-      // Shouldn't need this, but let's be thorough just in case.
-      setTimeout(checkForFG, 100);
-    }
-  }
+  let fgColor = "var(--darkgrey)";
+  $: fgColor = getContrastingColor(bgColor, "var(--darkgrey)") || "var(--darkgrey)";
 </script>
 
 <div
-  bind:this={el}
   class:fullHeight
   class:forceHeight={heightMode}
   class="block"
