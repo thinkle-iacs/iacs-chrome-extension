@@ -2,7 +2,7 @@
   import VideoPlayer from "../whimsy/VideoPlayer.svelte";
   import VideoPlayerToast from "./VideoPlayerToast.svelte";
   import { school, whimsy, videoPlayerToastClicked } from "../prefs";
-  let edition = 9;
+  let edition = 10;
 </script>
 
 {#if $school === "HS" || $school === "All"}
