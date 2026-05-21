@@ -89,11 +89,11 @@ export const menu = [
             link: "https://docs.google.com/forms/d/e/1FAIpQLSeP4d1PEy7Ja4T1cuke0zReP3A4A9vIGHy_gYUkcTc_RYkQfw/viewform",
             icon: "./icons/hammer.png",
           },
-          {
+          /* {
             title : 'Hall Pass Violation Form',
             link: 'https://docs.google.com/forms/d/e/1FAIpQLSc99BN_olPWybkPcWSfx84OiiDV5Umh9T_NyK8EDp9uigBzPw/viewform',
             school: 'HS'
-          },
+          }, */
         {
           title: "Counseling Check-In Form",
           link: "https://forms.gle/Dy7h4yRReG7Etyxf7",
