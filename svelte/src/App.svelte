@@ -1,10 +1,11 @@
 <script lang="ts">
   import Innovator from "./whimsy/Innovator.svelte";
-
+  import HawkCanvas from "./whimsy/HawkCanvas.svelte";
   import CountdownCard from "./whimsy/CountdownCard.svelte";
 
   import TipBuilder from "./TipBuilder.svelte";
   import Snow from "./whimsy/SnowCanvas.svelte";
+  import BouncingBall from "./whimsy/BouncingBallCanvas.svelte";
 
   import PrefCard from "./PrefCard.svelte";
   import Weather from "./whimsy/Weather.svelte";
@@ -38,7 +39,11 @@
   let routes = {
     "#tipbuilder": "tipbuilder",
     "#snow": "snow",
+    "#ball": "ball",
+    "#ball-abs": "ball-abs",
+    "#ball-fix": "ball-fix",
     "#halloween": "halloween",
+    "#hawk": "hawk",
   };
   function checkForSecretHash() {
     let hash = window.location.hash;
@@ -77,6 +82,13 @@
 </script>
 
 {#if route == "snow"}<Snow />{/if}
+{#if route == "hawk"}<HawkCanvas />{/if}
+{#if route == "ball" || route == "ball-abs"}
+  <BouncingBall mode="absolute" />
+{/if}
+{#if route == "ball-fix"}
+  <BouncingBall mode="fixed" />
+{/if}
 
 <main>
   {#if route == "tipbuilder"}

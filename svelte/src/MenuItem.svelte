@@ -71,9 +71,20 @@
     </TooltipContainer>
   </div>
 {:else}
-  <div class="linkholder menuitem">
+  <div
+    class="linkholder menuitem"
+    data-whimsy-kind="menu-item"
+    data-whimsy-id={mi.id || mi.title}
+    data-whimsy-title={mi.title}
+  >
     <a href={mi.link}>
-      <div class="icon-holder" class:black={mi.blackIcon}>
+      <div
+        class="icon-holder"
+        class:black={mi.blackIcon}
+        data-whimsy-kind={mi.icon && !error ? "menu-icon" : undefined}
+        data-whimsy-id={mi.icon && !error ? `${mi.id || mi.title}-icon` : undefined}
+        data-whimsy-title={mi.icon && !error ? mi.title : undefined}
+      >
         {#if mi.icon && !error}
           <img
             class="icon"

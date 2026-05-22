@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { whimsy } from "./prefs";
+  import BreakoutCanvas from "./whimsy/BreakoutCanvas.svelte";
   import GoogleTranslate from "./GoogleTranslate.svelte";
 
   import TimeDisplay from "./TimeDisplay.svelte";
@@ -10,10 +12,32 @@
     STAFF_DIRECTORY,
     SCHOOL_CALENDAR,
   } from "./menus/commonMenuItems";
+
+  let showBreakout = false;
+  let breakoutGame = 0;
+
+  function startBreakout() {
+    if (!$whimsy) {
+      return;
+    }
+
+    breakoutGame += 1;
+    showBreakout = true;
+  }
+
+  function stopBreakout() {
+    showBreakout = false;
+  }
 </script>
 
+{#if $whimsy && showBreakout}
+  {#key breakoutGame}
+    <BreakoutCanvas onExit={stopBreakout} />
+  {/key}
+{/if}
+
 <div class="top">
-  <div class="logo-block">
+  <div class="logo-block" on:dblclick={startBreakout}>
     <img src="./icons/IACS_logo.png" />
     <h1>
       {#if mode == "Family"}

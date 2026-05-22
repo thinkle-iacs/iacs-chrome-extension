@@ -181,6 +181,9 @@
     {#each $displayMenuItems as menuitem (menuitem.id)}
       <nav
         animate:flip={{ duration: 400, delay: 200 }}
+        data-whimsy-kind="menu"
+        data-whimsy-id={menuitem.id}
+        data-whimsy-title={menuitem.title || ""}
         in:receive={{ key: menuitem.id }}
         out:send={{ key: menuitem.id }}
       >
