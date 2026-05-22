@@ -2,7 +2,7 @@
   import VideoPlayer from "../whimsy/VideoPlayer.svelte";
   import VideoPlayerToast from "./VideoPlayerToast.svelte";
   import { school, whimsy, videoPlayerToastClicked } from "../prefs";
-  let edition = 10;
+  let edition = 11;
 </script>
 
 {#if $school === "HS" || $school === "All"}
@@ -25,15 +25,16 @@
         //url: "https://drive.google.com/file/d/1FN18cyyGEbl9DqEWCBx4HK7nmrod2vwV/view?usp=drive_link",
         //url: "https://drive.google.com/file/d/1CvWm6E3ng-jRalDF3vBITh304sIzOtBW/view?usp=drive_link",
         //url: "https://drive.google.com/file/d/16ujbl7L_z5Jf0y6uO1ZOeo4TipmuePdH/view?usp=sharing",
-        url: "https://drive.google.com/file/d/12IyPlfkTOtM-_S2EJpRbLqDtG5u9ChyD/view?usp=drive_link",
+        //url: "https://drive.google.com/file/d/12IyPlfkTOtM-_S2EJpRbLqDtG5u9ChyD/view?usp=drive_link",
+        url: "https://drive.google.com/file/d/1i7-e0dOKCVCUX2fayppJgAmbKG7W1wH9/view",
         type: "google-drive",
-        title: "Innovator Tenth Video Edition: POP Week is Over",
+        title: "Issue 11: Goodbye Seniors!",
         tabtitle: "Drive",
       },
       {
-        url: "https://www.youtube.com/watch?v=vBbDIliGzeI",
+        url: "https://www.youtube.com/watch?v=WincwIdzQCY",
         type: "youtube",
-        title: "Innovator Tenth Video Edition: POP Week is Over",
+        title: "Issue 11: Goodbye Seniors!",
         tabtitle: "YouTube",
       },
       /* {
