@@ -1,3 +1,8 @@
+import type {
+  DrawingParams,
+  GameCanvas,
+} from "simple-canvas-library";
+
 export type WhimsyCanvasMode = "fixed" | "absolute";
 
 export type WhimsyRect = {
@@ -28,6 +33,82 @@ export type WhimsyTargetSource = {
   getId?: (element: HTMLElement, index: number) => string;
 };
 
+export const START_PAGE_ITEM_TYPES = {
+  CARD: "card",
+  MENU: "menu",
+  MENU_ICON: "menu-icon",
+  MENU_ITEM: "menu-item",
+} as const;
+
+export type StartPageKnownItemType =
+  (typeof START_PAGE_ITEM_TYPES)[keyof typeof START_PAGE_ITEM_TYPES];
+
+export type StartPageItemType = StartPageKnownItemType | (string & {});
+
+export type StartPageItem = WhimsyTarget;
+
+export type StartPageMouse = {
+  x: number;
+  y: number;
+};
+
+export type StartPageKeyHandler = (event: KeyboardEvent) => boolean | void;
+
+export type StartPage = {
+  addKeyDownHandler: (handler: StartPageKeyHandler) => () => void;
+  addKeyUpHandler: (handler: StartPageKeyHandler) => () => void;
+  getItems: (kind?: StartPageItemType) => StartPageItem[];
+  itemTypes: typeof START_PAGE_ITEM_TYPES;
+  keys: Record<string, boolean>;
+  mouse: StartPageMouse;
+};
+
+type StartPageController = StartPage & {
+  handleKeyDown: (event: KeyboardEvent) => void;
+  handleKeyUp: (event: KeyboardEvent) => void;
+  handleMouseMove: (event: MouseEvent, mode: WhimsyCanvasMode) => void;
+  useLastMousePosition: (mode: WhimsyCanvasMode) => void;
+};
+
+let lastMouseEvent: { clientX: number; clientY: number } | null = null;
+let mouseTrackerInstalled = false;
+
+function updateMousePosition(
+  mouse: StartPageMouse,
+  clientX: number,
+  clientY: number,
+  mode: WhimsyCanvasMode
+) {
+  if (mode === "fixed") {
+    mouse.x = clientX;
+    mouse.y = clientY;
+    return;
+  }
+
+  mouse.x = clientX + window.scrollX;
+  mouse.y = clientY + window.scrollY;
+}
+
+function rememberMouseEvent(event: MouseEvent) {
+  lastMouseEvent = {
+    clientX: event.clientX,
+    clientY: event.clientY,
+  };
+}
+
+export function installStartPageMouseTracker() {
+  if (mouseTrackerInstalled || typeof window === "undefined") {
+    return;
+  }
+
+  mouseTrackerInstalled = true;
+  window.addEventListener("mousemove", rememberMouseEvent, true);
+  window.addEventListener("mousedown", rememberMouseEvent, true);
+  window.addEventListener("click", rememberMouseEvent, true);
+}
+
+installStartPageMouseTracker();
+
 export type WhimsyFrame = {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
@@ -50,6 +131,15 @@ export type WhimsyCanvasOptions = {
   useDevicePixelRatio?: boolean;
   zIndex?: number;
 };
+
+export type WhimsyGameDrawingParams = DrawingParams;
+
+export type WhimsyGameCanvas = GameCanvas;
+
+export type WhimsyCanvasSetup = (
+  gameCanvas: WhimsyGameCanvas,
+  startPage: StartPage
+) => void | (() => void);
 
 export type WhimsyCanvasController = {
   attach: (canvas: HTMLCanvasElement) => void;
@@ -81,22 +171,91 @@ type InternalTarget = {
 
 const DEFAULT_TARGET_SOURCES: WhimsyTargetSource[] = [
   {
-    kind: "card",
+    kind: START_PAGE_ITEM_TYPES.CARD,
     selector: '[data-whimsy-kind="card"]',
   },
   {
-    kind: "menu",
+    kind: START_PAGE_ITEM_TYPES.MENU,
     selector: '[data-whimsy-kind="menu"]',
   },
   {
-    kind: "menu-item",
+    kind: START_PAGE_ITEM_TYPES.MENU_ITEM,
     selector: '[data-whimsy-kind="menu-item"]',
   },
   {
-    kind: "menu-icon",
+    kind: START_PAGE_ITEM_TYPES.MENU_ICON,
     selector: '[data-whimsy-kind="menu-icon"]',
   },
 ];
+
+export function createStartPage(
+  whimsyCanvas: WhimsyCanvasController
+): StartPageController {
+  let keyDownHandlers: StartPageKeyHandler[] = [];
+  let keyUpHandlers: StartPageKeyHandler[] = [];
+
+  function addHandler(
+    handlers: StartPageKeyHandler[],
+    handler: StartPageKeyHandler
+  ) {
+    handlers.push(handler);
+
+    return () => {
+      const index = handlers.indexOf(handler);
+      if (index >= 0) {
+        handlers.splice(index, 1);
+      }
+    };
+  }
+
+  function runHandlers(
+    handlers: StartPageKeyHandler[],
+    event: KeyboardEvent
+  ) {
+    for (let handler of handlers) {
+      if (handler(event)) {
+        return;
+      }
+    }
+  }
+
+  return {
+    addKeyDownHandler: (handler: StartPageKeyHandler) =>
+      addHandler(keyDownHandlers, handler),
+    addKeyUpHandler: (handler: StartPageKeyHandler) =>
+      addHandler(keyUpHandlers, handler),
+    getItems: (kind?: StartPageItemType) => whimsyCanvas.getTargets(kind),
+    itemTypes: START_PAGE_ITEM_TYPES,
+    keys: {},
+    mouse: {
+      x: 0,
+      y: 0,
+    },
+    handleKeyDown(event: KeyboardEvent) {
+      this.keys[event.key] = true;
+      runHandlers(keyDownHandlers, event);
+    },
+    handleKeyUp(event: KeyboardEvent) {
+      this.keys[event.key] = false;
+      runHandlers(keyUpHandlers, event);
+    },
+    handleMouseMove(event: MouseEvent, mode: WhimsyCanvasMode) {
+      updateMousePosition(this.mouse, event.clientX, event.clientY, mode);
+    },
+    useLastMousePosition(mode: WhimsyCanvasMode) {
+      if (!lastMouseEvent) {
+        return;
+      }
+
+      updateMousePosition(
+        this.mouse,
+        lastMouseEvent.clientX,
+        lastMouseEvent.clientY,
+        mode
+      );
+    },
+  };
+}
 
 function toRect(bounds: DOMRectReadOnly | DOMRect): WhimsyRect {
   return {

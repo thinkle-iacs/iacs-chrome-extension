@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { GameCanvas } from "simple-canvas-library/dist/simple-canvas-library.es.js";
-  import { onDestroy, onMount } from "svelte";
-  import {
-    createWhimsyCanvas,
-    type WhimsyCanvasMode,
-    type WhimsyTarget,
+  import type {
+    StartPage,
+    StartPageItem,
+    WhimsyGameCanvas,
+    WhimsyCanvasMode,
   } from "./whimsyCanvas";
+  import WhimsyCanvas from "./WhimsyCanvas.svelte";
 
   export let mode: WhimsyCanvasMode = "absolute";
 
@@ -26,26 +26,11 @@
     height: number;
   };
 
-  type ResizableGameCanvas = GameCanvas & {
-    setCanvasSize: (width: number, height: number) => void;
-  };
-
-  const layer = createWhimsyCanvas({
-    mode,
-    useDevicePixelRatio: false,
-  });
-
-  const TARGET_KINDS = ["menu-icon", "menu-item", "card", "menu"];
   const SPEED = 280;
-  const HIT_GLOW_MS = 180;
   const ZONE_COOLDOWN_MS = 140;
 
-  let canvas: HTMLCanvasElement;
-  let gameCanvas: GameCanvas | null = null;
-  let hitGlowUntil = 0;
-  let lastHitTarget: WhimsyTarget | null = null;
-  let lastHitColor = "#e6552d";
-  let zoneCooldowns = new Map<string, number>();
+  let startPage: StartPage;
+  let zoneCooldowns: { [targetId: string]: number } = {};
 
   let ball: Ball = {
     x: 120,
@@ -61,12 +46,34 @@
   }
 
   function getBounceTargets() {
-    return TARGET_KINDS.flatMap((kind) => layer.getTargets(kind)).sort((a, b) => {
-      return a.rect.width * a.rect.height - b.rect.width * b.rect.height;
-    });
+    let targets: StartPageItem[] = [];
+    let itemTypes = startPage.itemTypes;
+    let targetKinds = [
+      itemTypes.MENU_ICON,
+      itemTypes.MENU_ITEM,
+      itemTypes.CARD,
+      itemTypes.MENU,
+    ];
+
+    for (let kind of targetKinds) {
+      let matchingTargets = startPage.getItems(kind);
+
+      for (let target of matchingTargets) {
+        targets.push(target);
+      }
+    }
+
+    targets.sort(compareTargetSize);
+    return targets;
   }
 
-  function intersectsTarget(target: WhimsyTarget) {
+  function compareTargetSize(a: StartPageItem, b: StartPageItem) {
+    let areaA = a.rect.width * a.rect.height;
+    let areaB = b.rect.width * b.rect.height;
+    return areaA - areaB;
+  }
+
+  function intersectsTarget(target: StartPageItem) {
     const nearestX = clamp(ball.x, target.rect.left, target.rect.right);
     const nearestY = clamp(ball.y, target.rect.top, target.rect.bottom);
     const dx = ball.x - nearestX;
@@ -74,23 +81,21 @@
     return dx * dx + dy * dy <= ball.radius * ball.radius;
   }
 
-  function registerHit(target: WhimsyTarget, now: number) {
-    lastHitTarget = target;
-    hitGlowUntil = now + HIT_GLOW_MS;
-    lastHitColor = getHitColor(target.kind);
+  function registerContact(kind: string) {
+    ball.color = getContactColor(kind);
   }
 
-  function getHitColor(kind: string) {
-    if (kind === "card") {
-      return "#e6552d";
-    }
+  function getContactColor(kind: string) {
     if (kind === "menu") {
       return "#2f6fed";
     }
     if (kind === "menu-item") {
-      return "#5789f5";
+      return "#0033a0";
     }
     if (kind === "menu-icon") {
+      return "#c6093b";
+    }
+    if (kind === "card") {
       return "#19a974";
     }
     return "#e6552d";
@@ -129,7 +134,7 @@
   }
 
   function resolveTargetCollision(
-    target: WhimsyTarget,
+    target: StartPageItem,
     previousX: number,
     previousY: number,
     now: number
@@ -139,11 +144,11 @@
     }
 
     if (!isSolid(target.kind)) {
-      const cooldownUntil = zoneCooldowns.get(target.id) || 0;
+      const cooldownUntil = zoneCooldowns[target.id] || 0;
       if (now >= cooldownUntil) {
         applyCollisionResponse(target.kind);
-        registerHit(target, now);
-        zoneCooldowns.set(target.id, now + ZONE_COOLDOWN_MS);
+        registerContact(target.kind);
+        zoneCooldowns[target.id] = now + ZONE_COOLDOWN_MS;
       }
       return true;
     }
@@ -164,7 +169,7 @@
       ball.x = expanded.left;
       ball.vx = -Math.abs(ball.vx);
       applyCollisionResponse(target.kind);
-      registerHit(target, now);
+      registerContact(target.kind);
       return true;
     }
 
@@ -172,7 +177,7 @@
       ball.x = expanded.right;
       ball.vx = Math.abs(ball.vx);
       applyCollisionResponse(target.kind);
-      registerHit(target, now);
+      registerContact(target.kind);
       return true;
     }
 
@@ -180,7 +185,7 @@
       ball.y = expanded.top;
       ball.vy = -Math.abs(ball.vy);
       applyCollisionResponse(target.kind);
-      registerHit(target, now);
+      registerContact(target.kind);
       return true;
     }
 
@@ -188,45 +193,49 @@
       ball.y = expanded.bottom;
       ball.vy = Math.abs(ball.vy);
       applyCollisionResponse(target.kind);
-      registerHit(target, now);
+      registerContact(target.kind);
       return true;
     }
 
-    const corrections = [
-      {
-        distance: Math.abs(ball.x - expanded.left),
-        apply: () => {
-          ball.x = expanded.left;
-          ball.vx = -Math.abs(ball.vx);
-        },
-      },
-      {
-        distance: Math.abs(expanded.right - ball.x),
-        apply: () => {
-          ball.x = expanded.right;
-          ball.vx = Math.abs(ball.vx);
-        },
-      },
-      {
-        distance: Math.abs(ball.y - expanded.top),
-        apply: () => {
-          ball.y = expanded.top;
-          ball.vy = -Math.abs(ball.vy);
-        },
-      },
-      {
-        distance: Math.abs(expanded.bottom - ball.y),
-        apply: () => {
-          ball.y = expanded.bottom;
-          ball.vy = Math.abs(ball.vy);
-        },
-      },
-    ];
+    const distanceFromLeft = Math.abs(ball.x - expanded.left);
+    const distanceFromRight = Math.abs(expanded.right - ball.x);
+    const distanceFromTop = Math.abs(ball.y - expanded.top);
+    const distanceFromBottom = Math.abs(expanded.bottom - ball.y);
 
-    corrections.sort((a, b) => a.distance - b.distance);
-    corrections[0].apply();
+    let smallestDistance = distanceFromLeft;
+    let side = "left";
+
+    if (distanceFromRight < smallestDistance) {
+      smallestDistance = distanceFromRight;
+      side = "right";
+    }
+
+    if (distanceFromTop < smallestDistance) {
+      smallestDistance = distanceFromTop;
+      side = "top";
+    }
+
+    if (distanceFromBottom < smallestDistance) {
+      smallestDistance = distanceFromBottom;
+      side = "bottom";
+    }
+
+    if (side === "left") {
+      ball.x = expanded.left;
+      ball.vx = -Math.abs(ball.vx);
+    } else if (side === "right") {
+      ball.x = expanded.right;
+      ball.vx = Math.abs(ball.vx);
+    } else if (side === "top") {
+      ball.y = expanded.top;
+      ball.vy = -Math.abs(ball.vy);
+    } else {
+      ball.y = expanded.bottom;
+      ball.vy = Math.abs(ball.vy);
+    }
+
     applyCollisionResponse(target.kind);
-    registerHit(target, now);
+    registerContact(target.kind);
     return true;
   }
 
@@ -257,7 +266,7 @@
     ball.y = Math.min(120, height - ball.radius * 2);
   }
 
-  function updateBall(elapsed: number, width: number, height: number, targets: WhimsyTarget[], now: number) {
+  function updateBall(elapsed: number, width: number, height: number, targets: StartPageItem[], now: number) {
     const cappedElapsed = Math.min(elapsed || 16, 32) / 1000;
     const speed = Math.hypot(ball.vx, ball.vy);
     const substeps = Math.max(1, Math.ceil((speed * cappedElapsed) / ball.radius));
@@ -278,32 +287,6 @@
         }
       }
     }
-  }
-
-  function drawTargetGlow(ctx: CanvasRenderingContext2D, now: number) {
-    if (!lastHitTarget || now > hitGlowUntil) {
-      return;
-    }
-
-    const alpha = (hitGlowUntil - now) / HIT_GLOW_MS;
-    const rect = lastHitTarget.rect;
-
-    ctx.save();
-    const glowAlpha = Math.max(alpha * 0.55, 0);
-    const label = lastHitTarget.kind.replace("-", " ");
-    ctx.strokeStyle = `${lastHitColor}${Math.round(glowAlpha * 255)
-      .toString(16)
-      .padStart(2, "0")}`;
-    ctx.lineWidth = 3;
-    ctx.setLineDash([10, 8]);
-    ctx.strokeRect(rect.left, rect.top, rect.width, rect.height);
-    ctx.setLineDash([]);
-    ctx.fillStyle = `rgba(15, 23, 42, ${Math.max(alpha * 0.85, 0)})`;
-    ctx.fillRect(rect.left, Math.max(0, rect.top - 20), 88, 18);
-    ctx.fillStyle = `rgba(255, 255, 255, ${Math.max(alpha, 0)})`;
-    ctx.font = "12px sans-serif";
-    ctx.fillText(label, rect.left + 6, Math.max(13, rect.top - 7));
-    ctx.restore();
   }
 
   function drawBall(ctx: CanvasRenderingContext2D) {
@@ -327,56 +310,24 @@
   }
 
   function draw({ ctx, stepTime, timestamp, width, height }: CanvasDrawingParams) {
-    const layerSize = layer.getCanvasSize();
-    if (
-      gameCanvas &&
-      (width !== layerSize.width || height !== layerSize.height)
-    ) {
-      (gameCanvas as ResizableGameCanvas).setCanvasSize(
-        layerSize.width,
-        layerSize.height
-      );
-      width = layerSize.width;
-      height = layerSize.height;
-    }
-
     const targets = getBounceTargets();
     initializeBall(width, height);
     updateBall(stepTime, width, height, targets, timestamp);
 
-    drawTargetGlow(ctx, timestamp);
     drawBall(ctx);
   }
 
-  onMount(() => {
-    layer.attach(canvas);
-    gameCanvas = new GameCanvas(canvas, {
-      autoresize: true,
-    });
+  function setupGame(
+    gameCanvas: WhimsyGameCanvas,
+    page: StartPage
+  ) {
+    startPage = page;
     gameCanvas.addDrawing(draw);
-    gameCanvas.run();
-  });
+  }
 
-  $: layer.setMode(mode);
-
-  onDestroy(() => {
-    gameCanvas?.stop();
-    gameCanvas = null;
-    zoneCooldowns.clear();
-    layer.destroy();
-  });
+  function clearGame() {
+    zoneCooldowns = {};
+  }
 </script>
 
-<canvas bind:this={canvas} />
-
-<style>
-  canvas {
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 999999;
-  }
-</style>
+<WhimsyCanvas {mode} onLoad={setupGame} onUnload={clearGame} />
