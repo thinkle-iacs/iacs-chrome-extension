@@ -283,7 +283,13 @@
     let isHighScore =
       score > 0 && (highScores.length === 0 || score >= topScore);
     ctx.fillText(
-      "Level: " + level + "   Lives: " + lives + "   Score: " + score + (isHighScore ? " 👑" : ""),
+      "Level: " +
+        level +
+        "   Lives: " +
+        lives +
+        "   Score: " +
+        score +
+        (isHighScore ? " 👑" : ""),
       width - 16,
       30,
     );
@@ -324,7 +330,7 @@
       let y = boxY + titleHeight + padding + i * rowHeight;
       let s = shown[i];
       ctx.textAlign = "left";
-      ctx.fillText((i + 1) + ". " + s.score, boxX + padding, y);
+      ctx.fillText(i + 1 + ". " + s.score, boxX + padding, y);
       ctx.textAlign = "right";
       ctx.fillText(formatScoreDate(s.date), boxX + boxWidth - padding, y);
     }
