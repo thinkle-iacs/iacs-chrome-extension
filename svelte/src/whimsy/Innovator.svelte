@@ -2,7 +2,7 @@
   import VideoPlayer from "../whimsy/VideoPlayer.svelte";
   import VideoPlayerToast from "./VideoPlayerToast.svelte";
   import { school, whimsy, videoPlayerToastClicked } from "../prefs";
-  let edition = 9;
+  let edition = 10;
 </script>
 
 {#if $school === "HS" || $school === "All"}
@@ -25,15 +25,15 @@
         //url: "https://drive.google.com/file/d/1FN18cyyGEbl9DqEWCBx4HK7nmrod2vwV/view?usp=drive_link",
         //url: "https://drive.google.com/file/d/1CvWm6E3ng-jRalDF3vBITh304sIzOtBW/view?usp=drive_link",
         //url: "https://drive.google.com/file/d/16ujbl7L_z5Jf0y6uO1ZOeo4TipmuePdH/view?usp=sharing",
-        url: "https://drive.google.com/file/d/1p1n19xU2JhCP-JFkQAKFBIuZthekTYwX/view?usp=drive_link",
+        url: "https://drive.google.com/file/d/12IyPlfkTOtM-_S2EJpRbLqDtG5u9ChyD/view?usp=drive_link",
         type: "google-drive",
-        title: "Innovator Ninth Video Edition: Should AI Be Banned at IACS?",
+        title: "Innovator Tenth Video Edition: POP Week is Over",
         tabtitle: "Drive",
       },
       {
-        url: "https://www.youtube.com/watch?v=a9TcBy52WRQ",
+        url: "https://www.youtube.com/watch?v=vBbDIliGzeI",
         type: "youtube",
-        title: "Innovator Ninth Video Edition: Should AI Be Banned at IACS?",
+        title: "Innovator Tenth Video Edition: POP Week is Over",
         tabtitle: "YouTube",
       },
       /* {

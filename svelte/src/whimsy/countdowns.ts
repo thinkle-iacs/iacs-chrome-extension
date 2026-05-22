@@ -144,9 +144,14 @@ export let countdownData: (RepeatCountdown | CountdownData)[] = [
     countdownStart: "2026-05-11T08:05:00",
   },
   {
+    name: "Last Day for Seniors!",
+    target: "2026-05-22T14:45:00", // Friday before Memorial Day
+    countdownStart: "2026-01-01T08:05:00",
+  },
+  {
     name: "Last Day of School",
-    target: "2026-06-11T12:40:00", // Early release
-    countdownStart: "2026-06-01T08:05:00",
+    target: "2026-06-17T12:40:00", // Early release
+    countdownStart: "2026-05-01T08:05:00",
   },
   {
     name: "Juneteenth Holiday",
@@ -234,14 +239,14 @@ function getCounter(c: RepeatCountdown | CountdownData): Countdown {
         now.getMonth(),
         endDateNum,
         c.repeatEnd.hour,
-        c.repeatEnd.minute
+        c.repeatEnd.minute,
       ),
       countdownStart: new Date(
         now.getFullYear(),
         now.getMonth(),
         startDateNum,
         c.repeatStart.hour,
-        c.repeatStart.minute
+        c.repeatStart.minute,
       ),
     };
   }
