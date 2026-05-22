@@ -120,8 +120,16 @@
     try {
       let raw = localStorage.getItem(HIGH_SCORES_KEY);
       if (raw) {
-        highScores = JSON.parse(raw);
-        topScore = highScores.length > 0 ? highScores[0].score : 0;
+        let parsed = JSON.parse(raw);
+        if (
+          Array.isArray(parsed) &&
+          parsed.every(
+            (e) => typeof e.score === "number" && typeof e.date === "string"
+          )
+        ) {
+          highScores = parsed;
+          topScore = highScores.length > 0 ? highScores[0].score : 0;
+        }
       }
     } catch (e) {
       highScores = [];

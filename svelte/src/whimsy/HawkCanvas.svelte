@@ -56,7 +56,6 @@
   }
 
   const setupGame: WhimsyCanvasSetup = (gameCanvas, startPage) => {
-    console.log("Hawk canvas loaded", gameCanvas, startPage);
     let hawk = new Sprite({
       src: "/sprites/hawk-sprite.png",
       frameWidth: 256,
@@ -132,7 +131,6 @@
         sittingMs = 0;
 
         if (hawk.frameSequence == LAND || hawk.frameSequence == SIT) {
-          console.log("repeat -> false, 1 (changing targets)");
           hawk.repeat = false;
           hawk.frameAnimationIndex = 0;
           hawk.frameSequence = TAKE_OFF;
@@ -159,7 +157,7 @@
           boredReturnDestination = hawkDestination;
           boredWaypoint = getRandomVisiblePoint(width);
           sittingMs = 0;
-          console.log("repeat -> false, 6 (bored)");
+
           hawk.repeat = false;
           hawk.frameAnimationIndex = 0;
           hawk.frameSequence = TAKE_OFF;
@@ -173,7 +171,7 @@
         hawk.frame === TAKE_OFF[TAKE_OFF.length - 1]
       ) {
         // finish take-off sequence
-        console.log("repeat -> true, 2");
+
         hawk.repeat = true;
         hawk.frameAnimationIndex = 0;
         hawk.frameSequence = FLY_RIGHT;
@@ -214,7 +212,7 @@
         hawk.x = landingX;
         hawk.y = landingY;
         if (hawk.frameSequence != LAND) {
-          console.log("repeat -> false, 3");
+
           hawk.repeat = false;
           hawk.frameAnimationIndex = 0;
           hawk.frameSequence = LAND;
@@ -224,7 +222,7 @@
         hawk.frameSequence == LAND &&
         hawk.frame === LAND[LAND.length - 1]
       ) {
-        console.log("repeat -> true, 5 (sitting)");
+
         hawk.repeat = true;
         hawk.frameAnimationIndex = 0;
         hawk.frameSequence = SIT;
@@ -289,7 +287,7 @@
         hawk.y += dy * travelFraction;
 
         if (hawk.repeat != true) {
-          console.log("repeat -> true, 4");
+
           hawk.repeat = true;
         }
         flyingLeft = dx < 0;
@@ -313,7 +311,6 @@
       }
     });
 
-    console.log("Build me a game canvas", gameCanvas);
   };
 </script>
 

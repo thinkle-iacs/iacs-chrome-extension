@@ -1,7 +1,4 @@
-import type {
-  DrawingParams,
-  GameCanvas,
-} from "simple-canvas-library";
+import type { GameCanvas } from "simple-canvas-library";
 
 export type WhimsyCanvasMode = "fixed" | "absolute";
 
@@ -109,30 +106,13 @@ export function installStartPageMouseTracker() {
 
 installStartPageMouseTracker();
 
-export type WhimsyFrame = {
-  canvas: HTMLCanvasElement;
-  ctx: CanvasRenderingContext2D;
-  clear: () => void;
-  elapsed: number;
-  getTargets: (kind?: string, mode?: WhimsyCanvasMode) => WhimsyTarget[];
-  height: number;
-  mode: WhimsyCanvasMode;
-  now: number;
-  pixelRatio: number;
-  targets: WhimsyTarget[];
-  width: number;
-};
-
 export type WhimsyCanvasOptions = {
   autoTrackDefaultTargets?: boolean;
-  maxFps?: number;
   mode?: WhimsyCanvasMode;
   targetSources?: WhimsyTargetSource[];
   useDevicePixelRatio?: boolean;
   zIndex?: number;
 };
-
-export type WhimsyGameDrawingParams = DrawingParams;
 
 export type WhimsyGameCanvas = GameCanvas;
 
@@ -156,8 +136,6 @@ export type WhimsyCanvasController = {
   refresh: () => void;
   registerTargetSource: (source: WhimsyTargetSource) => () => void;
   setMode: (mode: WhimsyCanvasMode) => void;
-  start: (render: (frame: WhimsyFrame) => void) => void;
-  stop: () => void;
 };
 
 type InternalTarget = {
@@ -349,8 +327,6 @@ export function createWhimsyCanvas(
     ...(options.targetSources || []),
   ];
 
-  const maxFps = options.maxFps || 30;
-  const minFrameLength = 1000 / maxFps;
   const useDevicePixelRatio = options.useDevicePixelRatio !== false;
   const zIndex = options.zIndex || 999999;
 
@@ -362,11 +338,7 @@ export function createWhimsyCanvas(
   let pixelRatio = Math.max(1, window.devicePixelRatio || 1);
   let targets: InternalTarget[] = [];
   let destroyed = false;
-  let running = false;
-  let rafId = 0;
   let refreshScheduled = false;
-  let lastRender = 0;
-  let renderCallback: ((frame: WhimsyFrame) => void) | null = null;
   let lastViewportWidth = 0;
   let lastViewportHeight = 0;
   let lastScrollX = 0;
@@ -508,14 +480,6 @@ export function createWhimsyCanvas(
     syncViewportSnapshot();
   }
 
-  function clearCanvas() {
-    if (!ctx) {
-      return;
-    }
-    ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-    ctx.clearRect(0, 0, width, height);
-  }
-
   function refresh() {
     if (destroyed) {
       return;
@@ -543,44 +507,6 @@ export function createWhimsyCanvas(
         ...target,
         rect: targetMode === "fixed" ? target.fixedRect : target.absoluteRect,
       }));
-  }
-
-  function animate(now: number) {
-    if (!running || !canvas || !ctx || !renderCallback) {
-      return;
-    }
-
-    rafId = window.requestAnimationFrame(animate);
-
-    if (viewportChanged()) {
-      refresh();
-    }
-
-    if (document.hidden) {
-      lastRender = now;
-      return;
-    }
-
-    if (lastRender && now - lastRender < minFrameLength) {
-      return;
-    }
-
-    const elapsed = lastRender ? now - lastRender : 0;
-    lastRender = now;
-
-    renderCallback({
-      canvas,
-      ctx,
-      clear: clearCanvas,
-      elapsed,
-      getTargets,
-      height,
-      mode,
-      now,
-      pixelRatio,
-      targets: getTargets(),
-      width,
-    });
   }
 
   function attach(nextCanvas: HTMLCanvasElement) {
@@ -616,26 +542,6 @@ export function createWhimsyCanvas(
     }
   }
 
-  function start(render: (frame: WhimsyFrame) => void) {
-    renderCallback = render;
-    running = true;
-    lastRender = 0;
-    refresh();
-    if (!rafId) {
-      rafId = window.requestAnimationFrame(animate);
-    }
-  }
-
-  function stop() {
-    running = false;
-    renderCallback = null;
-    lastRender = 0;
-    if (rafId) {
-      window.cancelAnimationFrame(rafId);
-      rafId = 0;
-    }
-  }
-
   function registerTargetSource(source: WhimsyTargetSource) {
     targetSources.push(source);
     scheduleRefresh();
@@ -660,14 +566,12 @@ export function createWhimsyCanvas(
     }
 
     destroyed = true;
-    stop();
     resizeObserver?.disconnect();
     mutationObserver?.disconnect();
     window.removeEventListener("resize", scheduleRefresh);
     window.removeEventListener("scroll", scheduleRefresh, true);
     window.visualViewport?.removeEventListener("resize", scheduleRefresh);
     window.visualViewport?.removeEventListener("scroll", scheduleRefresh);
-    clearCanvas();
     canvas = null;
     ctx = null;
     targets = [];
@@ -688,7 +592,5 @@ export function createWhimsyCanvas(
     refresh,
     registerTargetSource,
     setMode,
-    start,
-    stop,
   };
 }
