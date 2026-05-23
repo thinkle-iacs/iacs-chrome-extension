@@ -38,6 +38,7 @@
   const LAUNCH_COUNTDOWN_MS = 3000;
   const HIGH_SCORES_KEY = "breakout-high-scores";
   const MAX_HIGH_SCORES = 10;
+  const HIT_ANIM_MS = 500;
 
   export let onExit = () => {};
 
@@ -50,6 +51,19 @@
   let ballIsLaunched = false;
   let launchCountdownStarted = 0;
   let canvasFontFamily = "sans-serif";
+
+  type BrickHit = {
+    rect: {
+      left: number;
+      right: number;
+      top: number;
+      bottom: number;
+      width: number;
+      height: number;
+    };
+    startTime: number;
+  };
+  let brickHits: BrickHit[] = [];
 
   type HighScore = { score: number; date: string };
   let highScores: HighScore[] = [];
@@ -124,7 +138,7 @@
         if (
           Array.isArray(parsed) &&
           parsed.every(
-            (e) => typeof e.score === "number" && typeof e.date === "string"
+            (e) => typeof e.score === "number" && typeof e.date === "string",
           )
         ) {
           highScores = parsed;
@@ -247,9 +261,59 @@
     ctx.restore();
   }
 
+  function getCSSVar(name: string, fallback: string): string {
+    return (
+      getComputedStyle(document.documentElement)
+        .getPropertyValue(name)
+        .trim() || fallback
+    );
+  }
+
+  function drawBrickHits(ctx: CanvasRenderingContext2D, elapsed: number) {
+    brickHits = brickHits.filter((h) => elapsed - h.startTime < HIT_ANIM_MS);
+    if (brickHits.length === 0) return;
+
+    let accentColor = getCSSVar("--red", "#c6093b");
+    let highlightColor = getCSSVar("--blue", "#0033a0");
+
+    ctx.save();
+    for (let hit of brickHits) {
+      let t = (elapsed - hit.startTime) / HIT_ANIM_MS;
+      let cx = (hit.rect.left + hit.rect.right) / 2;
+      let cy = (hit.rect.top + hit.rect.bottom) / 2;
+
+      // Outline flash: bright border that fades quickly
+      if (t < 0.35) {
+        ctx.globalAlpha = 1 - t / 0.35;
+        ctx.strokeStyle = accentColor;
+        ctx.lineWidth = 3;
+        ctx.strokeRect(
+          hit.rect.left - 3,
+          hit.rect.top - 3,
+          hit.rect.width + 6,
+          hit.rect.height + 6,
+        );
+      }
+
+      // Particles flying outward from brick center
+      let numParticles = 10;
+      let spread = (hit.rect.width / 2 + 32) * t;
+      ctx.globalAlpha = Math.max(0, 1 - t * 1.4);
+      for (let i = 0; i < numParticles; i++) {
+        let angle = (i / numParticles) * Math.PI * 2;
+        let px = cx + Math.cos(angle) * spread;
+        let py = cy + Math.sin(angle) * spread;
+        ctx.fillStyle = i % 2 === 0 ? accentColor : highlightColor;
+        ctx.fillRect(px - 3, py - 2, 6, 4);
+      }
+    }
+    ctx.globalAlpha = 1;
+    ctx.restore();
+  }
+
   function drawPaddle(ctx: CanvasRenderingContext2D) {
     ctx.save();
-    ctx.fillStyle = "#c6093b";
+    ctx.fillStyle = getCSSVar("--red", "#c6093b");
     ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
     ctx.fillStyle = "rgba(255, 255, 255, 0.45)";
     ctx.fillRect(paddle.x + 4, paddle.y + 3, paddle.width - 8, 3);
@@ -259,7 +323,7 @@
   function drawBall(ctx: CanvasRenderingContext2D) {
     ctx.save();
     ctx.beginPath();
-    ctx.fillStyle = "#0033a0";
+    ctx.fillStyle = getCSSVar("--blue", "#0033a0");
     ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
@@ -268,17 +332,17 @@
   function drawHeader(ctx: CanvasRenderingContext2D, width: number) {
     ctx.save();
 
-    ctx.fillStyle = "rgba(0, 51, 160, 0.96)";
+    ctx.fillStyle = getCSSVar("--blue", "#0033a0");
     ctx.fillRect(0, 0, width, HEADER_HEIGHT);
 
-    ctx.strokeStyle = "#c6093b";
+    ctx.strokeStyle = getCSSVar("--red", "#c6093b");
     ctx.lineWidth = 3;
     ctx.beginPath();
     ctx.moveTo(0, HEADER_HEIGHT);
     ctx.lineTo(width, HEADER_HEIGHT);
     ctx.stroke();
 
-    ctx.fillStyle = "#ffffff";
+    ctx.fillStyle = getCSSVar("--white", "#ffffff");
     setCanvasFont(ctx, 18);
     ctx.fillText("[ x ]", 16, 30);
 
@@ -558,6 +622,17 @@
       let rect = brick.rect;
       if (circleTouchesRect(rect)) {
         destroyedBricks[brick.id] = true;
+        brickHits.push({
+          rect: {
+            left: rect.left,
+            right: rect.right,
+            top: rect.top,
+            bottom: rect.bottom,
+            width: rect.width,
+            height: rect.height,
+          },
+          startTime: elapsed,
+        });
         score += 1;
 
         if (score % SPEED_UP_EVERY === 0) {
@@ -599,6 +674,7 @@
 
     gameCanvas.addDrawing(({ ctx, width, height, elapsed, stepTime }) => {
       let seconds = Math.min(stepTime || 16, MAX_STEP_TIME) / 1000;
+      canvasFontFamily = getThemeFontFamily();
 
       paddle.y = height - PADDLE_BOTTOM_MARGIN - paddle.height;
 
@@ -607,6 +683,7 @@
       }
 
       drawDestroyedBricks(ctx, height);
+      drawBrickHits(ctx, elapsed);
       drawHeader(ctx, width);
 
       if (!gameOver) {
