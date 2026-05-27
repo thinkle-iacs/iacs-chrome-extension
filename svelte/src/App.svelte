@@ -45,6 +45,7 @@
     "#ball-fix": "ball-fix",
     "#halloween": "halloween",
     "#hawk": "hawk",
+    '#ctrain' : 'christmas-train'
   };
   function checkForSecretHash() {
     let hash = window.location.hash;
@@ -84,6 +85,7 @@
 
 {#if route == "snow"}<Snow />{/if}
 {#if route == "hawk"}<HawkCanvas />{/if}
+{#if route == "christmas-train"}<ChristmasTrain />{/if}
 {#if route == "ball" || route == "ball-abs"}
   <BouncingBall mode="absolute" />
 {/if}
