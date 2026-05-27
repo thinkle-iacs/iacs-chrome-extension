@@ -26,6 +26,7 @@
   import StudentGame from "./StudentGame/StudentGame.svelte";
   import DayOfWeekWhimsy from "./whimsy/DayOfWeekWhimsy.svelte";
   import HalloweenPlus from "./whimsy/HalloweenPlus.svelte";
+  import ChristmasTrain from "./whimsy/ChristmasTrainCanvas.svelte";
   import HawkCard from "./Hawk/HawkCard.svelte";
   import Toast from "./Toast.svelte";
 
