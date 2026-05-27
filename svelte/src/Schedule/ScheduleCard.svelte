@@ -128,7 +128,7 @@
             style:grid-row-start="1"
             style:grid-row-end="2"
             style:grid-column-start={n + 1}
-            style:grid-column-end={n + 1}
+            style:grid-column-end={n + 2}
             class:highlight={n == dayToShow}
             class:next-to-highlight={Math.abs(n - dayToShow) == 1}
             on:click={n === 3 ? handleWedClick : undefined}
