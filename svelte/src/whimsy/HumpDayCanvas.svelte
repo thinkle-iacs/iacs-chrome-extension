@@ -6,6 +6,7 @@
   let camelX = 0;
   let camelY = 0;
   let textOpacity = 1;
+  let camelVisible = false;
 
   const setupGame: WhimsyCanvasSetup = (gameCanvas, startPage) => {
     let mouseX = window.innerWidth / 2;
@@ -32,6 +33,9 @@
     window.addEventListener("mousemove", handleMouseMove);
 
     gameCanvas.addDrawing(({ ctx, width, height, stepTime }) => {
+      if(!camelVisible) {
+        return;
+      }
       const frameTime = (stepTime || 16) / 1000;
 
       // Calculate direction to mouse
@@ -70,19 +74,55 @@
       ctx.fillRect(0, 0, width, height);
 
       // Draw camel
-      ctx.font = `${CAMEL_SIZE}px serif`;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      
-      // Add rotation based on velocity direction
-      const angle = Math.atan2(camelVelY, camelVelX);
-      ctx.save();
-      ctx.translate(camelX, camelY);
-      ctx.rotate(angle);
-      ctx.globalAlpha = 1;
-      ctx.fillStyle = "black";
-      ctx.fillText("🐪", 0, 0);
-      ctx.restore();
+      // Draw camel
+const angle = Math.atan2(camelVelY, camelVelX);
+
+ctx.save();
+ctx.translate(camelX, camelY);
+ctx.rotate(angle);
+ctx.scale(1.5, 1.5);
+
+// Camel color
+ctx.fillStyle = "#9c6b30";
+
+// Body
+ctx.beginPath();
+ctx.ellipse(0, 0, 20, 12, 0, 0, Math.PI * 2);
+ctx.fill();
+
+// Hump 1
+ctx.beginPath();
+ctx.arc(-8, -10, 8, Math.PI, 0);
+ctx.fill();
+
+// Hump 2
+ctx.beginPath();
+ctx.arc(8, -10, 8, Math.PI, 0);
+ctx.fill();
+
+// Neck
+ctx.fillRect(16, -18, 6, 20);
+
+// Head
+ctx.beginPath();
+ctx.ellipse(24, -20, 8, 6, 0, 0, Math.PI * 2);
+ctx.fill();
+
+// Legs
+ctx.fillRect(-14, 10, 4, 18);
+ctx.fillRect(-4, 10, 4, 18);
+ctx.fillRect(6, 10, 4, 18);
+ctx.fillRect(16, 10, 4, 18);
+
+// Tail
+ctx.beginPath();
+ctx.moveTo(-20, -2);
+ctx.lineTo(-28, 6);
+ctx.strokeStyle = "#9c6b30";
+ctx.lineWidth = 2;
+ctx.stroke();
+
+ctx.restore();
 
       // Draw text with fade out
       if (textTimer > 0) {
@@ -103,6 +143,7 @@
 
     // Subscribe to trigger
     const unsubscribe = triggerCamel.subscribe((value) => {
+      camelVisible = value;
       if (value) {
         // Reset camel position to center
         camelX = window.innerWidth / 2;
