@@ -57,7 +57,7 @@
   onhashchange = checkForSecretHash;
   checkForSecretHash();
 
-  const mode: "Staff" | "HS" | "MS" | "Family" = "MODE";
+  const mode: "Staff" | "HS" | "MS" | "Family" = process.env.MODE || "Staff";
   if (mode == "HS") {
     $school = "HS";
   }

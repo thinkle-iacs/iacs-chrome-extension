@@ -194,7 +194,7 @@ export const PARKING_FORM = {
 };
 export const WORK_PERMIT = {
   title: "Work Permit Information",
-  link: "https://docs.google.com/document/d/1cjkcmqIjnYPS4PxXfsL-Xmz9fc0TOT3Ujc_aJ3KP3zo/edit?usp=sharing",,
+  link: "https://docs.google.com/document/d/1cjkcmqIjnYPS4PxXfsL-Xmz9fc0TOT3Ujc_aJ3KP3zo/edit?usp=sharing",
   icon : "./icons/work-permit.png",
 };
 export const COMM_SERV = {

@@ -1,5 +1,5 @@
 import { school } from '../prefs';
-import {ASPEN,GC,EHallpass,RESTORATIVE_FORM,STELLA, SCOIR, HS_ANNOUNCEMENTS, MS_ANNOUNCEMENTS, MS_HANDBOOK, HS_HANDBOOK, GOOGLE_APPS_WITH_ADOBE, BULLYING_PLAN, AMPLIFY, IXL, CLEVER, CHROMEBOOK_REPAIR_FORM, GOOGLE_APPS, EXPRESS, CREATIVECLOUD} from './commonMenuItems';,
+import {ASPEN,GC,EHallpass,RESTORATIVE_FORM,STELLA, SCOIR, HS_ANNOUNCEMENTS, MS_ANNOUNCEMENTS, MS_HANDBOOK, HS_HANDBOOK, GOOGLE_APPS_WITH_ADOBE, BULLYING_PLAN, AMPLIFY, IXL, CLEVER, CHROMEBOOK_REPAIR_FORM, GOOGLE_APPS, EXPRESS, CREATIVECLOUD} from './commonMenuItems';
 
 export const menu = [
   // No more than FIVE items per menu
@@ -232,7 +232,7 @@ export const menu = [
         MS_HANDBOOK,
         HS_HANDBOOK,
       ],
-    }
+    },
     { title : 'Procedures & Manuals',
       items : [
         {
