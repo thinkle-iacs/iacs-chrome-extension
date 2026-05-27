@@ -6,6 +6,7 @@
   import TipBuilder from "./TipBuilder.svelte";
   import Snow from "./whimsy/SnowCanvas.svelte";
   import BouncingBall from "./whimsy/BouncingBallCanvas.svelte";
+  import HumpDayCanvas from "./whimsy/HumpDayCanvas.svelte";
 
   import PrefCard from "./PrefCard.svelte";
   import Weather from "./whimsy/Weather.svelte";
@@ -44,6 +45,7 @@
     "#ball-fix": "ball-fix",
     "#halloween": "halloween",
     "#hawk": "hawk",
+    "#hump": "hump",
   };
   function checkForSecretHash() {
     let hash = window.location.hash;
@@ -83,6 +85,7 @@
 
 {#if route == "snow"}<Snow />{/if}
 {#if route == "hawk"}<HawkCanvas />{/if}
+{#if route == "hump"}<HumpDayCanvas />{/if}
 {#if route == "ball" || route == "ball-abs"}
   <BouncingBall mode="absolute" />
 {/if}
