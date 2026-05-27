@@ -4,6 +4,7 @@
   import ScheduleBlockDisplay from "./ScheduleBlockDisplay.svelte";
   import ScheduleChooser from "./ScheduleChooser.svelte";
   import { now } from "./now";
+  import { triggerCamel } from "../prefs";
   let activeOption;
   function setActive(scheduleOption) {
     activeOption = scheduleOption;
@@ -60,6 +61,10 @@
     if (!byDay[dayToShow] && recursionCount < 7) {
       changeDayToShow(delta, recursionCount + 1);
     }
+  }
+
+  function handleWedClick() {
+    triggerCamel.set(true);
   }
 </script>
 
@@ -118,12 +123,14 @@
           <div
             class:today={$now.getDay() == n}
             class="dayheader"
+            class:wednesday={n === 3}
             style:grid-row-start="1"
             style:grid-row-end="2"
             style:grid-column-start={n + 1}
             style:grid-column-end={n + 1}
             class:highlight={n == dayToShow}
             class:next-to-highlight={Math.abs(n - dayToShow) == 1}
+            on:click={n === 3 ? handleWedClick : undefined}
           >
             <!-- {#if $now.getDay() == n}
               ▶
@@ -172,6 +179,14 @@
     text-align: center;
     padding: var(--pad);
     border-right: 1px solid var(--white, "white");
+  }
+  .dayheader.wednesday {
+    cursor: pointer;
+    transition: transform 100ms, background-color 100ms;
+  }
+  .dayheader.wednesday:hover {
+    transform: scale(1.1);
+    background-color: var(--blue);
   }
   /* .previous {
     border-left: 3px solid var(--lightgrey);

@@ -21,7 +21,7 @@
   import RemoteCards from "./CardFetcher/RemoteCards.svelte";
   import ScheduleCard from "./Schedule/ScheduleCard.svelte";
   import CardContainer from "./CardContainer.svelte";
-  import { school, prefsSet, showPrefs, whimsy } from "./prefs";
+  import { school, prefsSet, showPrefs, whimsy, triggerCamel } from "./prefs";
   import { toastMessage, showToast, highlightSettings } from "./toastStore";
   import CloseButton from "./CloseButton.svelte";
   import StudentGame from "./StudentGame/StudentGame.svelte";
@@ -86,6 +86,7 @@
 {#if route == "snow"}<Snow />{/if}
 {#if route == "hawk"}<HawkCanvas />{/if}
 {#if route == "hump"}<HumpDayCanvas />{/if}
+{#if $triggerCamel}<HumpDayCanvas />{/if}
 {#if route == "ball" || route == "ball-abs"}
   <BouncingBall mode="absolute" />
 {/if}
