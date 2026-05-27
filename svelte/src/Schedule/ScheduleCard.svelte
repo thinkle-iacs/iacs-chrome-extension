@@ -64,6 +64,7 @@
   }
 
   function handleWedClick() {
+    console.log("Wed clicked!");
     triggerCamel.set(true);
   }
 </script>

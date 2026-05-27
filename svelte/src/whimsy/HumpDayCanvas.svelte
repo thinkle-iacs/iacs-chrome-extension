@@ -3,14 +3,13 @@
   import type { WhimsyCanvasSetup, StartPage } from "./whimsyCanvas";
   import { triggerCamel } from "../prefs";
 
-  let isActive = false;
   let camelX = 0;
   let camelY = 0;
   let textOpacity = 1;
 
   const setupGame: WhimsyCanvasSetup = (gameCanvas, startPage) => {
-    let mouseX = 0;
-    let mouseY = 0;
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
     let camelVelX = 0;
     let camelVelY = 0;
     const CAMEL_SIZE = 60;
@@ -19,6 +18,10 @@
     const MAX_SPEED = 5;
     let textTimer = 0;
     const TEXT_DURATION = 1000; // 1 second
+
+    // Initialize camel position
+    camelX = window.innerWidth / 2;
+    camelY = window.innerHeight / 2;
 
     // Listen to mouse movement
     const handleMouseMove = (e: MouseEvent) => {
@@ -62,6 +65,10 @@
       camelX = Math.max(CAMEL_SIZE / 2, Math.min(width - CAMEL_SIZE / 2, camelX));
       camelY = Math.max(CAMEL_SIZE / 2, Math.min(height - CAMEL_SIZE / 2, camelY));
 
+      // Clear canvas with slight transparency for trail effect
+      ctx.fillStyle = "rgba(255, 255, 255, 0.05)";
+      ctx.fillRect(0, 0, width, height);
+
       // Draw camel
       ctx.font = `${CAMEL_SIZE}px serif`;
       ctx.textAlign = "center";
@@ -72,6 +79,8 @@
       ctx.save();
       ctx.translate(camelX, camelY);
       ctx.rotate(angle);
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = "black";
       ctx.fillText("🐪", 0, 0);
       ctx.restore();
 
@@ -89,17 +98,25 @@
       }
     });
 
+    let camelHideTimeout: ReturnType<typeof setTimeout> | null = null;
+    const CAMEL_VISIBLE_DURATION = 3000;
+
     // Subscribe to trigger
     const unsubscribe = triggerCamel.subscribe((value) => {
       if (value) {
-        isActive = true;
         // Reset camel position to center
         camelX = window.innerWidth / 2;
         camelY = window.innerHeight / 2;
         camelVelX = 0;
         camelVelY = 0;
         textTimer = TEXT_DURATION;
-        triggerCamel.set(false);
+        if (camelHideTimeout) {
+          clearTimeout(camelHideTimeout);
+        }
+        camelHideTimeout = setTimeout(() => {
+          triggerCamel.set(false);
+          camelHideTimeout = null;
+        }, CAMEL_VISIBLE_DURATION);
       }
     });
 
