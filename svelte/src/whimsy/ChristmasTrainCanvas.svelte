@@ -115,7 +115,7 @@
 
     gameCanvas.addDrawing(({ ctx, width, height, stepTime }) => {
       const elapsed = Math.min(stepTime || 16, 100);
-      wheelAngle -= (elapsed / 16) * 0.12 * trainDirection;
+      wheelAngle += (elapsed / 16) * 0.12 * trainDirection;
       trainOffset += (elapsed / 16) * trainSpeed * trainDirection;
 
       const trainHeight = Math.min(160, height * 0.35);
