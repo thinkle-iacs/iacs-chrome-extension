@@ -256,7 +256,7 @@
       }
 
       ctx.beginPath();
-      ctx.fillStyle = f.centerColor;
+      ctx.fillStyle = "black";
       const centerRadius = Math.max(4, Math.round(currentRadius * 0.45 * bloom));
       ctx.arc(0, 0, centerRadius, 0, Math.PI * 2);
       ctx.fill();
