@@ -10,8 +10,16 @@
     y: number,
     trainWidth: number,
     trainHeight: number,
-    wheelAngle: number
+    wheelAngle: number,
+    mirror = false
   ) {
+    ctx.save();
+    if (mirror) {
+      ctx.translate(x + trainWidth, 0);
+      ctx.scale(-1, 1);
+      x = 0;
+    }
+
     const bodyHeight = trainHeight * 0.55;
     const stackWidth = trainWidth * 0.12;
     const stackHeight = trainHeight * 0.35;
@@ -38,7 +46,7 @@
     // Smoke stack
     ctx.fillStyle = "#263a4d";
     ctx.fillRect(x + trainWidth * 0.1, y - stackHeight, stackWidth, stackHeight);
-    ctx.fillStyle = "5e7488";
+    ctx.fillStyle = "#5e7488";
     ctx.fillRect(
       x + trainWidth * 0.1 - stackWidth * 0.075,
       y - stackHeight - 8,
@@ -96,31 +104,33 @@
     ctx.moveTo(wheelCenters[0], wheelY);
     ctx.lineTo(wheelCenters[2], wheelY);
     ctx.stroke();
+    ctx.restore();
   }
 
   const setup: WhimsyCanvasSetup = (gameCanvas, startPage) => {
     let wheelAngle = 0;
     let trainOffset = 0;
-    let trainDirection = 1;
+    let trainDirection = -1;
     const trainSpeed = -1.5; // movement speed in px per frame unit
 
     gameCanvas.addDrawing(({ ctx, width, height, stepTime }) => {
       const elapsed = Math.min(stepTime || 16, 100);
-      wheelAngle -= (elapsed / 16) * 0.12;
+      wheelAngle -= (elapsed / 16) * 0.12 * trainDirection;
       trainOffset += (elapsed / 16) * trainSpeed * trainDirection;
 
-      // Ground line
       const trainHeight = Math.min(160, height * 0.35);
       const trainWidth = Math.min(360, width * 0.8);
       const minTrainX = -trainWidth;
       const maxTrainX = width;
 
-      if (trainDirection > 0 && trainOffset > maxTrainX) {
+      if (trainDirection < 0 && trainOffset > maxTrainX) {
         trainOffset = maxTrainX;
-        trainDirection = -1;
-      } else if (trainDirection < 0 && trainOffset < minTrainX) {
-        trainOffset = minTrainX;
         trainDirection = 1;
+        wheelAngle = wheelAngle *-1; // flip wheel rotation direction when changing train direction
+      } else if (trainDirection > 0 && trainOffset < minTrainX) {
+        trainOffset = minTrainX;
+        trainDirection = -1;
+        wheelAngle = wheelAngle *-1; // flip wheel rotation direction when changing train direction
       }
 
       const trainY = height - trainHeight - 40;
@@ -134,14 +144,10 @@
       ctx.stroke();
 
       // Draw the train
-      if (trainDirection > 0) {
-        drawTrain(ctx, trainOffset, trainY, trainWidth, trainHeight, wheelAngle);
+      if (trainDirection < 0) {
+        drawTrain(ctx, trainOffset, trainY, trainWidth, trainHeight, wheelAngle, true);
       } else {
-        ctx.save();
-        ctx.translate(trainOffset + trainWidth, 0);
-        ctx.scale(-1, 1);
-        drawTrain(ctx, 0, trainY, trainWidth, trainHeight, wheelAngle * trainDirection);
-        ctx.restore();
+        drawTrain(ctx, trainOffset, trainY, trainWidth, trainHeight, wheelAngle, false);
       }
     });
 
