@@ -21,11 +21,14 @@
     let boredWaypoint: { x: number; y: number } | null = null;
     let boredReturnDestination: StartPageItem = null;
     let sittingMs = 0;
+    let camelAnimationTime = 0;
     const CAMEL_SIZE = 60;
     const CAMEL_SPEED = 210;
     const LANDING_DISTANCE = 16;
     const MAX_STEP_TIME = 40;
     const BORED_AFTER_MS = 12000;
+    const JUMP_FREQUENCY = 10;
+    const JUMP_AMPLITUDE = 6;
     let textTimer = 0;
     const TEXT_DURATION = 1000; // 1 second
 
@@ -146,6 +149,11 @@
       const dx = targetPoint.x - camelX;
       const dy = targetPoint.y - camelY;
       const distance = Math.sqrt(dx * dx + dy * dy);
+      const moving = distance > LANDING_DISTANCE;
+
+      if (moving) {
+        camelAnimationTime += seconds;
+      }
 
       if (distance <= LANDING_DISTANCE) {
         camelX = targetPoint.x;
@@ -183,11 +191,35 @@
       // Clear canvas fully (avoids accidental over-bright fade hiding the camel)
       ctx.clearRect(0, 0, width, height);
 
-      // Draw camel
       const angle = Math.atan2(camelVelY, camelVelX);
+      const jumpPhase = camelAnimationTime * JUMP_FREQUENCY;
+      const jumpProgress = moving ? Math.max(0, Math.sin(jumpPhase)) : 0;
+      const jumpOffset = moving ? jumpProgress * JUMP_AMPLITUDE : 0;
+      const bodyY = moving ? -6 : 0;
+      const neckYOffset = moving ? -16 : -18;
+      const headYOffset = moving ? -18 : -20;
+      const legGroundY = 10;
+      const liftedLegY = moving ? legGroundY - 18 : legGroundY;
+      const groundedLegHeight = 18;
+      const liftedLegHeight = moving ? 10 : groundedLegHeight;
+      const tailLift = moving ? -6 : 6;
 
+      if (!moving) {
+        camelAnimationTime = 0;
+      }
+
+      const frontLeftY = liftedLegY;
+      const frontRightY = liftedLegY;
+      const backLeftY = liftedLegY;
+      const backRightY = liftedLegY;
+      const frontLeftHeight = liftedLegHeight;
+      const frontRightHeight = liftedLegHeight;
+      const backLeftHeight = liftedLegHeight;
+      const backRightHeight = liftedLegHeight;
+
+      // Draw camel
       ctx.save();
-      ctx.translate(camelX, camelY);
+      ctx.translate(camelX, camelY - jumpOffset);
       ctx.rotate(angle);
       ctx.scale(1.5, 1.5);
 
@@ -197,40 +229,46 @@
       ctx.lineWidth = 3;
 
       ctx.beginPath();
-      ctx.ellipse(0, 0, 20, 12, 0, 0, Math.PI * 2);
+      ctx.ellipse(0, bodyY, 20, 12, 0, 0, Math.PI * 2);
       ctx.fill();
       ctx.stroke();
 
       // Humps
       ctx.beginPath();
-      ctx.arc(-8, -10, 8, Math.PI, 0);
+      ctx.arc(-8, bodyY - 10, 8, Math.PI, 0);
       ctx.fill();
       ctx.stroke();
 
       ctx.beginPath();
-      ctx.arc(8, -10, 8, Math.PI, 0);
+      ctx.arc(8, bodyY - 10, 8, Math.PI, 0);
       ctx.fill();
       ctx.stroke();
 
       // Neck
-      ctx.fillRect(16, -18, 6, 20);
-      ctx.strokeRect(16, -18, 6, 20);
+      ctx.fillRect(16, neckYOffset, 6, 20);
+      ctx.strokeRect(16, neckYOffset, 6, 20);
 
       // Head
       ctx.beginPath();
-      ctx.ellipse(24, -20, 8, 6, 0, 0, Math.PI * 2);
+      ctx.ellipse(24, headYOffset, 8, 6, 0, 0, Math.PI * 2);
       ctx.fill();
       ctx.stroke();
 
       // Legs
-      ctx.fillRect(-14, 10, 4, 18);
-      ctx.strokeRect(-14, 10, 4, 18);
-      ctx.fillRect(-4, 10, 4, 18);
-      ctx.strokeRect(-4, 10, 4, 18);
-      ctx.fillRect(6, 10, 4, 18);
-      ctx.strokeRect(6, 10, 4, 18);
-      ctx.fillRect(16, 10, 4, 18);
-      ctx.strokeRect(16, 10, 4, 18);
+      ctx.fillRect(-14, frontLeftY, 4, frontLeftHeight);
+      ctx.strokeRect(-14, frontLeftY, 4, frontLeftHeight);
+      ctx.fillRect(-4, frontRightY, 4, frontRightHeight);
+      ctx.strokeRect(-4, frontRightY, 4, frontRightHeight);
+      ctx.fillRect(6, backLeftY, 4, backLeftHeight);
+      ctx.strokeRect(6, backLeftY, 4, backLeftHeight);
+      ctx.fillRect(16, backRightY, 4, backRightHeight);
+      ctx.strokeRect(16, backRightY, 4, backRightHeight);
+
+      // Tail
+      ctx.beginPath();
+      ctx.moveTo(-20, tailLift);
+      ctx.lineTo(-28, tailLift + 8);
+      ctx.stroke();
 
       // Tail
       ctx.beginPath();
