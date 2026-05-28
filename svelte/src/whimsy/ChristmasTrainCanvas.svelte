@@ -31,7 +31,7 @@
     const wheelY = y + bodyHeight + wheelRadius;
 
     // Train body
-    ctx.fillStyle = "#b41f26";
+    ctx.fillStyle = "green";
     ctx.fillRect(x + 12, y + bodyHeight * 0.12, trainWidth * 0.64, bodyHeight * 0.88);
     ctx.fillStyle = "#f8c548";
     ctx.fillRect(x + trainWidth * 0.04, y + bodyHeight * 0.22, trainWidth * 0.28, bodyHeight * 0.56);
