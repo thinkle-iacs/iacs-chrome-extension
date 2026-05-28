@@ -38,8 +38,13 @@
     // Smoke stack
     ctx.fillStyle = "#263a4d";
     ctx.fillRect(x + trainWidth * 0.1, y - stackHeight, stackWidth, stackHeight);
-    ctx.fillStyle = "#5e7488";
-    ctx.fillRect(x + trainWidth * 0.1, y - stackHeight - 8, stackWidth * 1.15, 8);
+    ctx.fillStyle = "5e7488";
+    ctx.fillRect(
+      x + trainWidth * 0.1 - stackWidth * 0.075,
+      y - stackHeight - 8,
+      stackWidth * 1.15,
+      8
+    );
 
     // Window
     ctx.fillStyle = "#a9e5ff";
@@ -95,23 +100,33 @@
 
   const setup: WhimsyCanvasSetup = (gameCanvas, startPage) => {
     let wheelAngle = 0;
+    let trainOffset = 0;
+    let trainDirection = 1;
+    const trainSpeed = -1.5; // movement speed in px per frame unit
 
     gameCanvas.addDrawing(({ ctx, width, height, stepTime }) => {
       const elapsed = Math.min(stepTime || 16, 100);
-      wheelAngle += (elapsed / 16) * 0.12;
-
-      // Background
-      ctx.fillStyle = "#10212d";
-      ctx.fillRect(0, 0, width, height);
+      wheelAngle -= (elapsed / 16) * 0.12;
+      trainOffset += (elapsed / 16) * trainSpeed * trainDirection;
 
       // Ground line
       const trainHeight = Math.min(160, height * 0.35);
       const trainWidth = Math.min(360, width * 0.8);
-      const trainX = (width - trainWidth) / 2;
+      const minTrainX = -trainWidth;
+      const maxTrainX = width;
+
+      if (trainDirection > 0 && trainOffset > maxTrainX) {
+        trainOffset = maxTrainX;
+        trainDirection = -1;
+      } else if (trainDirection < 0 && trainOffset < minTrainX) {
+        trainOffset = minTrainX;
+        trainDirection = 1;
+      }
+
       const trainY = height - trainHeight - 40;
       const wheelY = trainY + trainHeight * 0.55 + 22;
 
-      ctx.strokeStyle = "#539c73";
+      ctx.strokeStyle = "grey";
       ctx.lineWidth = 3;
       ctx.beginPath();
       ctx.moveTo(0, wheelY + 22 + 8);
@@ -119,7 +134,15 @@
       ctx.stroke();
 
       // Draw the train
-      drawTrain(ctx, trainX, trainY, trainWidth, trainHeight, wheelAngle);
+      if (trainDirection > 0) {
+        drawTrain(ctx, trainOffset, trainY, trainWidth, trainHeight, wheelAngle);
+      } else {
+        ctx.save();
+        ctx.translate(trainOffset + trainWidth, 0);
+        ctx.scale(-1, 1);
+        drawTrain(ctx, 0, trainY, trainWidth, trainHeight, wheelAngle * trainDirection);
+        ctx.restore();
+      }
     });
 
     return () => {
