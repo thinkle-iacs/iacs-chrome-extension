@@ -1,6 +1,7 @@
 <script lang="ts">
   import WhimsyCanvas from "./WhimsyCanvas.svelte";
   import type { WhimsyCanvasMode, WhimsyCanvasSetup } from "./whimsyCanvas";
+  // Written by "Ava & Chase" (we vibe coded the hell out of this lmao)
 
   export let mode: WhimsyCanvasMode = "absolute";
 
@@ -115,7 +116,7 @@
 
     gameCanvas.addDrawing(({ ctx, width, height, stepTime }) => {
       const elapsed = Math.min(stepTime || 16, 100);
-      wheelAngle += (elapsed / 16) * 0.12 * trainDirection;
+      wheelAngle -= (elapsed / 16) * 0.12 * trainDirection;
       trainOffset += (elapsed / 16) * trainSpeed * trainDirection;
 
       const trainHeight = Math.min(160, height * 0.35);
@@ -126,11 +127,9 @@
       if (trainDirection < 0 && trainOffset > maxTrainX) {
         trainOffset = maxTrainX;
         trainDirection = 1;
-        wheelAngle = wheelAngle *-1; // flip wheel rotation direction when changing train direction
       } else if (trainDirection > 0 && trainOffset < minTrainX) {
         trainOffset = minTrainX;
         trainDirection = -1;
-        wheelAngle = wheelAngle *-1; // flip wheel rotation direction when changing train direction
       }
 
       const trainY = height - trainHeight - 40;
@@ -144,11 +143,16 @@
       ctx.stroke();
 
       // Draw the train
-      if (trainDirection < 0) {
-        drawTrain(ctx, trainOffset, trainY, trainWidth, trainHeight, wheelAngle, true);
-      } else {
-        drawTrain(ctx, trainOffset, trainY, trainWidth, trainHeight, wheelAngle, false);
-      }
+      const mirrored = trainDirection < 0;
+      drawTrain(
+        ctx,
+        trainOffset,
+        trainY,
+        trainWidth,
+        trainHeight,
+        mirrored ? -wheelAngle : wheelAngle,
+        mirrored
+      );
     });
 
     return () => {
