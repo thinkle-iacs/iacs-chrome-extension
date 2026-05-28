@@ -52,6 +52,9 @@
     console.log(hash);
     if (routes[hash]) {
       route = routes[hash];
+      if (route === "hump") {
+        triggerCamel.set(true);
+      }
     }
   }
   onhashchange = checkForSecretHash;
@@ -85,8 +88,9 @@
 
 {#if route == "snow"}<Snow />{/if}
 {#if route == "hawk"}<HawkCanvas />{/if}
-{#if route == "hump"}<HumpDayCanvas />{/if}
-{#if $triggerCamel}<HumpDayCanvas />{/if}
+{#if route == "hump" || $triggerCamel}
+  <HumpDayCanvas />
+{/if}
 {#if route == "ball" || route == "ball-abs"}
   <BouncingBall mode="absolute" />
 {/if}
