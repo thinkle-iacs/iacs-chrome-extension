@@ -26,6 +26,7 @@
   import StudentGame from "./StudentGame/StudentGame.svelte";
   import DayOfWeekWhimsy from "./whimsy/DayOfWeekWhimsy.svelte";
   import HalloweenPlus from "./whimsy/HalloweenPlus.svelte";
+  import SportsNight from "./whimsy/SportsNight.svelte";
   import HawkCard from "./Hawk/HawkCard.svelte";
   import Toast from "./Toast.svelte";
 
@@ -43,6 +44,7 @@
     "#ball-abs": "ball-abs",
     "#ball-fix": "ball-fix",
     "#halloween": "halloween",
+    "#sports": "sports",
     "#hawk": "hawk",
   };
   function checkForSecretHash() {
@@ -88,6 +90,9 @@
 {/if}
 {#if route == "ball-fix"}
   <BouncingBall mode="fixed" />
+{/if}
+{#if route == "sports"}
+  <SportsNight />
 {/if}
 
 <main>
