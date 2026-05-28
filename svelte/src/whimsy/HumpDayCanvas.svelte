@@ -1,6 +1,10 @@
 <script lang="ts">
   import WhimsyCanvas from "./WhimsyCanvas.svelte";
-  import type { WhimsyCanvasSetup, StartPage } from "./whimsyCanvas";
+  import type {
+    WhimsyCanvasSetup,
+    StartPage,
+    StartPageItem,
+  } from "./whimsyCanvas";
   import { triggerCamel } from "../prefs";
 
   let camelX = 0;
@@ -9,16 +13,19 @@
   let camelVisible = false;
 
   const setupGame: WhimsyCanvasSetup = (gameCanvas, startPage) => {
-    let mouseX = 0;
-    let mouseY = 0;
     let canvasWidth = 0;
     let canvasHeight = 0;
     let camelVelX = 0;
     let camelVelY = 0;
+    let camelDestination: StartPageItem = null;
+    let boredWaypoint: { x: number; y: number } | null = null;
+    let boredReturnDestination: StartPageItem = null;
+    let sittingMs = 0;
     const CAMEL_SIZE = 60;
-    const ACCELERATION = 0.2;
-    const FRICTION = 0.85;
-    const MAX_SPEED = 5;
+    const CAMEL_SPEED = 210;
+    const LANDING_DISTANCE = 16;
+    const MAX_STEP_TIME = 40;
+    const BORED_AFTER_MS = 12000;
     let textTimer = 0;
     const TEXT_DURATION = 1000; // 1 second
 
@@ -26,13 +33,86 @@
     camelX = 0;
     camelY = 0;
 
-    // Listen to mouse movement
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    };
+    function distanceBetween(x1: number, y1: number, x2: number, y2: number) {
+      return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+    }
 
-    window.addEventListener("mousemove", handleMouseMove);
+    function getLandingPoint(target: StartPageItem) {
+      return {
+        x: target.rect.centerX,
+        y: target.rect.centerY,
+      };
+    }
+
+    function getRandomVisiblePoint(width: number) {
+      const margin = CAMEL_SIZE * 1.5;
+      const minX = margin;
+      const maxX = Math.max(minX, width - margin);
+      const minY = window.scrollY + margin;
+      const maxY = window.scrollY + Math.max(margin, window.innerHeight - margin);
+
+      return {
+        x: minX + Math.random() * (maxX - minX),
+        y: minY + Math.random() * (maxY - minY),
+      };
+    }
+
+    function chooseClosestTarget() {
+      const targets = startPage
+        .getItems()
+        .filter(
+          (item) =>
+            item.kind === startPage.itemTypes.CARD ||
+            item.kind === startPage.itemTypes.MENU_ITEM,
+        );
+
+      const fallbackX = Number.isFinite(startPage.mouse.x)
+        ? startPage.mouse.x
+        : window.scrollX + window.innerWidth / 2;
+      const fallbackY = Number.isFinite(startPage.mouse.y)
+        ? startPage.mouse.y
+        : window.scrollY + window.innerHeight / 2;
+
+      if (targets.length === 0) {
+        return {
+          id: "mouse",
+          rect: {
+            left: fallbackX,
+            top: fallbackY,
+            right: fallbackX,
+            bottom: fallbackY,
+            width: 0,
+            height: 0,
+            centerX: fallbackX,
+            centerY: fallbackY,
+          },
+        } as StartPageItem;
+      }
+
+      let closestTarget = targets[0];
+      let closestDistance = distanceBetween(
+        fallbackX,
+        fallbackY,
+        closestTarget.rect.centerX,
+        closestTarget.rect.centerY,
+      );
+
+      for (let target of targets) {
+        const targetDistance = distanceBetween(
+          fallbackX,
+          fallbackY,
+          target.rect.centerX,
+          target.rect.centerY,
+        );
+
+        if (targetDistance < closestDistance) {
+          closestTarget = target;
+          closestDistance = targetDistance;
+        }
+      }
+
+      return closestTarget;
+    }
 
     gameCanvas.addDrawing(({ ctx, width, height, stepTime }) => {
       canvasWidth = width;
@@ -47,39 +127,54 @@
         camelY = height / 2;
       }
 
-      if (!mouseX || !mouseY) {
-        mouseX = width / 2;
-        mouseY = height / 2;
+      const seconds = Math.min(stepTime || 16, MAX_STEP_TIME) / 1000;
+      const nextDestination = chooseClosestTarget();
+
+      if (
+        !camelDestination ||
+        nextDestination.id !== camelDestination.id ||
+        (boredWaypoint && nextDestination.id === camelDestination?.id)
+      ) {
+        camelDestination = nextDestination;
+        boredWaypoint = null;
+        boredReturnDestination = null;
+        sittingMs = 0;
       }
 
-      const frameTime = (stepTime || 16) / 1000;
-
-      // Calculate direction to mouse
-      const dx = mouseX - camelX;
-      const dy = mouseY - camelY;
+      let targetPoint = boredWaypoint || getLandingPoint(camelDestination);
+      const landingPoint = getLandingPoint(camelDestination);
+      const dx = targetPoint.x - camelX;
+      const dy = targetPoint.y - camelY;
       const distance = Math.sqrt(dx * dx + dy * dy);
 
-      if (distance > CAMEL_SIZE / 2) {
-        // Accelerate towards mouse
-        const angle = Math.atan2(dy, dx);
-        camelVelX += Math.cos(angle) * ACCELERATION;
-        camelVelY += Math.sin(angle) * ACCELERATION;
+      if (distance <= LANDING_DISTANCE) {
+        camelX = targetPoint.x;
+        camelY = targetPoint.y;
+        camelVelX = 0;
+        camelVelY = 0;
+
+        if (boredWaypoint) {
+          if (boredReturnDestination) {
+            camelDestination = boredReturnDestination;
+            boredReturnDestination = null;
+          }
+          boredWaypoint = null;
+        } else {
+          sittingMs += Math.min(stepTime || 16, MAX_STEP_TIME);
+          if (sittingMs >= BORED_AFTER_MS) {
+            boredReturnDestination = camelDestination;
+            boredWaypoint = getRandomVisiblePoint(width);
+            sittingMs = 0;
+          }
+        }
+      } else {
+        const distanceToMove = CAMEL_SPEED * seconds;
+        const travelFraction = Math.min(1, distanceToMove / distance);
+        camelX += dx * travelFraction;
+        camelY += dy * travelFraction;
+        camelVelX = (dx * travelFraction) / seconds;
+        camelVelY = (dy * travelFraction) / seconds;
       }
-
-      // Apply friction
-      camelVelX *= FRICTION;
-      camelVelY *= FRICTION;
-
-      // Limit speed
-      const speed = Math.sqrt(camelVelX * camelVelX + camelVelY * camelVelY);
-      if (speed > MAX_SPEED) {
-        camelVelX = (camelVelX / speed) * MAX_SPEED;
-        camelVelY = (camelVelY / speed) * MAX_SPEED;
-      }
-
-      // Update position
-      camelX += camelVelX;
-      camelY += camelVelY;
 
       // Keep camel on screen
       camelX = Math.max(CAMEL_SIZE / 2, Math.min(width - CAMEL_SIZE / 2, camelX));
@@ -155,7 +250,9 @@
         ctx.fillStyle = "rgba(255, 100, 0, 1)";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillText("Happy Hump Day!", width / 2, height / 3);
+        const visibleCenterX = window.scrollX + window.innerWidth / 2;
+        const visibleCenterY = window.scrollY + window.innerHeight / 3;
+        ctx.fillText("Happy Hump Day!", visibleCenterX, visibleCenterY);
         ctx.globalAlpha = 1;
         textTimer -= stepTime || 16;
       }
@@ -165,25 +262,30 @@
     const unsubscribe = triggerCamel.subscribe((value) => {
       camelVisible = value;
       if (value) {
-        // Reset camel position to center of the canvas
-        camelX = canvasWidth ? canvasWidth / 2 : window.innerWidth / 2;
-        camelY = canvasHeight ? canvasHeight / 2 : window.innerHeight / 2;
-        mouseX = camelX;
-        mouseY = camelY;
+        // Reset camel position to the visible viewport or current mouse location.
+        camelX = Number.isFinite(startPage.mouse.x)
+          ? startPage.mouse.x
+          : window.scrollX + window.innerWidth / 2;
+        camelY = Number.isFinite(startPage.mouse.y)
+          ? startPage.mouse.y
+          : window.scrollY + window.innerHeight / 2;
+        camelDestination = null;
+        boredWaypoint = null;
+        boredReturnDestination = null;
         camelVelX = 0;
         camelVelY = 0;
+        sittingMs = 0;
         textTimer = TEXT_DURATION;
       }
     });
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
       unsubscribe();
     };
   };
 </script>
 
-<WhimsyCanvas mode="fixed" onLoad={setupGame} />
+<WhimsyCanvas mode="absolute" onLoad={setupGame} />
 
 <style>
 </style>
