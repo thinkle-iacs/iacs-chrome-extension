@@ -224,59 +224,120 @@
       ctx.scale(1.5, 1.5);
 
       // Camel body (brighter colors + thicker stroke for visibility)
-      ctx.fillStyle = "#ff9f3b";
-      ctx.strokeStyle = "#6b3f13";
+      ctx.fillStyle = "#d4a574";
+      ctx.strokeStyle = "#8b6f47";
+      ctx.lineWidth = 2;
+
+      // Body
+      ctx.beginPath();
+      ctx.ellipse(0, bodyY, 22, 14, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Humps - larger and more rounded
+      ctx.fillStyle = "#c89968";
+      ctx.beginPath();
+      ctx.ellipse(-10, bodyY - 14, 10, 12, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.ellipse(8, bodyY - 12, 9, 11, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Neck - tapered
+      ctx.fillStyle = "#d4a574";
+      ctx.beginPath();
+      ctx.moveTo(18, neckYOffset + 4);
+      ctx.lineTo(24, neckYOffset - 6);
+      ctx.lineTo(26, neckYOffset - 6);
+      ctx.lineTo(20, neckYOffset + 4);
+      ctx.fill();
+      ctx.stroke();
+
+      // Head - more detailed
+      ctx.beginPath();
+      ctx.ellipse(28, headYOffset, 7, 7, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Ears
+      ctx.fillStyle = "#c89968";
+      ctx.beginPath();
+      ctx.ellipse(26, headYOffset - 8, 2, 4, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.ellipse(30, headYOffset - 8, 2, 4, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Eyes
+      ctx.fillStyle = "#000";
+      ctx.beginPath();
+      ctx.arc(26, headYOffset - 1, 1.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(30, headYOffset - 1, 1.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Snout
+      ctx.fillStyle = "#d4a574";
+      ctx.strokeStyle = "#8b6f47";
+      ctx.beginPath();
+      ctx.ellipse(34, headYOffset + 2, 3, 2, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Legs - more realistic with hooves
+      ctx.fillStyle = "#a68567";
+      ctx.strokeStyle = "#8b6f47";
+      ctx.lineWidth = 2;
+
+      // Front left leg
+      ctx.fillRect(-16, frontLeftY, 5, frontLeftHeight);
+      ctx.strokeRect(-16, frontLeftY, 5, frontLeftHeight);
+      // Hoof
+      ctx.fillRect(-18, frontLeftY + frontLeftHeight - 1, 9, 3);
+      ctx.strokeRect(-18, frontLeftY + frontLeftHeight - 1, 9, 3);
+
+      // Front right leg
+      ctx.fillRect(-4, frontRightY, 5, frontRightHeight);
+      ctx.strokeRect(-4, frontRightY, 5, frontRightHeight);
+      // Hoof
+      ctx.fillRect(-6, frontRightY + frontRightHeight - 1, 9, 3);
+      ctx.strokeRect(-6, frontRightY + frontRightHeight - 1, 9, 3);
+
+      // Back left leg
+      ctx.fillRect(6, backLeftY, 5, backLeftHeight);
+      ctx.strokeRect(6, backLeftY, 5, backLeftHeight);
+      // Hoof
+      ctx.fillRect(4, backLeftY + backLeftHeight - 1, 9, 3);
+      ctx.strokeRect(4, backLeftY + backLeftHeight - 1, 9, 3);
+
+      // Back right leg
+      ctx.fillRect(16, backRightY, 5, backRightHeight);
+      ctx.strokeRect(16, backRightY, 5, backRightHeight);
+      // Hoof
+      ctx.fillRect(14, backRightY + backRightHeight - 1, 9, 3);
+      ctx.strokeRect(14, backRightY + backRightHeight - 1, 9, 3);
+
+      // Tail - fluffy
+      ctx.strokeStyle = "#8b6f47";
       ctx.lineWidth = 3;
-
       ctx.beginPath();
-      ctx.ellipse(0, bodyY, 20, 12, 0, 0, Math.PI * 2);
+      ctx.moveTo(-22, tailLift);
+      ctx.quadraticCurveTo(-28, tailLift + 2, -30, tailLift + 8);
+      ctx.stroke();
+
+      // Tail tuft
+      ctx.fillStyle = "#a68567";
+      ctx.beginPath();
+      ctx.ellipse(-30, tailLift + 10, 3, 4, 0, 0, Math.PI * 2);
       ctx.fill();
-      ctx.stroke();
-
-      // Humps
-      ctx.beginPath();
-      ctx.arc(-8, bodyY - 10, 8, Math.PI, 0);
-      ctx.fill();
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.arc(8, bodyY - 10, 8, Math.PI, 0);
-      ctx.fill();
-      ctx.stroke();
-
-      // Neck
-      ctx.fillRect(16, neckYOffset, 6, 20);
-      ctx.strokeRect(16, neckYOffset, 6, 20);
-
-      // Head
-      ctx.beginPath();
-      ctx.ellipse(24, headYOffset, 8, 6, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.stroke();
-
-      // Legs
-      ctx.fillRect(-14, frontLeftY, 4, frontLeftHeight);
-      ctx.strokeRect(-14, frontLeftY, 4, frontLeftHeight);
-      ctx.fillRect(-4, frontRightY, 4, frontRightHeight);
-      ctx.strokeRect(-4, frontRightY, 4, frontRightHeight);
-      ctx.fillRect(6, backLeftY, 4, backLeftHeight);
-      ctx.strokeRect(6, backLeftY, 4, backLeftHeight);
-      ctx.fillRect(16, backRightY, 4, backRightHeight);
-      ctx.strokeRect(16, backRightY, 4, backRightHeight);
-
-      // Tail
-      ctx.beginPath();
-      ctx.moveTo(-20, tailLift);
-      ctx.lineTo(-28, tailLift + 8);
-      ctx.stroke();
-
-      // Tail
-      ctx.beginPath();
-      ctx.moveTo(-20, -2);
-      ctx.lineTo(-28, 6);
-      ctx.stroke();
-
-      // final visuals: no debug overlays
 
       ctx.restore();
 
