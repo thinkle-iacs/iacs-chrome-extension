@@ -30,7 +30,7 @@
     const JUMP_FREQUENCY = 10;
     const JUMP_AMPLITUDE = 6;
     let textTimer = 0;
-    const TEXT_DURATION = 1000; // 1 second
+    const TEXT_DURATION = 2000; // 2 seconds
 
     // Initialize camel position later once the canvas is sized
     camelX = 0;
