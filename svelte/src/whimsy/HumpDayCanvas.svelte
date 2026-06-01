@@ -32,8 +32,10 @@
     const JUMP_AMPLITUDE = 6;
     const CLICK_HOP_DURATION = 260;
     const CLICK_HOP_HEIGHT = 22;
+    const CLICK_THRESHOLD = 5;
     const CLICK_MESSAGE = "Created by Adam Class of 2027";
     let clickHopTimer = 0;
+    let clickCount = 0;
     let textTimer = 0;
     const TEXT_DURATION = 2000; // 2 seconds
 
@@ -385,9 +387,10 @@
       const distance = distanceBetween(clickX, clickY, camelX, camelY);
 
       if (distance <= CAMEL_SIZE * 0.75) {
-        textMessage = CLICK_MESSAGE;
+        textMessage = clickCount >= CLICK_THRESHOLD ? CLICK_MESSAGE : "Happy Hump Day!";
         textTimer = TEXT_DURATION;
         clickHopTimer = CLICK_HOP_DURATION;
+        clickCount += 1;
       }
     }
 
@@ -409,6 +412,7 @@
         camelVelX = 0;
         camelVelY = 0;
         sittingMs = 0;
+        clickCount = 0;
         textMessage = "Happy Hump Day!";
         textTimer = TEXT_DURATION;
         ignoreCamelClickUntil = performance.now() + 120;
