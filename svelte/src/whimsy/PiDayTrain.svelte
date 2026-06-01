@@ -203,6 +203,8 @@
     let trainOffset = 1500;
     const trainDirection = 1;
     const trainSpeed = 1.5; // movement speed in px per frame unit
+    let lastFirstCarX = trainOffset + 140; // track previous frame's first car X
+    let hasExitedThisFrame = false;
 
     gameCanvas.addDrawing(({ ctx, width, height, stepTime }) => {
       const elapsed = Math.min(stepTime || 16, 100);
@@ -236,12 +238,18 @@
       const gap = 12;
       const carWheelRadius = 18;
 
-      // Check if the first car has exited the screen
+      // Check if the first car exited this frame (crossed the boundary)
       const firstCarX = trainOffset + 1 * (carWidth + gap) * trainDirection + 140;
-      if (firstCarX + carWidth < -50 || firstCarX > width + 50) {
+      const isFirstCarOnScreen = firstCarX + carWidth >= -50 && firstCarX <= width + 50;
+      const wasFirstCarOnScreen = lastFirstCarX + carWidth >= -50 && lastFirstCarX <= width + 50;
+      
+      if (wasFirstCarOnScreen && !isFirstCarOnScreen) {
+        // First car just exited this frame
         currentDigitIndex += 1;
-        console.log(`[First Car Exit] Incremented currentDigitIndex to ${currentDigitIndex}, wraps around at piDigits.length=${piDigits.length}`);
+        console.log(`[First Car Exit] Incremented currentDigitIndex to ${currentDigitIndex}, wraps at ${piDigits.length}`);
       }
+      
+      lastFirstCarX = firstCarX;
 
       for (let k = cars.length - 1; k >= 0; k--) {
         const car = cars[k];
