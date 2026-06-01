@@ -11,6 +11,7 @@
   let camelY = 0;
   let textOpacity = 1;
   let camelVisible = false;
+  let textMessage = "Happy Hump Day!";
 
   const setupGame: WhimsyCanvasSetup = (gameCanvas, startPage) => {
     let canvasWidth = 0;
@@ -29,6 +30,10 @@
     const BORED_AFTER_MS = 12000;
     const JUMP_FREQUENCY = 10;
     const JUMP_AMPLITUDE = 6;
+    const CLICK_HOP_DURATION = 260;
+    const CLICK_HOP_HEIGHT = 22;
+    const CLICK_MESSAGE = "Created by Adam Class of 2027";
+    let clickHopTimer = 0;
     let textTimer = 0;
     const TEXT_DURATION = 2000; // 2 seconds
 
@@ -195,6 +200,8 @@
       const jumpPhase = camelAnimationTime * JUMP_FREQUENCY;
       const jumpProgress = moving ? Math.max(0, Math.sin(jumpPhase)) : 0;
       const jumpOffset = moving ? jumpProgress * JUMP_AMPLITUDE : 0;
+      const clickHopProgress = clickHopTimer > 0 ? Math.sin((1 - clickHopTimer / CLICK_HOP_DURATION) * Math.PI) : 0;
+      const clickHopOffset = clickHopProgress * CLICK_HOP_HEIGHT;
       const bodyY = moving ? -6 : 0;
       const neckYOffset = moving ? -16 : -18;
       const headYOffset = moving ? -18 : -20;
@@ -208,6 +215,10 @@
         camelAnimationTime = 0;
       }
 
+      if (clickHopTimer > 0) {
+        clickHopTimer = Math.max(0, clickHopTimer - (stepTime || 16));
+      }
+
       const frontLeftY = liftedLegY;
       const frontRightY = liftedLegY;
       const backLeftY = liftedLegY;
@@ -219,7 +230,7 @@
 
       // Draw camel
       ctx.save();
-      ctx.translate(camelX, camelY - jumpOffset);
+      ctx.translate(camelX, camelY - jumpOffset - clickHopOffset);
       ctx.rotate(angle);
       ctx.scale(1.5, 1.5);
 
@@ -351,13 +362,31 @@
         ctx.textBaseline = "middle";
         const visibleCenterX = window.scrollX + window.innerWidth / 2;
         const visibleCenterY = window.scrollY + window.innerHeight / 3;
-        ctx.fillText("Happy Hump Day!", visibleCenterX, visibleCenterY);
+        ctx.fillText(textMessage, visibleCenterX, visibleCenterY);
         ctx.globalAlpha = 1;
         textTimer -= stepTime || 16;
       }
     });
 
     // Subscribe to trigger — show camel when triggered, but do not auto-hide it.
+    function handleWindowClick(event: MouseEvent) {
+      if (!camelVisible) {
+        return;
+      }
+
+      const clickX = event.clientX + window.scrollX;
+      const clickY = event.clientY + window.scrollY;
+      const distance = distanceBetween(clickX, clickY, camelX, camelY);
+
+      if (distance <= CAMEL_SIZE * 0.75) {
+        textMessage = CLICK_MESSAGE;
+        textTimer = TEXT_DURATION;
+        clickHopTimer = CLICK_HOP_DURATION;
+      }
+    }
+
+    window.addEventListener("click", handleWindowClick);
+
     const unsubscribe = triggerCamel.subscribe((value) => {
       camelVisible = value;
       if (value) {
@@ -374,16 +403,18 @@
         camelVelX = 0;
         camelVelY = 0;
         sittingMs = 0;
+        textMessage = "Happy Hump Day!";
         textTimer = TEXT_DURATION;
       }
     });
 
     return () => {
       unsubscribe();
+      window.removeEventListener("click", handleWindowClick);
     };
   };
 </script>
-
+// Adam Class of 2027
 <WhimsyCanvas mode="absolute" onLoad={setupGame} />
 
 <style>
