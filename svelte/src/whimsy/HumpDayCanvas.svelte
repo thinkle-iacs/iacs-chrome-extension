@@ -369,8 +369,14 @@
     });
 
     // Subscribe to trigger — show camel when triggered, but do not auto-hide it.
+    let ignoreCamelClickUntil = 0;
+
     function handleWindowClick(event: MouseEvent) {
       if (!camelVisible) {
+        return;
+      }
+
+      if (performance.now() < ignoreCamelClickUntil) {
         return;
       }
 
@@ -405,6 +411,7 @@
         sittingMs = 0;
         textMessage = "Happy Hump Day!";
         textTimer = TEXT_DURATION;
+        ignoreCamelClickUntil = performance.now() + 120;
       }
     });
 
