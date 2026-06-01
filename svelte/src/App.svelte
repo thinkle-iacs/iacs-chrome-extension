@@ -26,7 +26,7 @@
   import StudentGame from "./StudentGame/StudentGame.svelte";
   import DayOfWeekWhimsy from "./whimsy/DayOfWeekWhimsy.svelte";
   import HalloweenPlus from "./whimsy/HalloweenPlus.svelte";
-  import ChristmasTrain from "./whimsy/ChristmasTrainCanvas.svelte";
+  import ChristmasTrain from "./whimsy/PiDayTrain.svelte";
   import HawkCard from "./Hawk/HawkCard.svelte";
   import Toast from "./Toast.svelte";
 
@@ -45,7 +45,7 @@
     "#ball-fix": "ball-fix",
     "#halloween": "halloween",
     "#hawk": "hawk",
-    '#ctrain' : 'christmas-train'
+    '#ptrain' : 'christmas-train'
   };
   function checkForSecretHash() {
     let hash = window.location.hash;
