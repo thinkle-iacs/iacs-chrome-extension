@@ -39,10 +39,16 @@
     growStart?: number;
     growDuration?: number;
     initialRadius?: number;
+    special?: boolean;
   };
   
 
   let flowers: Flower[] = [];
+  let specialFlower: Flower | null = null;
+  let hoverMessage = "";
+  let hoverMessageStart = 0;
+  const HOVER_MESSAGE_DURATION = 4500;
+  let clickHandler: ((event: MouseEvent) => void) | null = null;
   let lastWidth = 0;
   let lastHeight = 0;
 
@@ -200,6 +206,33 @@
 
     // Draw far flowers first so deeper flowers stay behind nearer ones.
     flowers.sort((a, b) => a.depth - b.depth);
+    specialFlower = createSpecialFlower(width, height);
+  }
+
+  function createSpecialFlower(width: number, height: number): Flower {
+    const radius = 30;
+    return {
+      x: Math.max(width - radius - 20, radius + 20),
+      y: Math.max(radius + 20, 185),
+      scale: 1,
+      petalColor: "#ff8cc4",
+      centerColor: "#ffd4ed",
+      radius,
+      depth: 1,
+      swayPhase: Math.random() * Math.PI * 2,
+      swayAmp: 0.005,
+      swayFreq: 0.3,
+      bloomPhase: Math.random() * Math.PI * 2,
+      bloomFreq: 0.3,
+      swayEnabled: true,
+      bloomEnabled: false,
+      bloomAmp: 0,
+      seeded: false,
+      growStart: 0,
+      growDuration: 0,
+      initialRadius: undefined,
+      special: true,
+    };
   }
 
   /*
@@ -240,10 +273,10 @@
       }
 
       ctx.fillStyle = f.petalColor;
-      const petalCount = 6;
-      const petalOffset = currentRadius * 0.45 * bloom; // distance from center
-      const petalW = Math.max(6, currentRadius * 0.35 * bloom);
-      const petalH = Math.max(10, currentRadius * 0.9 * bloom);
+      const petalCount = f.special ? 8 : 6;
+      const petalOffset = currentRadius * (f.special ? 0.5 : 0.45) * bloom; // distance from center
+      const petalW = Math.max(6, currentRadius * (f.special ? 0.4 : 0.35) * bloom);
+      const petalH = Math.max(10, currentRadius * (f.special ? 1.05 : 0.9) * bloom);
 
       // apply a small sway rotation for the whole flower
       ctx.rotate(sway);
@@ -256,7 +289,7 @@
       }
 
       ctx.beginPath();
-      ctx.fillStyle = "black";
+      ctx.fillStyle = f.centerColor;
       const centerRadius = Math.max(4, Math.round(currentRadius * 0.45 * bloom));
       ctx.arc(0, 0, centerRadius, 0, Math.PI * 2);
       ctx.fill();
@@ -267,16 +300,58 @@
       drawFlowerAt(f);
     }
 
+    if (specialFlower) {
+      drawFlowerAt(specialFlower);
+    }
+
+    drawMessage(ctx, timestamp);
+    ctx.restore();
+  }
+
+  function drawMessage(ctx: CanvasRenderingContext2D, timestamp?: number) {
+    const nowMs = timestamp !== undefined && timestamp !== null ? timestamp : (typeof performance !== 'undefined' ? performance.now() : Date.now());
+    if (!hoverMessage || nowMs - hoverMessageStart > HOVER_MESSAGE_DURATION) {
+      return;
+    }
+
+    const alpha = 1 - (nowMs - hoverMessageStart) / HOVER_MESSAGE_DURATION;
+    ctx.save();
+    ctx.font = "18px sans-serif";
+    ctx.textAlign = "right";
+    ctx.textBaseline = "top";
+    ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+    ctx.fillText(
+      "made my Mason Januskiewicz class of 2027",
+      Math.max((specialFlower?.x || 0) - 10, 0),
+      Math.max((specialFlower?.y || 0) + (specialFlower?.radius || 0) + 8, 0)
+    );
     ctx.restore();
   }
 
   function setupGame(gameCanvas: WhimsyGameCanvas, page: StartPage) {
     startPage = page;
     gameCanvas.addDrawing(draw);
+    clickHandler = handleClick;
+    window.addEventListener("click", clickHandler, true);
   }
 
   function clearGame() {
-    // Clear any state if you add interactivity
+    if (clickHandler) {
+      window.removeEventListener("click", clickHandler, true);
+      clickHandler = null;
+    }
+  }
+
+  function handleClick(event: MouseEvent) {
+    if (!specialFlower) return;
+    const x = event.clientX + window.scrollX;
+    const y = event.clientY + window.scrollY;
+    const dx = x - specialFlower.x;
+    const dy = y - specialFlower.y;
+    if (Math.hypot(dx, dy) <= specialFlower.radius * 1.1) {
+      hoverMessage = "made my Mason Januskiewicz class of 2027";
+      hoverMessageStart = typeof performance !== 'undefined' ? performance.now() : Date.now();
+    }
   }
 </script>
 
