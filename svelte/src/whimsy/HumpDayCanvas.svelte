@@ -139,56 +139,65 @@
 
       const seconds = Math.min(stepTime || 16, MAX_STEP_TIME) / 1000;
       const nextDestination = chooseClosestTarget();
+      let moving = false;
+      let distance = 0;
 
-      if (
-        !camelDestination ||
-        nextDestination.id !== camelDestination.id ||
-        (boredWaypoint && nextDestination.id === camelDestination?.id)
-      ) {
-        camelDestination = nextDestination;
-        boredWaypoint = null;
-        boredReturnDestination = null;
-        sittingMs = 0;
-      }
-
-      let targetPoint = boredWaypoint || getLandingPoint(camelDestination);
-      const landingPoint = getLandingPoint(camelDestination);
-      const dx = targetPoint.x - camelX;
-      const dy = targetPoint.y - camelY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      const moving = distance > LANDING_DISTANCE;
-
-      if (moving) {
-        camelAnimationTime += seconds;
-      }
-
-      if (distance <= LANDING_DISTANCE) {
-        camelX = targetPoint.x;
-        camelY = targetPoint.y;
-        camelVelX = 0;
-        camelVelY = 0;
-
-        if (boredWaypoint) {
-          if (boredReturnDestination) {
-            camelDestination = boredReturnDestination;
-            boredReturnDestination = null;
-          }
+      if (!isDragging) {
+        if (
+          !camelDestination ||
+          nextDestination.id !== camelDestination.id ||
+          (boredWaypoint && nextDestination.id === camelDestination?.id)
+        ) {
+          camelDestination = nextDestination;
           boredWaypoint = null;
-        } else {
-          sittingMs += Math.min(stepTime || 16, MAX_STEP_TIME);
-          if (sittingMs >= BORED_AFTER_MS) {
-            boredReturnDestination = camelDestination;
-            boredWaypoint = getRandomVisiblePoint(width);
-            sittingMs = 0;
+          boredReturnDestination = null;
+          sittingMs = 0;
+        }
+
+        let targetPoint = boredWaypoint || getLandingPoint(camelDestination);
+        const landingPoint = getLandingPoint(camelDestination);
+        const dx = targetPoint.x - camelX;
+        const dy = targetPoint.y - camelY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const moving = distance > LANDING_DISTANCE;
+
+        if (moving) {
+          camelAnimationTime += seconds;
+        }
+
+        if (distance <= LANDING_DISTANCE) {
+          camelX = targetPoint.x;
+          camelY = targetPoint.y;
+          camelVelX = 0;
+          camelVelY = 0;
+
+          if (boredWaypoint) {
+            if (boredReturnDestination) {
+              camelDestination = boredReturnDestination;
+              boredReturnDestination = null;
+            }
+            boredWaypoint = null;
+          } else {
+            sittingMs += Math.min(stepTime || 16, MAX_STEP_TIME);
+            if (sittingMs >= BORED_AFTER_MS) {
+              boredReturnDestination = camelDestination;
+              boredWaypoint = getRandomVisiblePoint(width);
+              sittingMs = 0;
+            }
           }
+        } else {
+          const distanceToMove = CAMEL_SPEED * seconds;
+          const travelFraction = Math.min(1, distanceToMove / distance);
+          camelX += dx * travelFraction;
+          camelY += dy * travelFraction;
+          camelVelX = (dx * travelFraction) / seconds;
+          camelVelY = (dy * travelFraction) / seconds;
         }
       } else {
-        const distanceToMove = CAMEL_SPEED * seconds;
-        const travelFraction = Math.min(1, distanceToMove / distance);
-        camelX += dx * travelFraction;
-        camelY += dy * travelFraction;
-        camelVelX = (dx * travelFraction) / seconds;
-        camelVelY = (dy * travelFraction) / seconds;
+        // While dragging, keep the camel exactly where the user placed it.
+        camelVelX = 0;
+        camelVelY = 0;
+        camelAnimationTime = 0;
       }
 
       // Keep camel on screen
@@ -372,6 +381,13 @@
 
     // Subscribe to trigger — show camel when triggered, but do not auto-hide it.
     let ignoreCamelClickUntil = 0;
+    let isDragging = false;
+    let dragCandidate = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+    const DRAG_THRESHOLD = 6;
 
     function handleWindowClick(event: MouseEvent) {
       if (!camelVisible) {
@@ -394,7 +410,63 @@
       }
     }
 
+    function handleWindowMouseDown(event: MouseEvent) {
+      if (!camelVisible) return;
+      const x = event.clientX + window.scrollX;
+      const y = event.clientY + window.scrollY;
+      const distance = distanceBetween(x, y, camelX, camelY);
+      if (distance <= CAMEL_SIZE * 0.75) {
+        dragCandidate = true;
+        dragStartX = x;
+        dragStartY = y;
+        dragOffsetX = camelX - x;
+        dragOffsetY = camelY - y;
+      }
+    }
+
+    function handleWindowMouseMove(event: MouseEvent) {
+      const x = event.clientX + window.scrollX;
+      const y = event.clientY + window.scrollY;
+
+      if (dragCandidate) {
+        const moved = distanceBetween(x, y, dragStartX, dragStartY);
+        if (moved > DRAG_THRESHOLD) {
+          isDragging = true;
+          dragCandidate = false;
+          ignoreCamelClickUntil = performance.now() + 120;
+        }
+      }
+
+      if (!isDragging) return;
+
+      camelX = x + dragOffsetX;
+      camelY = y + dragOffsetY;
+      // While dragging, cancel destination behavior so it stays where the user places it
+      camelDestination = null;
+      boredWaypoint = null;
+      boredReturnDestination = null;
+      camelVelX = 0;
+      camelVelY = 0;
+    }
+
+    function handleWindowMouseUp(_event: MouseEvent) {
+      if (dragCandidate) {
+        dragCandidate = false;
+      }
+
+      if (isDragging) {
+        isDragging = false;
+        // small hop on release for feedback
+        clickHopTimer = CLICK_HOP_DURATION;
+        // ignore the mouseup click briefly
+        ignoreCamelClickUntil = performance.now() + 120;
+      }
+    }
+
     window.addEventListener("click", handleWindowClick);
+    window.addEventListener("mousedown", handleWindowMouseDown);
+    window.addEventListener("mousemove", handleWindowMouseMove);
+    window.addEventListener("mouseup", handleWindowMouseUp);
 
     const unsubscribe = triggerCamel.subscribe((value) => {
       camelVisible = value;
@@ -422,6 +494,9 @@
     return () => {
       unsubscribe();
       window.removeEventListener("click", handleWindowClick);
+      window.removeEventListener("mousedown", handleWindowMouseDown);
+      window.removeEventListener("mousemove", handleWindowMouseMove);
+      window.removeEventListener("mouseup", handleWindowMouseUp);
     };
   };
   // Adam Class of 2027
