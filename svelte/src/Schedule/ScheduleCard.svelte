@@ -4,6 +4,7 @@
   import ScheduleBlockDisplay from "./ScheduleBlockDisplay.svelte";
   import ScheduleChooser from "./ScheduleChooser.svelte";
   import { now } from "./now";
+  import { onDestroy } from "svelte";
   import { triggerCamel } from "../prefs";
   let activeOption;
   function setActive(scheduleOption) {
@@ -39,6 +40,8 @@
     `;
   }
   let currentBlock, nextBlocks, previousBlock;
+  let themeActive = false;
+  let themeTimeout: number;
 
   $: {
     if (activeOption && activeOption.schedule) {
@@ -64,9 +67,17 @@
   }
 
   function handleWedClick() {
-    console.log("Wed clicked!");
     triggerCamel.set(true);
+    themeActive = true;
+    window.clearTimeout(themeTimeout);
+    themeTimeout = window.setTimeout(() => {
+      themeActive = false;
+    }, 3000);
   }
+
+  onDestroy(() => {
+    window.clearTimeout(themeTimeout);
+  });
 </script>
 
 <Card double={true} fullwidth={customize}>
@@ -99,6 +110,7 @@
     </div>
     <div
       class="schedule-grid"
+      class:theme-active={themeActive}
       style:grid-template-rows={`repeat(${60 * 24},auto)`}
       style:grid-template-columns="2em auto"
     >
@@ -188,6 +200,26 @@
   .dayheader.wednesday:hover {
     transform: scale(1.1);
     background-color: var(--blue);
+  }
+  .theme-active .dayheader {
+    background-color: var(--blue);
+    color: var(--white, "white");
+  }
+  .theme-active .dayheader.wednesday:hover {
+    background-color: hsl(210, 100%, 45%);
+  }
+  .theme-active .block-container {
+    background-color: rgba(0, 105, 255, 0.08);
+    border-color: var(--blue);
+  }
+  .theme-active .current {
+    border-color: var(--darkblue);
+  }
+  .theme-active .hour-block {
+    color: var(--blue);
+  }
+  .theme-active .controls {
+    border-color: var(--blue);
   }
   /* .previous {
     border-left: 3px solid var(--lightgrey);

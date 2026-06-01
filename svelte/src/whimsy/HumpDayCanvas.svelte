@@ -424,8 +424,9 @@
       window.removeEventListener("click", handleWindowClick);
     };
   };
+  // Adam Class of 2027
 </script>
-// Adam Class of 2027
+
 <WhimsyCanvas mode="absolute" onLoad={setupGame} />
 
 <style>
