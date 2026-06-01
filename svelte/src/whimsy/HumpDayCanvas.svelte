@@ -387,6 +387,8 @@
     let dragStartY = 0;
     let dragOffsetX = 0;
     let dragOffsetY = 0;
+    let originalBodyUserSelect = "";
+    let originalBodyWebkitUserSelect = "";
     const DRAG_THRESHOLD = 6;
 
     function handleWindowClick(event: MouseEvent) {
@@ -421,6 +423,11 @@
         dragStartY = y;
         dragOffsetX = camelX - x;
         dragOffsetY = camelY - y;
+        originalBodyUserSelect = document.body.style.userSelect;
+        originalBodyWebkitUserSelect = document.body.style.webkitUserSelect;
+        document.body.style.userSelect = "none";
+        document.body.style.webkitUserSelect = "none";
+        event.preventDefault();
       }
     }
 
@@ -449,6 +456,13 @@
       camelVelY = 0;
     }
 
+    function restoreBodyUserSelect() {
+      document.body.style.userSelect = originalBodyUserSelect;
+      document.body.style.webkitUserSelect = originalBodyWebkitUserSelect;
+      originalBodyUserSelect = "";
+      originalBodyWebkitUserSelect = "";
+    }
+
     function handleWindowMouseUp(_event: MouseEvent) {
       if (dragCandidate) {
         dragCandidate = false;
@@ -461,6 +475,8 @@
         // ignore the mouseup click briefly
         ignoreCamelClickUntil = performance.now() + 120;
       }
+
+      restoreBodyUserSelect();
     }
 
     window.addEventListener("click", handleWindowClick);
@@ -493,6 +509,7 @@
 
     return () => {
       unsubscribe();
+      restoreBodyUserSelect();
       window.removeEventListener("click", handleWindowClick);
       window.removeEventListener("mousedown", handleWindowMouseDown);
       window.removeEventListener("mousemove", handleWindowMouseMove);
