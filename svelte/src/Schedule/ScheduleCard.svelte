@@ -67,6 +67,10 @@
   }
 
   function handleWedClick() {
+    if ($now.getDay() !== 3) {
+      return;
+    }
+
     triggerCamel.set(true);
     themeActive = true;
     window.clearTimeout(themeTimeout);
@@ -143,7 +147,7 @@
             style:grid-column-end={n + 2}
             class:highlight={n == dayToShow}
             class:next-to-highlight={Math.abs(n - dayToShow) == 1}
-            on:click={n === 3 ? handleWedClick : undefined}
+            on:click={n === 3 && $now.getDay() === 3 ? handleWedClick : undefined}
           >
             <!-- {#if $now.getDay() == n}
               ▶
