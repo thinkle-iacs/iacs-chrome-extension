@@ -3,6 +3,7 @@
   import type { WhimsyCanvasMode, WhimsyCanvasSetup } from "./whimsyCanvas";
   // Written by "Ava & Chase" (we vibe coded the hell out of this lmao)
 
+
   export let mode: WhimsyCanvasMode = "fixed";
 
   const TRAIN_SPEED = 1.5;
@@ -45,7 +46,8 @@
     const wheelY = y + bodyHeight + wheelRadius;
 
     // Train body
-    ctx.fillStyle = "green";
+    ctx.fillStyle = "#b57b3b";
+    // ^ this is the main engine color
     ctx.fillRect(x + 12, y + bodyHeight * 0.12, trainWidth * 0.64, bodyHeight * 0.88);
     ctx.fillStyle = "#f8c548";
     ctx.fillRect(x + trainWidth * 0.04, y + bodyHeight * 0.22, trainWidth * 0.28, bodyHeight * 0.56);
