@@ -5,21 +5,19 @@
 
   export let mode: WhimsyCanvasMode = "fixed";
 
-  // First 100 digits of pi (including the leading 3), digits-only, comma-separated
-  const piDigits: number[] = [
-    3,1,4,1,5,9,2,6,5,3,5,8,9,7,9,3,2,3,8,4,6,2,6,4,3,3,8,3,2,7,9,5,0,2,8,8,4,1,9,7,1,6,9,3,9,9,3,7,5,1,0,5,8,2,0,9,7,4,9,4,4,5,9,2,3,0,7,8,1,6,4,0,6,2,8,6,2,0,8,9,9,8,6,2,8,0,3,4,8,2,5,3,4,2,1,1,7,0,6,7
-  ];
+  const TRAIN_SPEED = 1.5;
+  const CAR_COLORS = ["#7b3b3b", "#b57b3b"] as const;
 
-  // Fixed train cars array with stable positions and colors
-  // Digits are assigned dynamically based on currentDigitIndex
-  const cars = Array.from({ length: 10 }, (_, i) => ({
-    id: i + 1,
-    color: i % 2 === 0 ? "#7b3b3b" : "#b57b3b"
-  }));
-
-  // Track which pi digit is displayed on the first car
-  // When the first car exits the screen, this increments
-  let currentDigitIndex = 0;
+  // Infinite pi digit generator — cycles through pre-computed digits
+  function* piDigitGenerator(): Generator<number> {
+    const PI =
+      "3141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067982148086513282306647093844609550582231725359408128481117450284102701938521105559644622948954930381964428810975665933446128475648233786783165271201909145648566923460348610454326648213393607260249141273724587006606315588174881520920962829254091715364367892590360011330530548820466521384146951941511609433057270365759591953092186117381932611793105118548074462379962749567351885752724891227938183011949129833673362440656643086021394946395224737190702179860943702770539217176293176752384674818467669405132000568127145263560827785771342757789609173637178721468440901224953430146549585371050792279689258923542019956112129021960864034418159813629774771309960518707211349999998372978049951059731732816096318595024459455346908302642522308253344685035261931188171010003137838752886587533208381420617177669147303598253490428755468731159562863882353787593751957781857780532171226806613001927876611195909216420199380935";
+    let i = 0;
+    while (true) {
+      yield parseInt(PI[i % PI.length]);
+      i++;
+    }
+  }
 
   function drawTrain(
     ctx: CanvasRenderingContext2D,
@@ -88,20 +86,17 @@
     ctx.strokeStyle = "#1f2f39";
     ctx.lineWidth = 4;
     wheelCenters.forEach((centerX) => {
-      // Wheel outer rim
       ctx.beginPath();
       ctx.arc(centerX, wheelY, wheelRadius, 0, Math.PI * 2);
       ctx.fillStyle = "#1f3140";
       ctx.fill();
       ctx.stroke();
 
-      // Wheel hub
       ctx.beginPath();
       ctx.arc(centerX, wheelY, wheelRadius * 0.62, 0, Math.PI * 2);
       ctx.fillStyle = "#7b9fb9";
       ctx.fill();
 
-      // Rotating spokes
       const spokeCount = 6;
       for (let spoke = 0; spoke < spokeCount; spoke += 1) {
         const angle = wheelAngle + (Math.PI * 2 * spoke) / spokeCount;
@@ -148,16 +143,13 @@
     ctx.fillStyle = "#2f4f62";
     ctx.fillRect(x + carWidth * 0.06, y - 6, carWidth * 0.4, 12);
 
-    // Draw label (digit) centered on the car body
     if (label !== undefined && label !== null) {
       ctx.fillStyle = "#ffffff";
       const fontSize = Math.max(12, Math.floor(carHeight * 0.18));
       ctx.font = `${fontSize}px sans-serif`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      const textX = x + carWidth / 2;
-      const textY = y + bodyHeight * 0.5;
-      ctx.fillText(String(label), textX, textY);
+      ctx.fillText(String(label), x + carWidth / 2, y + bodyHeight * 0.5);
     }
 
     // Wheels
@@ -198,77 +190,89 @@
     ctx.restore();
   }
 
-  const setup: WhimsyCanvasSetup = (gameCanvas, startPage) => {
+  const setup: WhimsyCanvasSetup = (gameCanvas) => {
     let wheelAngle = 0;
-    let trainOffset = 1500;
-    const trainDirection = 1;
-    const trainSpeed = 1.5; // movement speed in px per frame unit
-    let lastFirstCarX = trainOffset + 140; // track previous frame's first car X
-    let hasExitedThisFrame = false;
+    let engineX = 0; // set on first frame
 
+    type Car = { x: number; digit: number; color: string };
+    const gen = piDigitGenerator();
+    let colorIndex = 0;
+    const cars: Car[] = [];
+    let initialized = false;
+
+    function spawnCar(x: number): Car {
+      return { x, digit: gen.next().value!, color: CAR_COLORS[colorIndex++ % 2] };
+    }
+
+    // Rail + cars (runs first each frame)
     gameCanvas.addDrawing(({ ctx, width, height, stepTime }) => {
       const elapsed = Math.min(stepTime || 16, 100);
-      wheelAngle -= (elapsed / 16) * 0.12 * trainDirection;
-      trainOffset -= (elapsed / 16) * trainSpeed * trainDirection;
+      const speed = (elapsed / 16) * TRAIN_SPEED;
 
       const trainHeight = Math.min(160, height * 0.35);
       const trainWidth = Math.min(360, width * 0.8);
-      const minTrainX = -trainWidth;
-      const maxTrainX = width;
-
-      // Loop the train across the screen without turning it around
-      if (trainOffset > maxTrainX) {
-        trainOffset = minTrainX;
-      }
-
+      const carWidth = Math.min(220, trainWidth * 0.66);
+      const carHeight = trainHeight;
+      const gap = 12;
       const trainY = height - trainHeight - 40;
       const wheelY = trainY + trainHeight * 0.55 + 22;
+      const carWheelRadius = 18;
+      const carY = wheelY - (carHeight * 0.55 + carWheelRadius);
 
-      ctx.strokeStyle = "grey";
+      // First-frame init: position engine and pre-populate cars behind it
+      if (!initialized) {
+        initialized = true;
+        engineX = width + trainWidth;
+        for (let i = 0; i < 15; i++) {
+          cars.push(spawnCar(engineX + trainWidth + gap + i * (carWidth + gap)));
+        }
+      }
+
+      // Physics
+      wheelAngle -= (elapsed / 16) * 0.12;
+      engineX -= speed;
+      for (const car of cars) car.x -= speed;
+
+      // Remove cars that have fully exited the left edge
+      while (cars.length > 0 && cars[0].x + carWidth < 0) {
+        cars.shift();
+      }
+
+      // Always keep at least one car queued just off the right edge
+      while (cars.length === 0 || cars[cars.length - 1].x < width + carWidth + gap) {
+        const newX = cars.length > 0
+          ? cars[cars.length - 1].x + carWidth + gap
+          : width + carWidth + gap;
+        cars.push(spawnCar(newX));
+      }
+
+      // Rail (no longer being used)
+      /* ctx.strokeStyle = "grey";
       ctx.lineWidth = 3;
       ctx.beginPath();
       ctx.moveTo(0, wheelY + 22 + 8);
       ctx.lineTo(width, wheelY + 22 + 8);
       ctx.stroke();
+      */
 
-      // Draw the train
-      // Draw cars from farthest to nearest using their array index for spacing
-      const carWidth = Math.min(220, trainWidth * 0.66);
-      const carHeight = trainHeight; // make the wheels touch the same ground.
-      const gap = 12;
-      const carWheelRadius = 18;
-
-      // Check if the first car exited this frame (crossed the boundary)
-      const firstCarX = trainOffset + 1 * (carWidth + gap) * trainDirection + 140;
-      const isFirstCarOnScreen = firstCarX + carWidth >= -50 && firstCarX <= width + 50;
-      const wasFirstCarOnScreen = lastFirstCarX + carWidth >= -50 && lastFirstCarX <= width + 50;
-      
-      if (wasFirstCarOnScreen && !isFirstCarOnScreen) {
-        // First car just exited this frame
-        currentDigitIndex += 1;
-        console.log(`[First Car Exit] Incremented currentDigitIndex to ${currentDigitIndex}, wraps at ${piDigits.length}`);
-      }
-      
-      lastFirstCarX = firstCarX;
-
+      // Draw cars back to front
       for (let k = cars.length - 1; k >= 0; k--) {
-        const car = cars[k];
-        const posIndex = k + 1;
-        const carX = trainOffset + posIndex * (carWidth + gap) * trainDirection + 140;
-        const carY = wheelY - (carHeight * 0.55 + carWheelRadius);
-        // Assign digit based on currentDigitIndex and car position
-        const digitIndex = (currentDigitIndex + k) % piDigits.length;
-        const digit = piDigits[digitIndex];
-        drawCar(ctx, carX, carY, carWidth, carHeight, wheelAngle, car.color, digit);
+        const { x, digit, color } = cars[k];
+        if (x > width + carWidth) continue; // skip off-screen right
+        drawCar(ctx, x, carY, carWidth, carHeight, wheelAngle, color, digit);
       }
-
-      // Draw the engine on top of the cars
-      drawTrain(ctx, trainOffset, trainY, trainWidth, trainHeight, wheelAngle, false);
     });
 
-    return () => {
-      // No cleanup needed.
-    };
+    // Engine drawn on top of cars (only while on screen)
+    gameCanvas.addDrawing(({ ctx, width, height }) => {
+      const trainHeight = Math.min(160, height * 0.35);
+      const trainWidth = Math.min(360, width * 0.8);
+      if (engineX + trainWidth <= 0) return;
+      const trainY = height - trainHeight - 40;
+      drawTrain(ctx, engineX, trainY, trainWidth, trainHeight, wheelAngle, false);
+    });
+
+    return () => {};
   };
 </script>
 
