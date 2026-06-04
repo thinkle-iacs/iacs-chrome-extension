@@ -2,6 +2,7 @@
   import Innovator from "./whimsy/Innovator.svelte";
   import HawkCanvas from "./whimsy/HawkCanvas.svelte";
   import CountdownCard from "./whimsy/CountdownCard.svelte";
+  import FlowerCanvas from "./whimsy/FlowerCanvas.svelte";
 
   import TipBuilder from "./TipBuilder.svelte";
   import Snow from "./whimsy/SnowCanvas.svelte";
@@ -27,6 +28,7 @@
   import DayOfWeekWhimsy from "./whimsy/DayOfWeekWhimsy.svelte";
   import PiDayTrain from "./whimsy/PiDayTrain.svelte";
   import HalloweenPlus from "./whimsy/HalloweenPlus.svelte";
+  import SportsNight from "./whimsy/SportsNight.svelte";
   import HawkCard from "./Hawk/HawkCard.svelte";
   import Toast from "./Toast.svelte";
 
@@ -40,10 +42,12 @@
   let routes = {
     "#tipbuilder": "tipbuilder",
     "#snow": "snow",
+    "#flower": "flower",
     "#ball": "ball",
     "#ball-abs": "ball-abs",
     "#ball-fix": "ball-fix",
     "#halloween": "halloween",
+    "#sports": "sports",
     "#hawk": "hawk",
     '#piday' : 'piday'
   };
@@ -84,6 +88,7 @@
 </script>
 
 {#if route == "snow"}<Snow />{/if}
+{#if route == "flower"}<FlowerCanvas />{/if}
 {#if route == "hawk"}<HawkCanvas />{/if}
 {#if route == "piday"}<PiDayTrain />{/if}
 {#if route == "ball" || route == "ball-abs"}
@@ -91,6 +96,9 @@
 {/if}
 {#if route == "ball-fix"}
   <BouncingBall mode="fixed" />
+{/if}
+{#if route == "sports"}
+  <SportsNight />
 {/if}
 
 <main>

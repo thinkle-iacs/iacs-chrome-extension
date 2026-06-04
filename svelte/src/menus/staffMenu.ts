@@ -24,12 +24,7 @@ export const menu = [
         detail: "Magic spreadsheets ftw, RIP flextime manager",
         school: "HS",
         link: "https://docs.google.com/spreadsheets/d/14DnCFpaOSrULEHEIZQpwlkIc1KipZAn73owybMHoLZE/edit#gid=1301432640",
-      },      
-      {
-        title : 'HS Teacher Detentions',
-        link: 'https://docs.google.com/spreadsheets/d/1qLBtRQpOr88ZAs-SPZ5jr-z041AewQ48tgnDQeOk9T4/edit?gid=1154834993#gid=1154834993',
-        school : 'HS'
-      }
+      },            
     ]},
   {
     title : 'WIN/Advisory',
