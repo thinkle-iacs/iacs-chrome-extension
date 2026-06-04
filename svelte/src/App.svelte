@@ -7,7 +7,6 @@
   import TipBuilder from "./TipBuilder.svelte";
   import Snow from "./whimsy/SnowCanvas.svelte";
   import BouncingBall from "./whimsy/BouncingBallCanvas.svelte";
-
   import PrefCard from "./PrefCard.svelte";
   import Weather from "./whimsy/Weather.svelte";
   import { onMount } from "svelte";
@@ -21,7 +20,7 @@
   import RemoteCards from "./CardFetcher/RemoteCards.svelte";
   import ScheduleCard from "./Schedule/ScheduleCard.svelte";
   import CardContainer from "./CardContainer.svelte";
-  import { school, prefsSet, showPrefs, whimsy } from "./prefs";
+  import { school, prefsSet, showPrefs, whimsy, triggerCamel } from "./prefs";
   import { toastMessage, showToast, highlightSettings } from "./toastStore";
   import CloseButton from "./CloseButton.svelte";
   import StudentGame from "./StudentGame/StudentGame.svelte";
@@ -49,6 +48,7 @@
     "#halloween": "halloween",
     "#sports": "sports",
     "#hawk": "hawk",
+    "#hump": "hump",
     '#piday' : 'piday'
   };
   function checkForSecretHash() {
@@ -56,12 +56,15 @@
     console.log(hash);
     if (routes[hash]) {
       route = routes[hash];
+      if (route === "hump") {
+        triggerCamel.set(true);
+      }
     }
   }
   onhashchange = checkForSecretHash;
   checkForSecretHash();
 
-  const mode: "Staff" | "HS" | "MS" | "Family" = "MODE";
+  const mode = "MODE" as "Staff" | "HS" | "MS" | "Family";
   if (mode == "HS") {
     $school = "HS";
   }

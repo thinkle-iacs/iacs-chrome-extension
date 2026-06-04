@@ -34,6 +34,7 @@
   "dependencies": {
     "chroma-js": "^2.4.2",
     "ical.js": "^1.5.0",
+    "puppeteer": "^25.1.0",
     "simple-canvas-library": "^1.1.1",
     "sirv-cli": "^2.0.0"
   }

@@ -3,7 +3,9 @@
   import PurpleThursday from "./PurpleThursday.svelte";
   import HalloweenPlus from "./HalloweenPlus.svelte";
   import PiDayTrain from "./PiDayTrain.svelte";
+  import HumpDayCanvas from "./HumpDayCanvas.svelte";
   import { now } from "../Schedule/now";
+  import { triggerCamel } from "../prefs";
 
   let dayNum: number;
   let dayOfMonth: number;
@@ -37,6 +39,8 @@
     isJune28 = month === 5 && dayOfMonth === 28;
     isSpringStart = month === 2 && dayOfMonth === 20;
     isEarthDay = month === 3 && dayOfMonth === 22;
+
+    if (dayNum === 3) triggerCamel.set(true);
   }
 </script>
 
@@ -53,6 +57,8 @@
 {#if month == 2 && dayOfMonth == 14}
   <PiDayTrain />
 {/if}
+
+<HumpDayCanvas />
 
 <style>
 </style>
