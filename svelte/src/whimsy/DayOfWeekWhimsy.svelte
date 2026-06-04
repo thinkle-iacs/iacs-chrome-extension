@@ -2,6 +2,7 @@
   import FlowerCanvas from "./FlowerCanvas.svelte";
   import PurpleThursday from "./PurpleThursday.svelte";
   import HalloweenPlus from "./HalloweenPlus.svelte";
+  import PiDayTrain from "./PiDayTrain.svelte";
   import { now } from "../Schedule/now";
 
   let dayNum: number;
@@ -48,6 +49,9 @@
 {/if}
 {#if month == 9 && dayOfMonth == 31}
   <HalloweenPlus />
+{/if}
+{#if month == 2 && dayOfMonth == 14}
+  <PiDayTrain />
 {/if}
 
 <style>
