@@ -1,0 +1,65 @@
+name: Playwright Visual Regression Tests
+
+on:
+  pull_request:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Visual Regression Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: svelte
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: svelte/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Build all dashboard modes
+        run: bash build-all-modes.sh
+
+      - name: Run Playwright tests
+        run: npx playwright test tests/dashboard.spec.ts
+
+      - name: Generate reference screenshots
+        if: always()
+        run: npx playwright test tests/generate-screenshots.spec.ts
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dashboard-screenshots
+          path: svelte/screenshots/
+          retention-days: 30
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: svelte/playwright-report/
+          retention-days: 30
+
+      - name: Upload test results (diffs on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: svelte/test-results/
+          retention-days: 30

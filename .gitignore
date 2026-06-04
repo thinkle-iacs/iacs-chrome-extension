@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+*.zip
+
+# Playwright
+svelte/test-results/
+svelte/playwright-report/
+svelte/blob-report/
+svelte/test-builds/
