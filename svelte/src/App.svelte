@@ -2,12 +2,11 @@
   import Innovator from "./whimsy/Innovator.svelte";
   import HawkCanvas from "./whimsy/HawkCanvas.svelte";
   import CountdownCard from "./whimsy/CountdownCard.svelte";
+  import FlowerCanvas from "./whimsy/FlowerCanvas.svelte";
 
   import TipBuilder from "./TipBuilder.svelte";
   import Snow from "./whimsy/SnowCanvas.svelte";
   import BouncingBall from "./whimsy/BouncingBallCanvas.svelte";
-  import HumpDayCanvas from "./whimsy/HumpDayCanvas.svelte";
-
   import PrefCard from "./PrefCard.svelte";
   import Weather from "./whimsy/Weather.svelte";
   import { onMount } from "svelte";
@@ -26,7 +25,9 @@
   import CloseButton from "./CloseButton.svelte";
   import StudentGame from "./StudentGame/StudentGame.svelte";
   import DayOfWeekWhimsy from "./whimsy/DayOfWeekWhimsy.svelte";
+  import PiDayTrain from "./whimsy/PiDayTrain.svelte";
   import HalloweenPlus from "./whimsy/HalloweenPlus.svelte";
+  import SportsNight from "./whimsy/SportsNight.svelte";
   import HawkCard from "./Hawk/HawkCard.svelte";
   import Toast from "./Toast.svelte";
 
@@ -40,12 +41,15 @@
   let routes = {
     "#tipbuilder": "tipbuilder",
     "#snow": "snow",
+    "#flower": "flower",
     "#ball": "ball",
     "#ball-abs": "ball-abs",
     "#ball-fix": "ball-fix",
     "#halloween": "halloween",
+    "#sports": "sports",
     "#hawk": "hawk",
     "#hump": "hump",
+    '#piday' : 'piday'
   };
   function checkForSecretHash() {
     let hash = window.location.hash;
@@ -60,7 +64,7 @@
   onhashchange = checkForSecretHash;
   checkForSecretHash();
 
-  const mode: "Staff" | "HS" | "MS" | "Family" = process.env.MODE || "Staff";
+  const mode = "MODE" as "Staff" | "HS" | "MS" | "Family";
   if (mode == "HS") {
     $school = "HS";
   }
@@ -87,15 +91,17 @@
 </script>
 
 {#if route == "snow"}<Snow />{/if}
+{#if route == "flower"}<FlowerCanvas />{/if}
 {#if route == "hawk"}<HawkCanvas />{/if}
-{#if route == "hump" || $triggerCamel}
-  <HumpDayCanvas />
-{/if}
+{#if route == "piday"}<PiDayTrain />{/if}
 {#if route == "ball" || route == "ball-abs"}
   <BouncingBall mode="absolute" />
 {/if}
 {#if route == "ball-fix"}
   <BouncingBall mode="fixed" />
+{/if}
+{#if route == "sports"}
+  <SportsNight />
 {/if}
 
 <main>

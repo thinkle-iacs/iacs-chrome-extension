@@ -17,3 +17,10 @@ Features to Implement
 - Implement time-bound "cards" for information that should appear then disappear
   - MAYBE NOT NEEDED GIVEN OUR NEW GOOGLE-DOC-BASED CARD SETUP!
 
+- Sports Night GAS integration (SportsNight.svelte)
+  - Athletic director maintains a Google Sheet with columns: date (YYYY-MM-DD), sport, isseniornight
+  - Add GAS handler for ?sportsDays=true to read sheet and return JSON
+  - Replace hardcoded listOfSportsDays in SportsNight.svelte with CachedDataStore fetch
+    (same pattern as countdownFetcher in countdowns.ts)
+  - Consider making "Senior Night!" label conditional on isseniornight flag
+
