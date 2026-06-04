@@ -5,7 +5,6 @@
   import PiDayTrain from "./PiDayTrain.svelte";
   import HumpDayCanvas from "./HumpDayCanvas.svelte";
   import { now } from "../Schedule/now";
-  import { triggerCamel } from "../prefs";
 
   let dayNum: number;
   let dayOfMonth: number;
@@ -40,7 +39,6 @@
     isSpringStart = month === 2 && dayOfMonth === 20;
     isEarthDay = month === 3 && dayOfMonth === 22;
 
-    if (dayNum === 3) triggerCamel.set(true);
   }
 </script>
 

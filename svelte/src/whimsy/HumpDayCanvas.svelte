@@ -7,6 +7,8 @@
   } from "./whimsyCanvas";
   import { triggerCamel } from "../prefs";
 
+  export let auto = false;
+
   let camelX = 0;
   let camelY = 0;
   let textOpacity = 1;
@@ -36,8 +38,9 @@
     const CLICK_MESSAGE = "Created by Adam Class of 2027";
     let clickHopTimer = 0;
     let clickCount = 0;
-    let textTimer = 0;
     const TEXT_DURATION = 2000; // 2 seconds
+    let textTimer = auto ? TEXT_DURATION : 0;
+    if (auto) camelVisible = true;
 
     // Initialize camel position later once the canvas is sized
     camelX = 0;

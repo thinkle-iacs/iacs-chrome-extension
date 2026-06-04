@@ -26,6 +26,7 @@
   import StudentGame from "./StudentGame/StudentGame.svelte";
   import DayOfWeekWhimsy from "./whimsy/DayOfWeekWhimsy.svelte";
   import PiDayTrain from "./whimsy/PiDayTrain.svelte";
+  import HumpDayCanvas from "./whimsy/HumpDayCanvas.svelte";
   import HalloweenPlus from "./whimsy/HalloweenPlus.svelte";
   import SportsNight from "./whimsy/SportsNight.svelte";
   import HawkCard from "./Hawk/HawkCard.svelte";
@@ -94,6 +95,7 @@
 {#if route == "flower"}<FlowerCanvas />{/if}
 {#if route == "hawk"}<HawkCanvas />{/if}
 {#if route == "piday"}<PiDayTrain />{/if}
+{#if route == "hump"}<HumpDayCanvas auto />{/if}
 {#if route == "ball" || route == "ball-abs"}
   <BouncingBall mode="absolute" />
 {/if}
