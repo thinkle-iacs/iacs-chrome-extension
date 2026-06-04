@@ -8,6 +8,7 @@
 
   const TRAIN_SPEED = 1.5;
   const CAR_COLORS = ["#7b3b3b", "#b57b3b"] as const;
+  const DECIMAL_CAR_RATIO = 0.4;
 
   // Infinite pi digit generator — cycles through pre-computed digits
   function* piDigitGenerator(): Generator<number> {
@@ -196,7 +197,7 @@
     let wheelAngle = 0;
     let engineX = 0; // set on first frame
 
-    type Car = { x: number; digit: number; color: string };
+    type Car = { x: number; digit: number | string; color: string; isDecimal?: boolean };
     const gen = piDigitGenerator();
     let colorIndex = 0;
     const cars: Car[] = [];
@@ -204,6 +205,10 @@
 
     function spawnCar(x: number): Car {
       return { x, digit: gen.next().value!, color: CAR_COLORS[colorIndex++ % 2] };
+    }
+
+    function carW(car: Car, base: number): number {
+      return car.isDecimal ? Math.round(base * DECIMAL_CAR_RATIO) : base;
     }
 
     // Rail + cars (runs first each frame)
@@ -225,8 +230,15 @@
       if (!initialized) {
         initialized = true;
         engineX = width + trainWidth;
-        for (let i = 0; i < 15; i++) {
-          cars.push(spawnCar(engineX + trainWidth + gap + i * (carWidth + gap)));
+        let nextX = engineX + trainWidth + gap;
+        cars.push(spawnCar(nextX)); // first digit: 3
+        nextX += carWidth + gap;
+        const decW = Math.round(carWidth * DECIMAL_CAR_RATIO);
+        cars.push({ x: nextX, digit: '•', color: '#f8c548', isDecimal: true });
+        nextX += decW + gap;
+        for (let i = 0; i < 14; i++) {
+          cars.push(spawnCar(nextX));
+          nextX += carWidth + gap;
         }
       }
 
@@ -236,15 +248,14 @@
       for (const car of cars) car.x -= speed;
 
       // Remove cars that have fully exited the left edge
-      while (cars.length > 0 && cars[0].x + carWidth < 0) {
+      while (cars.length > 0 && cars[0].x + carW(cars[0], carWidth) < 0) {
         cars.shift();
       }
 
       // Always keep at least one car queued just off the right edge
       while (cars.length === 0 || cars[cars.length - 1].x < width + carWidth + gap) {
-        const newX = cars.length > 0
-          ? cars[cars.length - 1].x + carWidth + gap
-          : width + carWidth + gap;
+        const last = cars[cars.length - 1];
+        const newX = last ? last.x + carW(last, carWidth) + gap : width + carWidth + gap;
         cars.push(spawnCar(newX));
       }
 
@@ -259,9 +270,11 @@
 
       // Draw cars back to front
       for (let k = cars.length - 1; k >= 0; k--) {
-        const { x, digit, color } = cars[k];
-        if (x > width + carWidth) continue; // skip off-screen right
-        drawCar(ctx, x, carY, carWidth, carHeight, wheelAngle, color, digit);
+        const car = cars[k];
+        const { x, digit, color } = car;
+        const w = carW(car, carWidth);
+        if (x > width + w) continue; // skip off-screen right
+        drawCar(ctx, x, carY, w, carHeight, wheelAngle, color, digit);
       }
     });
 

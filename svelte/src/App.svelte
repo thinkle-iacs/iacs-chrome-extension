@@ -25,8 +25,8 @@
   import CloseButton from "./CloseButton.svelte";
   import StudentGame from "./StudentGame/StudentGame.svelte";
   import DayOfWeekWhimsy from "./whimsy/DayOfWeekWhimsy.svelte";
+  import PiDayTrain from "./whimsy/PiDayTrain.svelte";
   import HalloweenPlus from "./whimsy/HalloweenPlus.svelte";
-  import ChristmasTrain from "./whimsy/PiDayTrain.svelte";
   import HawkCard from "./Hawk/HawkCard.svelte";
   import Toast from "./Toast.svelte";
 
@@ -45,7 +45,7 @@
     "#ball-fix": "ball-fix",
     "#halloween": "halloween",
     "#hawk": "hawk",
-    '#ptrain' : 'christmas-train'
+    '#piday' : 'piday'
   };
   function checkForSecretHash() {
     let hash = window.location.hash;
@@ -85,7 +85,7 @@
 
 {#if route == "snow"}<Snow />{/if}
 {#if route == "hawk"}<HawkCanvas />{/if}
-{#if route == "christmas-train"}<ChristmasTrain />{/if}
+{#if route == "piday"}<PiDayTrain />{/if}
 {#if route == "ball" || route == "ball-abs"}
   <BouncingBall mode="absolute" />
 {/if}
