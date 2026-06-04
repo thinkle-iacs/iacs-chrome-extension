@@ -41,7 +41,6 @@
     initialRadius?: number;
     special?: boolean;
   };
-  
 
   let flowers: Flower[] = [];
   let specialFlower: Flower | null = null;
@@ -56,7 +55,12 @@
     return Math.max(min, Math.min(max, value));
   }
 
-  function rectIntersectsCircle(rect: { left: number; top: number; right: number; bottom: number }, x: number, y: number, r: number) {
+  function rectIntersectsCircle(
+    rect: { left: number; top: number; right: number; bottom: number },
+    x: number,
+    y: number,
+    r: number,
+  ) {
     const nearestX = clamp(x, rect.left, rect.right);
     const nearestY = clamp(y, rect.top, rect.bottom);
     const dx = x - nearestX;
@@ -78,7 +82,12 @@
     // Only avoid larger UI elements like cards and menus.
     const kinds = [itemTypes.CARD, itemTypes.MENU];
 
-    const rects: { left: number; top: number; right: number; bottom: number }[] = [];
+    const rects: {
+      left: number;
+      top: number;
+      right: number;
+      bottom: number;
+    }[] = [];
     for (const kind of kinds) {
       const items = startPage.getItems(kind);
       for (const it of items) {
@@ -105,7 +114,11 @@
     const saturation = 68 + Math.random() * 14;
     const lightness = 74 + Math.random() * 10;
     const petalColor = hsl(hue, saturation, lightness);
-    const centerColor = hsl(hue + 6, Math.max(55, saturation - 14), Math.max(52, lightness - 20));
+    const centerColor = hsl(
+      hue + 6,
+      Math.max(55, saturation - 14),
+      Math.max(52, lightness - 20),
+    );
     return [petalColor, centerColor];
   }
 
@@ -130,17 +143,20 @@
       const swayPhase = Math.random() * Math.PI * 2;
       const swayEnabled = Math.random() < 0.6; // ~60% of flowers sway
       // much subtler sway: tiny angular displacement to mimic a light breeze
-      const swayAmp = swayEnabled ? (0.005 + Math.random() * 0.02) * (scale / 1.2) : 0; // radians
+      const swayAmp = swayEnabled
+        ? (0.005 + Math.random() * 0.02) * (scale / 1.2)
+        : 0; // radians
       const swayFreq = 0.2 + Math.random() * 0.6; // slower, gentler cycles
       const bloomPhase = Math.random() * Math.PI * 2;
       const bloomEnabled = Math.random() < 0.5; // ~50% of flowers pulse
       // much subtler bloom/pulse amplitude
-      const bloomAmp = bloomEnabled ? (0.005 + Math.random() * 0.02) : 0;
+      const bloomAmp = bloomEnabled ? 0.005 + Math.random() * 0.02 : 0;
       const bloomFreq = 0.2 + Math.random() * 0.6; // slower
 
       // seed/grow: ~25% spawn as a seed and grow over ~30s in waves
       const seeded = Math.random() < 0.25;
-      const now = typeof performance !== 'undefined' ? performance.now() : Date.now();
+      const now =
+        typeof performance !== "undefined" ? performance.now() : Date.now();
       const growDuration = seeded ? 30000 : 0; // 30 seconds
       const waveCount = 4;
       const waveIndex = seeded ? Math.floor(Math.random() * waveCount) : 0;
@@ -149,8 +165,12 @@
 
       let placed = false;
       for (let attempt = 0; attempt < 200; attempt++) {
-        const x = Math.round(radius + Math.random() * (Math.max(0, width - radius * 2)));
-        const y = Math.round(radius + Math.random() * (Math.max(0, height - radius * 2)));
+        const x = Math.round(
+          radius + Math.random() * Math.max(0, width - radius * 2),
+        );
+        const y = Math.round(
+          radius + Math.random() * Math.max(0, height - radius * 2),
+        );
 
         // avoid forbidden rects
         let blocked = false;
@@ -183,7 +203,9 @@
           growStart,
           growDuration,
           // start much smaller for seeded flowers (about 1% of final radius, at least 1px)
-          initialRadius: seeded ? Math.max(1, Math.round(radius * 0.01)) : undefined,
+          initialRadius: seeded
+            ? Math.max(1, Math.round(radius * 0.01))
+            : undefined,
         };
         let overlap = false;
         for (const other of flowers) {
@@ -256,11 +278,23 @@
       ctx.translate(f.x, f.y);
 
       // animation values
-      const nowMs = timestamp !== undefined && timestamp !== null ? timestamp : (typeof performance !== 'undefined' ? performance.now() : Date.now());
+      const nowMs =
+        timestamp !== undefined && timestamp !== null
+          ? timestamp
+          : typeof performance !== "undefined"
+            ? performance.now()
+            : Date.now();
       const t = nowMs / 1000;
-      const sway = (f.swayAmp || 0) * Math.sin(2 * Math.PI * (f.swayFreq || 0.5) * t + (f.swayPhase || 0));
+      const sway =
+        (f.swayAmp || 0) *
+        Math.sin(2 * Math.PI * (f.swayFreq || 0.5) * t + (f.swayPhase || 0));
       const bloomAmp = f.bloomAmp !== undefined ? f.bloomAmp : 0.01;
-      const bloom = 1 + bloomAmp * Math.sin(2 * Math.PI * (f.bloomFreq || 0.5) * t + (f.bloomPhase || 0));
+      const bloom =
+        1 +
+        bloomAmp *
+          Math.sin(
+            2 * Math.PI * (f.bloomFreq || 0.5) * t + (f.bloomPhase || 0),
+          );
 
       // growth progress for seeded flowers (0..1)
       let currentRadius = f.radius;
@@ -275,8 +309,14 @@
       ctx.fillStyle = f.petalColor;
       const petalCount = f.special ? 8 : 6;
       const petalOffset = currentRadius * (f.special ? 0.5 : 0.45) * bloom; // distance from center
-      const petalW = Math.max(6, currentRadius * (f.special ? 0.4 : 0.35) * bloom);
-      const petalH = Math.max(10, currentRadius * (f.special ? 1.05 : 0.9) * bloom);
+      const petalW = Math.max(
+        6,
+        currentRadius * (f.special ? 0.4 : 0.35) * bloom,
+      );
+      const petalH = Math.max(
+        10,
+        currentRadius * (f.special ? 1.05 : 0.9) * bloom,
+      );
 
       // apply a small sway rotation for the whole flower
       ctx.rotate(sway);
@@ -290,7 +330,10 @@
 
       ctx.beginPath();
       ctx.fillStyle = f.centerColor;
-      const centerRadius = Math.max(4, Math.round(currentRadius * 0.45 * bloom));
+      const centerRadius = Math.max(
+        4,
+        Math.round(currentRadius * 0.45 * bloom),
+      );
       ctx.arc(0, 0, centerRadius, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
@@ -309,7 +352,12 @@
   }
 
   function drawMessage(ctx: CanvasRenderingContext2D, timestamp?: number) {
-    const nowMs = timestamp !== undefined && timestamp !== null ? timestamp : (typeof performance !== 'undefined' ? performance.now() : Date.now());
+    const nowMs =
+      timestamp !== undefined && timestamp !== null
+        ? timestamp
+        : typeof performance !== "undefined"
+          ? performance.now()
+          : Date.now();
     if (!hoverMessage || nowMs - hoverMessageStart > HOVER_MESSAGE_DURATION) {
       return;
     }
@@ -321,9 +369,9 @@
     ctx.textBaseline = "top";
     ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
     ctx.fillText(
-      "made my Mason Januskiewicz class of 2027",
+      "made by Mason Januskiewicz class of 2027",
       Math.max((specialFlower?.x || 0) - 10, 0),
-      Math.max((specialFlower?.y || 0) + (specialFlower?.radius || 0) + 8, 0)
+      Math.max((specialFlower?.y || 0) + (specialFlower?.radius || 0) + 8, 0),
     );
     ctx.restore();
   }
@@ -350,7 +398,8 @@
     const dy = y - specialFlower.y;
     if (Math.hypot(dx, dy) <= specialFlower.radius * 1.1) {
       hoverMessage = "made my Mason Januskiewicz class of 2027";
-      hoverMessageStart = typeof performance !== 'undefined' ? performance.now() : Date.now();
+      hoverMessageStart =
+        typeof performance !== "undefined" ? performance.now() : Date.now();
     }
   }
 </script>
