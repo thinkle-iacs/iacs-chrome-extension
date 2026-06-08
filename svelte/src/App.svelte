@@ -31,6 +31,7 @@
   import SportsNight from "./whimsy/SportsNight.svelte";
   import HawkCard from "./Hawk/HawkCard.svelte";
   import Toast from "./Toast.svelte";
+  import Password from "./whimsy/Password.svelte";
 
   let tips = tipDataStore.store;
   let dayNum = new Date().getDate();
@@ -146,6 +147,12 @@
           }}
         />
       {/key}
+    {/if}
+    {#if mode !== "Family"}
+          <Card id="SillyPassword">
+            <h2 slot="head">Did you find a password?</h2>
+            <div slot="body"><Password /></div>
+          </Card>
     {/if}
     {#if mode == "Staff"}
       <StudentGame />
