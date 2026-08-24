@@ -31,6 +31,7 @@
   import SportsNight from "./whimsy/SportsNight.svelte";
   import HawkCard from "./Hawk/HawkCard.svelte";
   import Toast from "./Toast.svelte";
+  import StaffAuthGate from "./Auth/StaffAuthGate.svelte";
 
   let tips = tipDataStore.store;
   let dayNum = new Date().getDate();
@@ -91,6 +92,7 @@
   let theCounter = counters[0];
 </script>
 
+<StaffAuthGate enabled={mode === "Staff"}>
 {#if route == "snow"}<Snow />{/if}
 {#if route == "flower"}<FlowerCanvas />{/if}
 {#if route == "hawk"}<HawkCanvas />{/if}
@@ -172,6 +174,7 @@
     highlightSettings={$highlightSettings}
   />
 </main>
+</StaffAuthGate>
 
 <style>
   :global(h1, h2, h3, h4, h5, h6) {
