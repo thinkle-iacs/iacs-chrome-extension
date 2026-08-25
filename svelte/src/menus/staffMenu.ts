@@ -1,5 +1,25 @@
-import { school } from '../prefs';
-import {ASPEN,GC,EHallpass,RESTORATIVE_FORM,STELLA, SCOIR, HS_ANNOUNCEMENTS, MS_ANNOUNCEMENTS, MS_HANDBOOK, HS_HANDBOOK, GOOGLE_APPS_WITH_ADOBE, BULLYING_PLAN, AMPLIFY, IXL, CLEVER, CHROMEBOOK_REPAIR_FORM, GOOGLE_APPS, EXPRESS, CREATIVECLOUD} from './commonMenuItems';
+import { school } from "../prefs";
+import {
+  ASPEN,
+  GC,
+  EHallpass,
+  RESTORATIVE_FORM,
+  STELLA,
+  SCOIR,
+  HS_ANNOUNCEMENTS,
+  MS_ANNOUNCEMENTS,
+  MS_HANDBOOK,
+  HS_HANDBOOK,
+  GOOGLE_APPS_WITH_ADOBE,
+  BULLYING_PLAN,
+  AMPLIFY,
+  IXL,
+  CLEVER,
+  CHROMEBOOK_REPAIR_FORM,
+  GOOGLE_APPS,
+  EXPRESS,
+  CREATIVECLOUD,
+} from "./commonMenuItems";
 
 export const menu = [
   // No more than FIVE items per menu
@@ -7,29 +27,30 @@ export const menu = [
     title: "Teaching",
     items: [
       ASPEN,
-      GC, 
+      GC,
       {
-        title : 'Panorama',
-        icon : 'https://www.panoramaed.com/hubfs/logos/favicon.ico',
-        link: 'https://mystudents.panoramaed.com/',
-        detail: 'MTSS and Student Data'
+        title: "Updraft",
+        icon: "https://updraft.innovationcharter.org/_app/immutable/assets/hawk-sil.B_buH_iO.png",
+        link: "https://updraft.innovationcharter.org/",
+        detail: "MTSS and Student Data",
       },
       {
         title: "Portfolios",
         detail: "Student Digital Portfolios in Google Drive",
         link: "https://drive.google.com/drive/folders/1VZE9D5iN_M4wwp-sv6kjbdxTWwLJpCzj",
       },
-       {
+      {
         title: "HS Student Hour Scheduler",
         detail: "Magic spreadsheets ftw, RIP flextime manager",
         school: "HS",
         link: "https://docs.google.com/spreadsheets/d/14DnCFpaOSrULEHEIZQpwlkIc1KipZAn73owybMHoLZE/edit#gid=1301432640",
-      },            
-    ]},
+      },
+    ],
+  },
   {
-    title : 'WIN/Advisory',
-    school : 'MS',
-    items: [     
+    title: "WIN/Advisory",
+    school: "MS",
+    items: [
       {
         title: "5/6 WIN Scheduler",
         link: "https://docs.google.com/spreadsheets/d/1oSK2TLAPty3971bbPQqH3ETg7Gu1Y0bwjBrhRFlINSM/edit#gid=0",
@@ -47,14 +68,14 @@ export const menu = [
       },
       {
         title: "7/8 Advisory Calendar",
-        school: "MS",        
-        link: 'https://docs.google.com/document/d/1reyB6WIH_wAw9iARf6qMls2aoDPRLQYuiVH8vEwC0jA/edit?tab=t.0'        
+        school: "MS",
+        link: "https://docs.google.com/document/d/1reyB6WIH_wAw9iARf6qMls2aoDPRLQYuiVH8vEwC0jA/edit?tab=t.0",
       },
     ],
   },
 
   GOOGLE_APPS,
-  
+
   {
     title: "Subscriptions",
     items: [
@@ -72,212 +93,209 @@ export const menu = [
         detail:
           "<strong><a href='https://sites.google.com/innovationcharter.org/teacher-tech/web-apps-subscriptions'>code on support page.</a></strong>",
       },
-      CLEVER
+      CLEVER,
     ],
   },
   {
-    title : 'Forms',
-    items : [
-  {
-            title: "Facilities Request Form",
-            blackIcon: true,
-            link: "https://docs.google.com/forms/d/e/1FAIpQLSeP4d1PEy7Ja4T1cuke0zReP3A4A9vIGHy_gYUkcTc_RYkQfw/viewform",
-            icon: "./icons/hammer.png",
-          },
-          /* {
+    title: "Forms",
+    items: [
+      {
+        title: "Facilities Request Form",
+        blackIcon: true,
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSeP4d1PEy7Ja4T1cuke0zReP3A4A9vIGHy_gYUkcTc_RYkQfw/viewform",
+        icon: "./icons/hammer.png",
+      },
+      /* {
             title : 'Hall Pass Violation Form',
             link: 'https://docs.google.com/forms/d/e/1FAIpQLSc99BN_olPWybkPcWSfx84OiiDV5Umh9T_NyK8EDp9uigBzPw/viewform',
             school: 'HS'
           }, */
-        {
-          title: "Counseling Check-In Form",
-          link: "https://forms.gle/Dy7h4yRReG7Etyxf7",
-          detail: "Counseling Check-In Form for Students",
-          icon: "https://img.icons8.com/external-flaticons-lineal-color-flat-icons/344/external-counseling-funeral-service-flaticons-lineal-color-flat-icons.png",
-        },
-        //RESTORATIVE_FORM,
-        {
-          title: "Incident Reporting Form",
-          link: "https://docs.google.com/forms/d/e/1FAIpQLSe9qasAJbfEcJvF1wzXS4UWC3NSuX_IT0Ep_jwV7Qbr-zVYvQ/viewform",
-        },
-        {
-          title : 'Sub Feedback',
-          detail : 'Substitute Teacher Feedback Form',
-          link : 'https://docs.google.com/forms/d/e/1FAIpQLScGaOkF-KTtzG4BmjorjkP2TFKP3iyvGkfHDqbgeMUTTf6bGA/viewform'
+      {
+        title: "Counseling Check-In Form",
+        link: "https://forms.gle/Dy7h4yRReG7Etyxf7",
+        detail: "Counseling Check-In Form for Students",
+        icon: "https://img.icons8.com/external-flaticons-lineal-color-flat-icons/344/external-counseling-funeral-service-flaticons-lineal-color-flat-icons.png",
+      },
+      //RESTORATIVE_FORM,
+      {
+        title: "Incident Reporting Form",
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSe9qasAJbfEcJvF1wzXS4UWC3NSuX_IT0Ep_jwV7Qbr-zVYvQ/viewform",
       },
       {
-        title: 'Field Trip Procedures',
-        detail: 'Field Trip Request Form and Procedures',
-        link: 'https://docs.google.com/document/d/1yq_lDqkH9_LN1EaYXOUpcJRPPY2E1lMVTfCZsah7opU/edit?tab=t.0#heading=h.oahocniqrexy',
-        }
-      ]
+        title: "Sub Feedback",
+        detail: "Substitute Teacher Feedback Form",
+        link: "https://docs.google.com/forms/d/e/1FAIpQLScGaOkF-KTtzG4BmjorjkP2TFKP3iyvGkfHDqbgeMUTTf6bGA/viewform",
+      },
+      {
+        title: "Field Trip Procedures",
+        detail: "Field Trip Request Form and Procedures",
+        link: "https://docs.google.com/document/d/1yq_lDqkH9_LN1EaYXOUpcJRPPY2E1lMVTfCZsah7opU/edit?tab=t.0#heading=h.oahocniqrexy",
+      },
+    ],
   },
   {
-      title : 'Technology & Library',
-      items : [       
-        {
-            title: "Tech Support",
-            link: "https://support.innovationcharter.org",
-            detail: "IACS Tech How-To's and support",
-            blackIcon: true,
-            icon: "./icons/help.png",
-          },   
-           {
-            title: "Library",
-            link: "https://iacs.library.site",
-          },
-          {
-          title : 'Schedule a Library Visit',
-          detail : 'Use this calendar to schedule a class library visit',
-          link : 'https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2Ee1vc8x2yC-2ptQJ5v2bXi6QFdvaoN39RQ8AHRZ3-JXcDCS8GeqdWyurAwAq7sAtzUPr1_-mM',
-        }, 
-          {
-            title: "Computer Inventory",
-            detail: "Finding Chromebooks",
-            link: "https://cb.innovationcharter.org",
-          },                  
-        CHROMEBOOK_REPAIR_FORM,                               
-      ]
-    },
-             
-    {
-      title: "Resources",
-      items: [                                   
-        {
-          title: "School Website",
-          link: "https://www.innovationcharter.org",
-          icon: "./icons/iacs-icon.png",
-        },                   
-        {
-          title: "Phone Extensions",
-          link: "https://docs.google.com/spreadsheets/d/1kdsz1qF3F5E8BPgaQDOfOgqH0L0V2c8ICtqRxVFDf8Y/edit?usp=share_link",
-          icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Telephone_icon_blue_gradient.svg/56px-Telephone_icon_blue_gradient.svg.png",
-        },
-        {
-          title: "Staff Directory",
-          link: "https://www.innovationcharter.org/about-iacs/faculty/",
-        },
-        {
-          title: 'Wellness Committee Resources',
-          link: 'https://drive.google.com/drive/folders/1F0Ww3UT7yUtGcrxsj6-NKDWtYTQqp_rF',
-          detail: 'Resources from the IACS Wellness Committee',         
-          icon: './icons/wellness-committee.png',
-          blackIcon: true,
-        },
-        SCOIR
-      ],
-    },  
-    {
-      title: "HR",
-      items: [
-        {
-          title: 'PayCom',
-          link: 'https://www.paycomonline.net/v4/ee/web.php/app/login',
-          icon: 'https://www.paycomonline.net/favicon.ico',
-          //detail: 'Time Off and Paycheck Info (new in 2025)',
-          detail : 'Open Enrollment, Time Off & Paycheck Info',
-          blackIcon : false,
+    title: "Technology & Library",
+    items: [
+      {
+        title: "Tech Support",
+        link: "https://support.innovationcharter.org",
+        detail: "IACS Tech How-To's and support",
+        blackIcon: true,
+        icon: "./icons/help.png",
       },
-        /* {
+      {
+        title: "Library",
+        link: "https://iacs.library.site",
+      },
+      {
+        title: "Schedule a Library Visit",
+        detail: "Use this calendar to schedule a class library visit",
+        link: "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2Ee1vc8x2yC-2ptQJ5v2bXi6QFdvaoN39RQ8AHRZ3-JXcDCS8GeqdWyurAwAq7sAtzUPr1_-mM",
+      },
+      {
+        title: "Computer Inventory",
+        detail: "Finding Chromebooks",
+        link: "https://cb.innovationcharter.org",
+      },
+      CHROMEBOOK_REPAIR_FORM,
+    ],
+  },
+
+  {
+    title: "Resources",
+    items: [
+      {
+        title: "School Website",
+        link: "https://www.innovationcharter.org",
+        icon: "./icons/iacs-icon.png",
+      },
+      {
+        title: "Phone Extensions",
+        link: "https://docs.google.com/spreadsheets/d/1kdsz1qF3F5E8BPgaQDOfOgqH0L0V2c8ICtqRxVFDf8Y/edit?usp=share_link",
+        icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Telephone_icon_blue_gradient.svg/56px-Telephone_icon_blue_gradient.svg.png",
+      },
+      {
+        title: "Staff Directory",
+        link: "https://www.innovationcharter.org/about-iacs/faculty/",
+      },
+      {
+        title: "Wellness Committee Resources",
+        link: "https://drive.google.com/drive/folders/1F0Ww3UT7yUtGcrxsj6-NKDWtYTQqp_rF",
+        detail: "Resources from the IACS Wellness Committee",
+        icon: "./icons/wellness-committee.png",
+        blackIcon: true,
+      },
+      SCOIR,
+    ],
+  },
+  {
+    title: "HR",
+    items: [
+      {
+        title: "PayCom",
+        link: "https://www.paycomonline.net/v4/ee/web.php/app/login",
+        icon: "https://www.paycomonline.net/favicon.ico",
+        //detail: 'Time Off and Paycheck Info (new in 2025)',
+        detail: "Open Enrollment, Time Off & Paycheck Info",
+        blackIcon: false,
+      },
+      /* {
           title: "ADP",
           link: "https://workforcenow.adp.com/",
           blackIcon: true,
           detail: "Time Off and Paycheck Info",
           icon: "./icons/adp.png",
         }, */
-        /* {
+      /* {
           title: "Employee Navigator",
           link: "https://fredcchurch.employeenavigator.com/",
           detail: "Benefits",
         }, */
-        {
-          link: "https://www.ezschoolapps.com/",
-          title: "EZ Substitute",
-          detail:
-            'More info <a href="https://sites.google.com/innovationcharter.org/teacher-tech/staff-absences-ez-substitute-management">here</a>',
-        },
-        {
-          link: "https://docs.google.com/document/d/1aalXni6KBd0ZRetBc_-2YQrSuDDKrnL4YQElecUGKSc/",
-          title: "IACS Employee Handbook",
-        },          
-      ],
-    },          
-    {
-      title: "Announcements",
-      items: [
-        HS_ANNOUNCEMENTS,
-        MS_ANNOUNCEMENTS,
-        {
-          title: "Weekly Updates (Staff)",
-          link: "https://drive.google.com/drive/folders/1U9cv23A3A0wNDFO2fTi86SelB-N0q1Mg",
-        },
-      ],
-    },
-    {
-      title: "Handbooks",
-      items: [
-        {
-          title: "Faculty Handbook",
-          link: "https://docs.google.com/document/d/1yq_lDqkH9_LN1EaYXOUpcJRPPY2E1lMVTfCZsah7opU/edit",
-        },
-        {
-          title: 'IACS Grading Handbook',
-          link : 'https://docs.google.com/document/d/1bbq0SNJsc0pBALq9IRNollzPZ9ukwZc48UNC-Kws7es/edit?tab=t.0#heading=h.hvntzso5rv2'
-        },
-        MS_HANDBOOK,
-        HS_HANDBOOK,
-      ],
-    },
-    { title : 'Procedures & Manuals',
-      items : [
-        {
-          title: "MLL Policy and Procedures",
-          link: "https://docs.google.com/document/d/141BkxSbPY6diXJnwFKJo3OOyh4BzTkuSWs1NskCPJ48/edit",
-          detail: "Overview of Multilingual Learner program",
-          icon : "./icons/mll.png",
-        },
-        {
-          title: "504 Manual",
-          link: "https://docs.google.com/document/d/1asGHr9dwqs3tSg1dvE60XGspSUPyoEBcVg3HqfNevcU/edit#heading=h.gjdgxs",
-        },
-        {
-          title: "MTSS Handbook",
-          link: "https://docs.google.com/document/d/16VQZ6wxBYWr2yyow8oa9RKs7tl41xINi53FcnBAk3xw/edit",
-          detail: "Multi-Tiered Systems of Support",
-        },
-        BULLYING_PLAN
-      ],
-    },    
-  // Short items last
-    {
-      title : 'Adobe',
-      items: [
-        EXPRESS,
-        CREATIVECLOUD
-      ]
-    },
-    
-    {
-      title: "Systems Thinking",
-      items: [
-        {
-          title: "Loopy",
-          link: "https://ncase.me/loopy/",
-          detail: "A very simple tool for drawing loops",
-        },
-        STELLA,
-      ],
-    }, 
-  {
-        title: "Purchases",
-        items: [
-          {
-            title: "Procurify",
-            detail: "Ordering stuff",
-            icon: "./icons/procurify.png",
-            link: "https://iacs.procurify.com",
-          },
-          
-        ],
+      {
+        link: "https://www.ezschoolapps.com/",
+        title: "EZ Substitute",
+        detail:
+          'More info <a href="https://sites.google.com/innovationcharter.org/teacher-tech/staff-absences-ez-substitute-management">here</a>',
       },
+      {
+        link: "https://docs.google.com/document/d/1aalXni6KBd0ZRetBc_-2YQrSuDDKrnL4YQElecUGKSc/",
+        title: "IACS Employee Handbook",
+      },
+    ],
+  },
+  {
+    title: "Announcements",
+    items: [
+      HS_ANNOUNCEMENTS,
+      MS_ANNOUNCEMENTS,
+      {
+        title: "Weekly Updates (Staff)",
+        link: "https://drive.google.com/drive/folders/1U9cv23A3A0wNDFO2fTi86SelB-N0q1Mg",
+      },
+    ],
+  },
+  {
+    title: "Handbooks",
+    items: [
+      {
+        title: "Faculty Handbook",
+        link: "https://docs.google.com/document/d/1yq_lDqkH9_LN1EaYXOUpcJRPPY2E1lMVTfCZsah7opU/edit",
+      },
+      {
+        title: "IACS Grading Handbook",
+        link: "https://docs.google.com/document/d/1bbq0SNJsc0pBALq9IRNollzPZ9ukwZc48UNC-Kws7es/edit?tab=t.0#heading=h.hvntzso5rv2",
+      },
+      MS_HANDBOOK,
+      HS_HANDBOOK,
+    ],
+  },
+  {
+    title: "Procedures & Manuals",
+    items: [
+      {
+        title: "MLL Policy and Procedures",
+        link: "https://docs.google.com/document/d/141BkxSbPY6diXJnwFKJo3OOyh4BzTkuSWs1NskCPJ48/edit",
+        detail: "Overview of Multilingual Learner program",
+        icon: "./icons/mll.png",
+      },
+      {
+        title: "504 Manual",
+        link: "https://docs.google.com/document/d/1asGHr9dwqs3tSg1dvE60XGspSUPyoEBcVg3HqfNevcU/edit#heading=h.gjdgxs",
+      },
+      {
+        title: "MTSS Handbook",
+        link: "https://docs.google.com/document/d/16VQZ6wxBYWr2yyow8oa9RKs7tl41xINi53FcnBAk3xw/edit",
+        detail: "Multi-Tiered Systems of Support",
+      },
+      BULLYING_PLAN,
+    ],
+  },
+  // Short items last
+  {
+    title: "Adobe",
+    items: [EXPRESS, CREATIVECLOUD],
+  },
+
+  {
+    title: "Systems Thinking",
+    items: [
+      {
+        title: "Loopy",
+        link: "https://ncase.me/loopy/",
+        detail: "A very simple tool for drawing loops",
+      },
+      STELLA,
+    ],
+  },
+  {
+    title: "Purchases",
+    items: [
+      {
+        title: "Procurify",
+        detail: "Ordering stuff",
+        icon: "./icons/procurify.png",
+        link: "https://iacs.procurify.com",
+      },
+    ],
+  },
 ];
