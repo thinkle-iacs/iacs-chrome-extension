@@ -31,6 +31,7 @@ export const menu = [
       {
         title: "Updraft",
         icon: "https://updraft.innovationcharter.org/_app/immutable/assets/hawk-sil.B_buH_iO.png",
+        blackIcon: true,
         link: "https://updraft.innovationcharter.org/",
         detail: "MTSS and Student Data",
       },
