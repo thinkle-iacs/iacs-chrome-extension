@@ -38,7 +38,6 @@
     isJune28 = month === 5 && dayOfMonth === 28;
     isSpringStart = month === 2 && dayOfMonth === 20;
     isEarthDay = month === 3 && dayOfMonth === 22;
-
   }
 </script>
 
@@ -46,9 +45,6 @@
   <FlowerCanvas />
 {/if}
 
-{#if dayNum == 4}
-  <PurpleThursday />
-{/if}
 {#if month == 9 && dayOfMonth == 31}
   <HalloweenPlus />
 {/if}
