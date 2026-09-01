@@ -7,14 +7,7 @@
   import { GASURL } from "../shimURL";
   export let onChange;
   import { hs_schedule } from "./hs_schedule";
-  import {
-    ms_56_ela,
-    ms_78_ela,
-    ms_56_simple,
-    ms_78_simple,
-    ms_56_trans,
-    ms_78_trans,
-  } from "./ms_schedule";
+  import { ms_5th, ms_6th, ms_7th, ms_8th } from "./ms_schedule";
   import { writable } from "svelte/store";
 
   let hardcoded_schedule_options = [
@@ -25,40 +18,28 @@
       schedule: hs_schedule,
     },
     {
-      name: "5/6 Simple",
+      name: "5th Grade",
       school: "MS",
       url: "https://docs.google.com/document/d/1suZQXiTsE5QfTgKm1bRyB1fnQDV78WS6DB1c10iSB0c/edit",
-      schedule: ms_56_simple,
+      schedule: ms_5th,
     },
     {
-      name: "7/8 Simple",
+      name: "6th Grade",
       school: "MS",
       url: "https://docs.google.com/document/d/1suZQXiTsE5QfTgKm1bRyB1fnQDV78WS6DB1c10iSB0c/edit",
-      schedule: ms_78_simple,
+      schedule: ms_6th,
     },
     {
-      name: "5/6 Transitions",
+      name: "7th Grade",
       school: "MS",
       url: "https://docs.google.com/document/d/1suZQXiTsE5QfTgKm1bRyB1fnQDV78WS6DB1c10iSB0c/edit",
-      schedule: ms_56_trans,
+      schedule: ms_7th,
     },
     {
-      name: "7/8 Transitions",
+      name: "8th Grade",
       school: "MS",
       url: "https://docs.google.com/document/d/1suZQXiTsE5QfTgKm1bRyB1fnQDV78WS6DB1c10iSB0c/edit",
-      schedule: ms_78_trans,
-    },
-    {
-      name: "5/6 (ELA)",
-      school: "MS",
-      url: "https://docs.google.com/document/d/1suZQXiTsE5QfTgKm1bRyB1fnQDV78WS6DB1c10iSB0c/edit",
-      schedule: ms_56_ela,
-    },
-    {
-      name: "7/8 (ELA)",
-      school: "MS",
-      url: "https://docs.google.com/document/d/1suZQXiTsE5QfTgKm1bRyB1fnQDV78WS6DB1c10iSB0c/edit",
-      schedule: ms_78_ela,
+      schedule: ms_8th,
     },
   ];
 
@@ -74,7 +55,7 @@
   if (!$selectedSchedule) {
     console.log("Trigger sched update");
     if ($school == "MS") {
-      $selectedSchedule = "5/6 Simple";
+      $selectedSchedule = "5th Grade";
     } else {
       $selectedSchedule = "HS";
     }

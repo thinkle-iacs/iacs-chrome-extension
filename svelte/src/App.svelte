@@ -53,6 +53,38 @@
     "#hump": "hump",
     '#piday' : 'piday'
   };
+  /* Local-only escape hatch: preview the Staff page without the Firebase
+     sign-in flow. It's a query param (?preview) rather than a hash so the
+     hash stays free for the secret routes above — e.g. /?preview#snow.
+     Only honored on localhost so it can never open a hole on the deployed
+     staff.innovationcharter.org host. */
+  const isLocalhost =
+    typeof window !== "undefined" &&
+    ["localhost", "127.0.0.1", "0.0.0.0"].includes(window.location.hostname);
+  const staffAuthBypass =
+    isLocalhost && new URLSearchParams(window.location.search).has("preview");
+
+  function logDevRouteHelp() {
+    if (!isLocalhost) return;
+    const { origin, pathname } = window.location;
+    const base = origin + pathname;
+    if (mode === "Staff" && !staffAuthBypass) {
+      console.info(
+        `%c[staff preview]%c skip the Firebase sign-in locally by adding ?preview\n  ${base}?preview`,
+        "font-weight:bold;color:#0033a0",
+        "color:inherit"
+      );
+    }
+    const hashRoutes = Object.keys(routes).join(", ");
+    console.info(
+      `%c[secret routes]%c ${hashRoutes}\n  try e.g. ${base}${
+        mode === "Staff" ? "?preview" : ""
+      }#snow`,
+      "font-weight:bold;color:#0033a0",
+      "color:inherit"
+    );
+  }
+
   function checkForSecretHash() {
     let hash = window.location.hash;
     console.log(hash);
@@ -76,6 +108,7 @@
   if (mode == "Family") {
     $whimsy = false;
   }
+  logDevRouteHelp();
   let showCount = true;
   let counters = [
     {
@@ -92,7 +125,7 @@
   let theCounter = counters[0];
 </script>
 
-<StaffAuthGate enabled={mode === "Staff"}>
+<StaffAuthGate enabled={mode === "Staff" && !staffAuthBypass}>
 {#if route == "snow"}<Snow />{/if}
 {#if route == "flower"}<FlowerCanvas />{/if}
 {#if route == "hawk"}<HawkCanvas />{/if}
