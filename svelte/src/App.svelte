@@ -60,7 +60,9 @@
      staff.innovationcharter.org host. */
   const isLocalhost =
     typeof window !== "undefined" &&
-    ["localhost", "127.0.0.1", "0.0.0.0"].includes(window.location.hostname);
+    ["localhost", "127.0.0.1", "0.0.0.0", "::1"].includes(
+      window.location.hostname
+    );
   const staffAuthBypass =
     isLocalhost && new URLSearchParams(window.location.search).has("preview");
 
