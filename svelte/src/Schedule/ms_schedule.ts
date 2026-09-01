@@ -1,6 +1,8 @@
 import { M, T, W, R, F } from "./types";
 import type { ScheduleBlock } from "./types";
 
+type Day = ScheduleBlock["day"];
+
 // 2026-2027 MS Bell Schedule.
 // Grades 5-8 share the same Advisory/period times on Mon, Tue, Thu, Fri,
 // but each grade has its own WIN/Lunch/Recess block, and Wednesday has an
@@ -9,7 +11,7 @@ import type { ScheduleBlock } from "./types";
 type Grade = 5 | 6 | 7 | 8;
 
 // The 11:03-11:40 and 11:41-12:18 WIN/Lunch/Recess blocks, by grade.
-const make_middle = (grade: Grade, day) => {
+const make_middle = (grade: Grade, day: Day): ScheduleBlock[] => {
   switch (grade) {
     case 5:
       return [
@@ -81,7 +83,7 @@ const make_wednesday = (grade: Grade): ScheduleBlock[] => {
 };
 
 export const make_ms_grade_schedule = (grade: Grade): ScheduleBlock[] => {
-  const makeDay = (day): ScheduleBlock[] => {
+  const makeDay = (day: Day): ScheduleBlock[] => {
     let blocks;
     if (day == M || day == T) {
       blocks = "ABCDEF";
