@@ -111,12 +111,6 @@ export const menu = [
             link: 'https://docs.google.com/forms/d/e/1FAIpQLSc99BN_olPWybkPcWSfx84OiiDV5Umh9T_NyK8EDp9uigBzPw/viewform',
             school: 'HS'
           }, */
-      {
-        title: "Counseling Check-In Form",
-        link: "https://forms.gle/Dy7h4yRReG7Etyxf7",
-        detail: "Counseling Check-In Form for Students",
-        icon: "https://img.icons8.com/external-flaticons-lineal-color-flat-icons/344/external-counseling-funeral-service-flaticons-lineal-color-flat-icons.png",
-      },
       //RESTORATIVE_FORM,
       {
         title: "Incident Reporting Form",
