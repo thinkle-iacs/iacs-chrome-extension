@@ -82,7 +82,7 @@ export const menu = [
     items: [
       AMPLIFY,
       IXL,
-      {
+      /*{
         title: "Newsela",
         icon: "https://media-thumbs.golden.com/siO12OnGRxyTHjHnxMJLawNzTks=/200x200/smart/golden-storage-production.s3.amazonaws.com%2Ftopic_images%2F4dbe7e04d38d4d08b418252113d4fb4f.jpeg",
         detail: "Differentiated reading from news sources",
@@ -93,7 +93,7 @@ export const menu = [
         link: "https://www.brainpop.com/",
         detail:
           "<strong><a href='https://sites.google.com/innovationcharter.org/teacher-tech/web-apps-subscriptions'>code on support page.</a></strong>",
-      },
+      },*/
       CLEVER,
     ],
   },
