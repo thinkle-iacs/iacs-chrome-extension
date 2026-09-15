@@ -168,7 +168,7 @@ export const msmenu = [
   {
     title: "Links",
     items: [
-      MS_ANNOUNCEMENTS,
+      //MS_ANNOUNCEMENTS,
       {
         title: "School Website",
         link: "https://www.innovationcharter.org",

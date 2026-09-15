@@ -222,7 +222,7 @@ export const menu = [
     title: "Announcements",
     items: [
       HS_ANNOUNCEMENTS,
-      MS_ANNOUNCEMENTS,
+      //MS_ANNOUNCEMENTS,
       {
         title: "Weekly Updates (Staff)",
         link: "https://drive.google.com/drive/folders/1U9cv23A3A0wNDFO2fTi86SelB-N0q1Mg",
