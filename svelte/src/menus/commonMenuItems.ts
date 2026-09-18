@@ -1,19 +1,19 @@
 import type { Menuitem } from "../types";
 
-export const HS_EXTRA_HELP : Menuitem = {
-  link: 'https://docs.google.com/spreadsheets/d/1J7EsmdzPMPgchXrGjmwoDW8Pmy0t2Gtd5dH3G4JKLHk/edit?gid=0#gid=0',
-  title: 'Extra Help',
-  detail: 'HS Extra Help Schedule',
-}
+export const HS_EXTRA_HELP: Menuitem = {
+  link: "https://docs.google.com/spreadsheets/d/1J7EsmdzPMPgchXrGjmwoDW8Pmy0t2Gtd5dH3G4JKLHk/edit?gid=0#gid=0",
+  title: "Extra Help",
+  detail: "HS Extra Help Schedule",
+};
 
-export const AMPLIFY : Menuitem = {
+export const AMPLIFY: Menuitem = {
   title: "Amplify",
   link: "https://learning.amplify.com/home/student/",
   detail: "Science (MS)",
   icon: "https://my.amplify.com/favicon.ico",
 };
 
-export const IXL : Menuitem = {
+export const IXL: Menuitem = {
   title: "IXL",
   link: "https://www.ixl.com/signin/innovationacs",
   detail: "Math and ELA practice (MS)",
@@ -46,13 +46,13 @@ export const HS_HANDBOOK: Menuitem = {
   title: "HS Student Handbook",
   link: "https://www.innovationcharter.org/high-school/handbook/",
   school: "HS",
-  icon : "./icons/hs-handbook.png",
+  icon: "./icons/hs-handbook.png",
 };
 export const MS_HANDBOOK: Menuitem = {
   title: "MS Student Handbook",
   link: "https://docs.google.com/document/d/1MsR1ZJ2WVpAbKEnvhbG-a7w711mpT6Hl7wzOZ6idiI4/edit",
   school: "MS",
-  icon : "./icons/ms-handbook.png",
+  icon: "./icons/ms-handbook.png",
 };
 export const DESMOS: Menuitem = {
   title: "Desmos Calculator",

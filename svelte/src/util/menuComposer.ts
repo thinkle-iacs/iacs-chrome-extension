@@ -64,7 +64,7 @@ type IACSMenuJson = {
 export function iacsMenuToMenu(
   item: IACSMenuItem,
   menu: IACSMenuItem[],
-  level: number = 0
+  level: number = 0,
 ): Menuitem {
   let items = menu
     .filter((i) => parseInt(i.parent) == item.ID)
@@ -114,7 +114,7 @@ export function createIacsMenuStore(mode: MenuMode): {
         console.error(
           "Invalid response from IACS menu: ",
           jsonResponse.code,
-          jsonResponse
+          jsonResponse,
         );
         return [];
       }
@@ -122,13 +122,13 @@ export function createIacsMenuStore(mode: MenuMode): {
       if (!menu) {
         console.error(
           "No main menu found in IACS menu response: ",
-          jsonResponse
+          jsonResponse,
         );
         return [];
       }
       const parents = ["MS Athletics", "HS Athletics"];
       let parentsItems = menu.menu_items.filter((item) =>
-        parents.includes(item.title)
+        parents.includes(item.title),
       );
       return [
         {
@@ -157,7 +157,7 @@ export function createComposedMenuItems(mode: MenuMode): {
   const store = derived(
     [menuStore, iacsMenu.store, customMenuStore],
     ([$menuStore, $iacsMenuItems, $customMenuItems]) =>
-      assignIds([...$menuStore, ...$iacsMenuItems, ...$customMenuItems])
+      assignIds([...$menuStore, ...$iacsMenuItems, ...$customMenuItems]),
   );
 
   return {
