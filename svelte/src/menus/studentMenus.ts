@@ -1,3 +1,4 @@
+import type { Menuitem } from "../types";
 import {
   AMPLIFY,
   ASPEN,
@@ -22,7 +23,7 @@ import {
   STELLA,
 } from "./commonMenuItems";
 
-const FOOD = {
+const FOOD: Menuitem = {
   title: "Food",
   items: [
     {
@@ -38,9 +39,9 @@ const FOOD = {
   ],
 };
 
-const studentapps = [ASPEN, GC];
+const studentapps: Menuitem[] = [ASPEN, GC];
 
-export const hsmenu = [
+export const hsmenu: Menuitem[] = [
   {
     title: "Assignments",
     items: [
@@ -117,7 +118,7 @@ export const hsmenu = [
   },
 ];
 
-export const msmenu = [
+export const msmenu: Menuitem[] = [
   {
     title: "Assignments",
     items: [

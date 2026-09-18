@@ -1,4 +1,5 @@
 import { school } from "../prefs";
+import type { Menuitem } from "../types";
 import {
   ASPEN,
   GC,
@@ -21,7 +22,7 @@ import {
   CREATIVECLOUD,
 } from "./commonMenuItems";
 
-export const menu = [
+export const menu: Menuitem[] = [
   // No more than FIVE items per menu
   {
     title: "Teaching",

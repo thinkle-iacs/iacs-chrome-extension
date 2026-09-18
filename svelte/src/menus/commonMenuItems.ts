@@ -155,71 +155,71 @@ export const GOOGLE_APPS_WITH_ADOBE: Menuitem = {
   title: "", // Column...
   items: [GOOGLE_APPS, { title: "Adobe", items: [EXPRESS, CREATIVECLOUD] }],
 };
-export const WEBSITE = {
+export const WEBSITE: Menuitem = {
   title: "School Website",
   link: "https://www.innovationcharter.org",
   icon: "./icons/iacs-icon.png",
 };
-export const INNOVATOR = {
+export const INNOVATOR: Menuitem = {
   title: "The Innovator",
   link: "https://www.theinnovator.org",
   icon: "https://theinnovator.org/wp-content/uploads/2015/10/cropped-newnewlogo_innovator_from_mayotte2-32x32.png",
   detail: "Innovation's student-run newspaper",
   blackIcon: true,
 };
-export const LIBRARY = {
+export const LIBRARY: Menuitem = {
   title: "Library",
   link: "https://iacs.library.site",
   icon: "./icons/library.png",
 };
-export const SCHOOL_CALENDAR = {
+export const SCHOOL_CALENDAR: Menuitem = {
   title: "Calendar",
   link: "https://www.innovationcharter.org/calendar",
   icon: "./icons/school-calendar.png",
 };
-export const STAFF_DIRECTORY = {
+export const STAFF_DIRECTORY: Menuitem = {
   title: "Directory",
   icon: "./icons/directory.png",
 
   link: "https://www.innovationcharter.org/about-iacs/faculty/",
 };
-export const LINKS = {
+export const LINKS: Menuitem = {
   title: "Links",
   items: [WEBSITE, INNOVATOR, LIBRARY, STAFF_DIRECTORY],
 };
-export const PARKING_FORM = {
+export const PARKING_FORM: Menuitem = {
   title: "Student Parking Application",
   icon: "./icons/parking.png",
   link: "https://docs.google.com/forms/d/e/1FAIpQLSfhMlrKkvh7T9bRZg0cSFX3yZqW2kUZjvobb8C7soxMq4jJWA/viewform",
 };
-export const WORK_PERMIT = {
+export const WORK_PERMIT: Menuitem = {
   title: "Work Permit Information",
   link: "https://docs.google.com/document/d/1cjkcmqIjnYPS4PxXfsL-Xmz9fc0TOT3Ujc_aJ3KP3zo/edit?usp=sharing",
-  icon : "./icons/work-permit.png",
+  icon: "./icons/work-permit.png",
 };
-export const COMM_SERV = {
+export const COMM_SERV: Menuitem = {
   title: "Community Service Form",
   link: "https://docs.google.com/document/d/1mG5Z99WGS5pTlAIp1MvUigzkHdV8gwpbmxx9FySN5G8/edit?usp=sharing",
   icon: "./icons/service.png",
-  blackIcon : true,
+  blackIcon: true,
 };
 
-export const BULLYING_PLAN = {  
-  title : 'Anti-Bullying Plan',
-  detail : 'Bullying Prevention and Intervention Plan',
-  link : 'https://docs.google.com/document/d/1pcJK2w42f02P1_15uAOE3lTEW5kw9znxUQ5SzHJPrDA/edit'
-}
+export const BULLYING_PLAN: Menuitem = {
+  title: "Anti-Bullying Plan",
+  detail: "Bullying Prevention and Intervention Plan",
+  link: "https://docs.google.com/document/d/1pcJK2w42f02P1_15uAOE3lTEW5kw9znxUQ5SzHJPrDA/edit",
+};
 
-export const CLEVER = {
-  title : 'Clever Portal',
-  link : 'https://clever.com/in/innovation-academy-charter-school-2f6799e/',
-  icon : 'https://www.clever.com/wp-content/uploads/2023/06/cropped-Favicon-512px-32x32.png',
-  detail : 'Single sign-on for Renaissance (Star Testing)',
-}
+export const CLEVER: Menuitem = {
+  title: "Clever Portal",
+  link: "https://clever.com/in/innovation-academy-charter-school-2f6799e/",
+  icon: "https://www.clever.com/wp-content/uploads/2023/06/cropped-Favicon-512px-32x32.png",
+  detail: "Single sign-on for Renaissance (Star Testing)",
+};
 
-export const CHROMEBOOK_REPAIR_FORM = {
-  title : 'Chromebook Problem',
-  link : 'https://docs.google.com/forms/d/e/1FAIpQLScVUG8AZ-TGg3ODcWSXEQt5WQ60iWciuz_9iYxfpAVZhU_Kqg/viewform',
-  detail : 'Use this to get help with student Chromebook Problems',
-  icon : './icons/chromebook-help.png'
-}
+export const CHROMEBOOK_REPAIR_FORM: Menuitem = {
+  title: "Chromebook Problem",
+  link: "https://docs.google.com/forms/d/e/1FAIpQLScVUG8AZ-TGg3ODcWSXEQt5WQ60iWciuz_9iYxfpAVZhU_Kqg/viewform",
+  detail: "Use this to get help with student Chromebook Problems",
+  icon: "./icons/chromebook-help.png",
+};

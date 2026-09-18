@@ -16,13 +16,13 @@ export type MenuMode = "Staff" | "HS" | "MS" | "Family";
 export function getBaseModeMenuItems(mode: MenuMode): Menuitem[] {
   switch (mode) {
     case "Staff":
-      return menu as Menuitem[];
+      return menu;
     case "Family":
-      return familyMenu as Menuitem[];
+      return familyMenu;
     case "HS":
-      return hsmenu as Menuitem[];
+      return hsmenu;
     case "MS":
-      return msmenu as Menuitem[];
+      return msmenu;
     default:
       return defaultMenuItems as Menuitem[];
   }
