@@ -42,32 +42,21 @@ const studentapps = [ASPEN, GC];
 
 export const hsmenu = [
   {
-    title: "",
+    title: "Assignments",
     items: [
+      ASPEN,
+      GC,
       {
-        title: "Assignments",
-        items: [ASPEN, GC],
-      },
-      {
-        title: "Adobe",
-        items: [EXPRESS, CREATIVECLOUD],
+        title: "Middlesex Community College (MCC)",
+        link: "https://www.middlesex.mass.edu/",
+        detail:
+          "Online coursework and <a href='https://drive.google.com/file/d/1mZHqREk1_SntT9cu-vu5GI3Ujt9aCTTv/view?usp=sharing'>Dual Enrollment Handbook</a>",
+        icon: "https://www.middlesex.edu/_resources/images/_system/logos/favicon.ico",
       },
       CLEVER,
     ],
   },
-
-  {
-    title: "Tools",
-    items: [
-      SCOIR,
-      {
-        title: "",
-        items: [DESMOS, STELLA],
-      },
-    ],
-  },
   GOOGLE_APPS,
-
   {
     title: "Resources",
     items: [
@@ -96,7 +85,6 @@ export const hsmenu = [
       COMM_SERV,
     ],
   },
-
   LINKS,
   FOOD,
   {
@@ -109,6 +97,21 @@ export const hsmenu = [
       {
         title: "STEM Enrichment Opportunities",
         link: "https://docs.google.com/presentation/d/1flyZQ6-JhWaIXTh3h-rxV_rSzYhu2KErwdnNib2mv3o/edit?slide=id.g729dd71725_7_214#slide=id.g729dd71725_7_214",
+      },
+    ],
+  },
+  {
+    title: "Adobe",
+    items: [EXPRESS, CREATIVECLOUD],
+  },
+
+  {
+    title: "Tools",
+    items: [
+      SCOIR,
+      {
+        title: "",
+        items: [DESMOS, STELLA],
       },
     ],
   },
