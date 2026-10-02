@@ -15,7 +15,7 @@
     $hiddenCards[id] = true;
   }
 
-  function registerId(id) {
+  function registerId(id: string | null) {
     if (id) {
       if ($activeCardIDs.indexOf(id) == -1) {
         $activeCardIDs = [...$activeCardIDs, id];
@@ -48,6 +48,8 @@
       class:double
       class:small
       class:fullwidth
+      data-whimsy-kind="card"
+      data-whimsy-id={id || undefined}
       on:click
     >
       <div class="head">

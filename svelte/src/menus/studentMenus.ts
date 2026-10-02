@@ -1,3 +1,4 @@
+import type { Menuitem } from "../types";
 import {
   AMPLIFY,
   ASPEN,
@@ -17,12 +18,12 @@ import {
   MS_ANNOUNCEMENTS,
   MS_HANDBOOK,
   PARKING_FORM,
-  RESTORATIVE_FORM,
+  //RESTORATIVE_FORM,
   SCOIR,
   STELLA,
 } from "./commonMenuItems";
 
-const FOOD = {
+const FOOD: Menuitem = {
   title: "Food",
   items: [
     {
@@ -38,22 +39,71 @@ const FOOD = {
   ],
 };
 
-const studentapps = [ASPEN, GC];
+const studentapps: Menuitem[] = [ASPEN, GC];
 
-export const hsmenu = [
+export const hsmenu: Menuitem[] = [
   {
-    title: "",
+    title: "Assignments",
     items: [
+      ASPEN,
+      GC,
       {
-        title: "Assignments",
-        items: [ASPEN, GC],
-      },
-      {
-        title: "Adobe",
-        items: [EXPRESS, CREATIVECLOUD],
+        title: "Middlesex Community College (MCC)",
+        link: "https://www.middlesex.mass.edu/",
+        detail:
+          "Online coursework and <a href='https://drive.google.com/file/d/1mZHqREk1_SntT9cu-vu5GI3Ujt9aCTTv/view?usp=sharing'>Dual Enrollment Handbook</a>",
+        icon: "https://www.middlesex.edu/_resources/images/_system/logos/favicon.ico",
       },
       CLEVER,
     ],
+  },
+  GOOGLE_APPS,
+  {
+    title: "Resources",
+    items: [
+      HS_ANNOUNCEMENTS,
+      HS_EXTRA_HELP,
+      HS_HANDBOOK,
+      BULLYING_PLAN,
+      {
+        title: "Ms. LeMay's Counseling Check-In Form",
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSehqbNQjtjqxqsZA-UKVOCSDA7Xo1yJXyaFF72S9caFQZE0EA/viewform?usp=header",
+        detail: "Counseling Check-In Form for Students in grades 8-12",
+        icon: "https://img.icons8.com/external-flaticons-lineal-color-flat-icons/344/external-counseling-funeral-service-flaticons-lineal-color-flat-icons.png",
+      },
+    ],
+  },
+  {
+    title: "Forms",
+    items: [
+      CHROMEBOOK_REPAIR_FORM,
+      {
+        title: "Incident Reporting Form",
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSe9qasAJbfEcJvF1wzXS4UWC3NSuX_IT0Ep_jwV7Qbr-zVYvQ/viewform",
+      },
+      //RESTORATIVE_FORM,
+      PARKING_FORM,
+      COMM_SERV,
+    ],
+  },
+  LINKS,
+  FOOD,
+  {
+    title: "Academics",
+    items: [
+      {
+        title: "Stem Endorsement Program",
+        link: "https://docs.google.com/document/d/1_aleqnQHQZ9b7ngLPSOrSXxub0p9YL4l9yIjxjyfb00/edit?tab=t.0",
+      },
+      {
+        title: "STEM Enrichment Opportunities",
+        link: "https://docs.google.com/presentation/d/1flyZQ6-JhWaIXTh3h-rxV_rSzYhu2KErwdnNib2mv3o/edit?slide=id.g729dd71725_7_214#slide=id.g729dd71725_7_214",
+      },
+    ],
+  },
+  {
+    title: "Adobe",
+    items: [EXPRESS, CREATIVECLOUD],
   },
 
   {
@@ -66,40 +116,9 @@ export const hsmenu = [
       },
     ],
   },
-  GOOGLE_APPS,
-  {
-    title: "",
-    items: [
-      {
-        title: "Resources",
-        items: [HS_ANNOUNCEMENTS, HS_EXTRA_HELP, HS_HANDBOOK, BULLYING_PLAN],
-      },
-      {
-        title: "Forms",
-        items: [
-          CHROMEBOOK_REPAIR_FORM,
-          {
-            title: "Incident Reporting Form",
-            link: "https://docs.google.com/forms/d/e/1FAIpQLSe9qasAJbfEcJvF1wzXS4UWC3NSuX_IT0Ep_jwV7Qbr-zVYvQ/viewform",
-          },
-          {
-            title: "Counseling Check-In Form",
-            link: "https://forms.gle/Dy7h4yRReG7Etyxf7",
-            detail: "Counseling Check-In Form for Students",
-            icon: "https://img.icons8.com/external-flaticons-lineal-color-flat-icons/344/external-counseling-funeral-service-flaticons-lineal-color-flat-icons.png",
-          },
-          RESTORATIVE_FORM,
-          PARKING_FORM,
-          COMM_SERV,
-        ],
-      },
-    ],
-  },
-  LINKS,
-  FOOD,
 ];
 
-export const msmenu = [
+export const msmenu: Menuitem[] = [
   {
     title: "Assignments",
     items: [
@@ -145,7 +164,7 @@ export const msmenu = [
             detail: "Counseling Check-In Form for Students",
             icon: "https://img.icons8.com/external-flaticons-lineal-color-flat-icons/344/external-counseling-funeral-service-flaticons-lineal-color-flat-icons.png",
           },
-          RESTORATIVE_FORM,
+          //RESTORATIVE_FORM,
         ],
       },
     ],
@@ -153,7 +172,7 @@ export const msmenu = [
   {
     title: "Links",
     items: [
-      MS_ANNOUNCEMENTS,
+      //MS_ANNOUNCEMENTS,
       {
         title: "School Website",
         link: "https://www.innovationcharter.org",

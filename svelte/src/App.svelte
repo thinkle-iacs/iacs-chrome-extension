@@ -1,11 +1,12 @@
 <script lang="ts">
   import Innovator from "./whimsy/Innovator.svelte";
-
+  import HawkCanvas from "./whimsy/HawkCanvas.svelte";
   import CountdownCard from "./whimsy/CountdownCard.svelte";
+  import FlowerCanvas from "./whimsy/FlowerCanvas.svelte";
 
   import TipBuilder from "./TipBuilder.svelte";
   import Snow from "./whimsy/SnowCanvas.svelte";
-
+  import BouncingBall from "./whimsy/BouncingBallCanvas.svelte";
   import PrefCard from "./PrefCard.svelte";
   import Weather from "./whimsy/Weather.svelte";
   import { onMount } from "svelte";
@@ -19,15 +20,19 @@
   import RemoteCards from "./CardFetcher/RemoteCards.svelte";
   import ScheduleCard from "./Schedule/ScheduleCard.svelte";
   import CardContainer from "./CardContainer.svelte";
-  import { school, prefsSet, showPrefs, whimsy } from "./prefs";
+  import { school, prefsSet, showPrefs, whimsy, triggerCamel } from "./prefs";
   import { toastMessage, showToast, highlightSettings } from "./toastStore";
   import CloseButton from "./CloseButton.svelte";
   import StudentGame from "./StudentGame/StudentGame.svelte";
   import DayOfWeekWhimsy from "./whimsy/DayOfWeekWhimsy.svelte";
+  import PiDayTrain from "./whimsy/PiDayTrain.svelte";
+  import HumpDayCanvas from "./whimsy/HumpDayCanvas.svelte";
   import HalloweenPlus from "./whimsy/HalloweenPlus.svelte";
+  import SportsNight from "./whimsy/SportsNight.svelte";
   import HawkCard from "./Hawk/HawkCard.svelte";
   import Toast from "./Toast.svelte";
   import Password from "./whimsy/Password.svelte";
+  import StaffAuthGate from "./Auth/StaffAuthGate.svelte";
 
   let tips = tipDataStore.store;
   let dayNum = new Date().getDate();
@@ -39,19 +44,64 @@
   let routes = {
     "#tipbuilder": "tipbuilder",
     "#snow": "snow",
+    "#flower": "flower",
+    "#ball": "ball",
+    "#ball-abs": "ball-abs",
+    "#ball-fix": "ball-fix",
     "#halloween": "halloween",
+    "#sports": "sports",
+    "#hawk": "hawk",
+    "#hump": "hump",
+    '#piday' : 'piday'
   };
+  /* Local-only escape hatch: preview the Staff page without the Firebase
+     sign-in flow. It's a query param (?preview) rather than a hash so the
+     hash stays free for the secret routes above — e.g. /?preview#snow.
+     Only honored on localhost so it can never open a hole on the deployed
+     staff.innovationcharter.org host. */
+  const isLocalhost =
+    typeof window !== "undefined" &&
+    ["localhost", "127.0.0.1", "0.0.0.0", "::1"].includes(
+      window.location.hostname
+    );
+  const staffAuthBypass =
+    isLocalhost && new URLSearchParams(window.location.search).has("preview");
+
+  function logDevRouteHelp() {
+    if (!isLocalhost) return;
+    const { origin, pathname } = window.location;
+    const base = origin + pathname;
+    if (mode === "Staff" && !staffAuthBypass) {
+      console.info(
+        `%c[staff preview]%c skip the Firebase sign-in locally by adding ?preview\n  ${base}?preview`,
+        "font-weight:bold;color:#0033a0",
+        "color:inherit"
+      );
+    }
+    const hashRoutes = Object.keys(routes).join(", ");
+    console.info(
+      `%c[secret routes]%c ${hashRoutes}\n  try e.g. ${base}${
+        mode === "Staff" ? "?preview" : ""
+      }#snow`,
+      "font-weight:bold;color:#0033a0",
+      "color:inherit"
+    );
+  }
+
   function checkForSecretHash() {
     let hash = window.location.hash;
     console.log(hash);
     if (routes[hash]) {
       route = routes[hash];
+      if (route === "hump") {
+        triggerCamel.set(true);
+      }
     }
   }
   onhashchange = checkForSecretHash;
   checkForSecretHash();
 
-  const mode: "Staff" | "HS" | "MS" | "Family" = "MODE";
+  const mode = process.env.MODE as "Staff" | "HS" | "MS" | "Family";
   if (mode == "HS") {
     $school = "HS";
   }
@@ -61,6 +111,7 @@
   if (mode == "Family") {
     $whimsy = false;
   }
+  logDevRouteHelp();
   let showCount = true;
   let counters = [
     {
@@ -77,7 +128,21 @@
   let theCounter = counters[0];
 </script>
 
+<StaffAuthGate enabled={mode === "Staff" && !staffAuthBypass}>
 {#if route == "snow"}<Snow />{/if}
+{#if route == "flower"}<FlowerCanvas />{/if}
+{#if route == "hawk"}<HawkCanvas />{/if}
+{#if route == "piday"}<PiDayTrain />{/if}
+{#if route == "hump"}<HumpDayCanvas auto />{/if}
+{#if route == "ball" || route == "ball-abs"}
+  <BouncingBall mode="absolute" />
+{/if}
+{#if route == "ball-fix"}
+  <BouncingBall mode="fixed" />
+{/if}
+{#if route == "sports"}
+  <SportsNight />
+{/if}
 
 <main>
   {#if route == "tipbuilder"}
@@ -151,6 +216,7 @@
     highlightSettings={$highlightSettings}
   />
 </main>
+</StaffAuthGate>
 
 <style>
   :global(h1, h2, h3, h4, h5, h6) {

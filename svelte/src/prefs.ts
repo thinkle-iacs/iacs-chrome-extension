@@ -36,8 +36,8 @@ school.subscribe((value) => {
 });
 
 export let prefsSet = derived([school], ([$school]) => {
-  let val = !!$school
-  console.log('school was ',$school,'return',val;
+  let val = !!$school;
+  console.log('school was ', $school, 'return', val);
   return val;
 });
 
@@ -71,6 +71,8 @@ export const students : Writable<StudentData[]> = createLocalStorageStore('stude
 export const whimsy : Writable<boolean> = createLocalStorageStore('whimsy',true);
 export const preferredCountdownName : Writable<string>= createLocalStorageStore('countdown',undefined);
 export const hideCountdown : Writable<boolean> = createLocalStorageStore('hide-countdown',false);
+
+export const triggerCamel : Writable<boolean> = writable(false);
 
 export const collapsedMenus : Writable<{[key: string] : boolean}> = createLocalStorageStore('collapsed-menu-items',{});
 export const hiddenMenuItems : Writable<{[key: string] : boolean}> = createLocalStorageStore('hidden-menus',{});

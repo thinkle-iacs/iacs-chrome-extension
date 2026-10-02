@@ -43,11 +43,11 @@ export const familyMenu: Menuitem[] = [
   {
     title: "Food",
     items: [
-      {
+      /* {
         title: "Lunch Menu",
         icon: "./icons/lunch-menu.png",
         link: "https://drive.google.com/drive/folders/0B-fhMzqaF6ywMDNpZXFqMFk1dUE?resourcekey=0-Rl9upCRc9k7TfJJxYY0Csg",
-      },
+      }, */
       {
         icon: "./icons/lunch-payment.png",
         title: "Lunch Payments",

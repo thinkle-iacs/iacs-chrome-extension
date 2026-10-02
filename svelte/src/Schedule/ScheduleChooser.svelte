@@ -7,14 +7,7 @@
   import { GASURL } from "../shimURL";
   export let onChange;
   import { hs_schedule } from "./hs_schedule";
-  import {
-    ms_56_ela,
-    ms_78_ela,
-    ms_56_simple,
-    ms_78_simple,
-    ms_56_trans,
-    ms_78_trans,
-  } from "./ms_schedule";
+  import { ms_5th, ms_6th, ms_7th, ms_8th } from "./ms_schedule";
   import { writable } from "svelte/store";
 
   let hardcoded_schedule_options = [
@@ -25,40 +18,28 @@
       schedule: hs_schedule,
     },
     {
-      name: "5/6 Simple",
+      name: "5th Grade",
       school: "MS",
       url: "https://docs.google.com/document/d/1suZQXiTsE5QfTgKm1bRyB1fnQDV78WS6DB1c10iSB0c/edit",
-      schedule: ms_56_simple,
+      schedule: ms_5th,
     },
     {
-      name: "7/8 Simple",
+      name: "6th Grade",
       school: "MS",
       url: "https://docs.google.com/document/d/1suZQXiTsE5QfTgKm1bRyB1fnQDV78WS6DB1c10iSB0c/edit",
-      schedule: ms_78_simple,
+      schedule: ms_6th,
     },
     {
-      name: "5/6 Transitions",
+      name: "7th Grade",
       school: "MS",
       url: "https://docs.google.com/document/d/1suZQXiTsE5QfTgKm1bRyB1fnQDV78WS6DB1c10iSB0c/edit",
-      schedule: ms_56_trans,
+      schedule: ms_7th,
     },
     {
-      name: "7/8 Transitions",
+      name: "8th Grade",
       school: "MS",
       url: "https://docs.google.com/document/d/1suZQXiTsE5QfTgKm1bRyB1fnQDV78WS6DB1c10iSB0c/edit",
-      schedule: ms_78_trans,
-    },
-    {
-      name: "5/6 (ELA)",
-      school: "MS",
-      url: "https://docs.google.com/document/d/1suZQXiTsE5QfTgKm1bRyB1fnQDV78WS6DB1c10iSB0c/edit",
-      schedule: ms_56_ela,
-    },
-    {
-      name: "7/8 (ELA)",
-      school: "MS",
-      url: "https://docs.google.com/document/d/1suZQXiTsE5QfTgKm1bRyB1fnQDV78WS6DB1c10iSB0c/edit",
-      schedule: ms_78_ela,
+      schedule: ms_8th,
     },
   ];
 
@@ -71,20 +52,32 @@
   let schedule_options = writable(hardcoded_schedule_options); // scheduleLoader.store;
   // onMount(() => scheduleLoader.update());
 
+  // Legacy schedule names from before the 2026-2027 per-grade rename. Map
+  // each to a reasonable per-grade replacement so persisted (localStorage)
+  // or otherwise stale selections don't silently fail to match any option.
+  const legacyScheduleNames: Record<string, string> = {
+    "5/6 Simple": "5th Grade",
+    "5/6 Transitions": "5th Grade",
+    "5/6 (ELA)": "5th Grade",
+    "7/8 Simple": "7th Grade",
+    "7/8 Transitions": "7th Grade",
+    "7/8 (ELA)": "7th Grade",
+  };
+
+  if ($selectedSchedule && legacyScheduleNames[$selectedSchedule]) {
+    $selectedSchedule = legacyScheduleNames[$selectedSchedule];
+  }
+
   if (!$selectedSchedule) {
     console.log("Trigger sched update");
     if ($school == "MS") {
-      $selectedSchedule = "5/6 Simple";
+      $selectedSchedule = "5th Grade";
     } else {
       $selectedSchedule = "HS";
     }
   }
   let activeOptions = [];
   let scheduleObject;
-  $: scheduleObject = $schedule_options.find(
-    (o) => o.name == $selectedSchedule
-  );
-  $: scheduleObject && onChange(scheduleObject);
   $: {
     activeOptions = $schedule_options.filter(
       (option) =>
@@ -93,7 +86,21 @@
         $school == "All" ||
         $school == option.school
     );
+    // Fall back to the first option valid for the current school if the
+    // current selection doesn't match anything (e.g. a stale/legacy name
+    // that isn't in legacyScheduleNames, or a schedule that isn't offered
+    // for the active school).
+    if (
+      activeOptions.length &&
+      !activeOptions.some((o) => o.name == $selectedSchedule)
+    ) {
+      $selectedSchedule = activeOptions[0].name;
+    }
   }
+  $: scheduleObject = $schedule_options.find(
+    (o) => o.name == $selectedSchedule
+  );
+  $: scheduleObject && onChange(scheduleObject);
 </script>
 
 {#if activeOptions.length > 1}

@@ -44,6 +44,11 @@ export default {
     file: "public/build/bundle.js",
   },
   plugins: [
+    replace({
+      preventAssignment: true,
+      "process.env.GASURL": JSON.stringify(process.env.GASURL || ""),
+      "process.env.MODE": JSON.stringify(process.env.MODE || "Staff"),
+    }),
     svelte({
       preprocess: sveltePreprocess({ sourceMap: !production }),
       compilerOptions: {
@@ -68,10 +73,6 @@ export default {
     typescript({
       sourceMap: !production,
       inlineSources: !production,
-    }),
-    replace({
-      "process.env.GASURL": process.env.GASURL || "",
-      MODE: process.env.MODE || "Family",
     }),
     // In dev mode, call `npm run start` once
     // the bundle has been generated

@@ -4,6 +4,8 @@
   import ScheduleBlockDisplay from "./ScheduleBlockDisplay.svelte";
   import ScheduleChooser from "./ScheduleChooser.svelte";
   import { now } from "./now";
+  import { onDestroy } from "svelte";
+  import { triggerCamel } from "../prefs";
   let activeOption;
   function setActive(scheduleOption) {
     activeOption = scheduleOption;
@@ -38,6 +40,8 @@
     `;
   }
   let currentBlock, nextBlocks, previousBlock;
+  let themeActive = false;
+  let themeTimeout: number;
 
   $: {
     if (activeOption && activeOption.schedule) {
@@ -61,6 +65,23 @@
       changeDayToShow(delta, recursionCount + 1);
     }
   }
+
+  function handleWedClick() {
+    if ($now.getDay() !== 3) {
+      return;
+    }
+
+    triggerCamel.set(true);
+    themeActive = true;
+    window.clearTimeout(themeTimeout);
+    themeTimeout = window.setTimeout(() => {
+      themeActive = false;
+    }, 3000);
+  }
+
+  onDestroy(() => {
+    window.clearTimeout(themeTimeout);
+  });
 </script>
 
 <Card double={true} fullwidth={customize}>
@@ -93,6 +114,7 @@
     </div>
     <div
       class="schedule-grid"
+      class:theme-active={themeActive}
       style:grid-template-rows={`repeat(${60 * 24},auto)`}
       style:grid-template-columns="2em auto"
     >
@@ -118,12 +140,14 @@
           <div
             class:today={$now.getDay() == n}
             class="dayheader"
+            class:wednesday={n === 3}
             style:grid-row-start="1"
             style:grid-row-end="2"
             style:grid-column-start={n + 1}
-            style:grid-column-end={n + 1}
+            style:grid-column-end={n + 2}
             class:highlight={n == dayToShow}
             class:next-to-highlight={Math.abs(n - dayToShow) == 1}
+            on:click={n === 3 && $now.getDay() === 3 ? handleWedClick : undefined}
           >
             <!-- {#if $now.getDay() == n}
               ▶
@@ -172,6 +196,34 @@
     text-align: center;
     padding: var(--pad);
     border-right: 1px solid var(--white, "white");
+  }
+  .dayheader.wednesday {
+    cursor: pointer;
+    transition: transform 100ms, background-color 100ms;
+  }
+  .dayheader.wednesday:hover {
+    transform: scale(1.1);
+    background-color: var(--blue);
+  }
+  .theme-active .dayheader {
+    background-color: var(--blue);
+    color: var(--white, "white");
+  }
+  .theme-active .dayheader.wednesday:hover {
+    background-color: hsl(210, 100%, 45%);
+  }
+  .theme-active .block-container {
+    background-color: rgba(0, 105, 255, 0.08);
+    border-color: var(--blue);
+  }
+  .theme-active .current {
+    border-color: var(--darkblue);
+  }
+  .theme-active .hour-block {
+    color: var(--blue);
+  }
+  .theme-active .controls {
+    border-color: var(--blue);
   }
   /* .previous {
     border-left: 3px solid var(--lightgrey);

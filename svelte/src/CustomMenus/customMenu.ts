@@ -11,6 +11,8 @@ if (locallyStored) {
   try {
     let value = JSON.parse(locallyStored);
     customMenuStore.set(value);
+  } catch {
+    console.log('Failed to parse custom menu items from localStorage');
   }
 }
 

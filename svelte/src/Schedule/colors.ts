@@ -32,6 +32,32 @@ let colorMap = {
   Recess: "var(--material-color-grey-light)",
 };
 let colorCount = 0;
+
+function resolveCssVar(color: string, depth = 0): string {
+  if (!color || depth > 4) {
+    return color;
+  }
+
+  const trimmed = color.trim();
+  const match = trimmed.match(/^var\((--[^,\s)]+)(?:,\s*([^)]+))?\)$/);
+  if (!match || typeof window === "undefined") {
+    return trimmed;
+  }
+
+  const [, variableName, fallback] = match;
+  const resolved = getComputedStyle(document.documentElement)
+    .getPropertyValue(variableName)
+    .trim();
+
+  if (resolved) {
+    return resolveCssVar(resolved, depth + 1);
+  }
+  if (fallback) {
+    return resolveCssVar(fallback, depth + 1);
+  }
+  return trimmed;
+}
+
 export function getColor(name, colorDic) {
   if (colorDic[name]) {
     return colorDic[name];
@@ -59,13 +85,18 @@ export function getContrastingColor(
   bg: string,
   currentFG: string
 ): string | void {
-  if (chroma.contrast(bg, currentFG) < 4.5) {
-    if (chroma(bg).luminance() > 0.5) {
-      console.log("Darkening for", bg, chroma(currentFG).darken(4).hex());
-      return chroma(currentFG).darken(4).hex();
-    } else {
-      console.log("Brightneing for", bg, chroma(currentFG).brighten(4).hex());
-      return chroma(currentFG).brighten(4).hex();
+  const resolvedBG = resolveCssVar(bg);
+  const resolvedFG = resolveCssVar(currentFG);
+
+  try {
+    if (chroma.contrast(resolvedBG, resolvedFG) < 4.5) {
+      if (chroma(resolvedBG).luminance() > 0.5) {
+        return chroma(resolvedFG).darken(4).hex();
+      } else {
+        return chroma(resolvedFG).brighten(4).hex();
+      }
     }
+  } catch (error) {
+    return;
   }
 }

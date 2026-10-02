@@ -115,5 +115,5 @@ const menuItems = {
   HS: hsmenu,
   MS: msmenu,
 };
-console.log("Mode is ", "MODE");
-export let defaultMenuItems = menuItems["MODE"] || genericDefaultMenuItems;
+console.log("Mode is ", process.env.MODE);
+export let defaultMenuItems = menuItems[process.env.MODE] || genericDefaultMenuItems;
