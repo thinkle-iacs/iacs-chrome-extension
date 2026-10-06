@@ -46,7 +46,7 @@
     transform: translateX(-50%);
     z-index: 1000;
     cursor: pointer;
-    animation: bounce 2s infinite;
+    animation: settle 600ms ease-out;
   }
 
   .toast-content {
@@ -64,53 +64,17 @@
     border: 2px solid var(--white);
   }
 
-  .emoji {
-    font-size: 18px;
-    animation: wiggle 1s ease-in-out infinite alternate;
-  }
-
-  .arrow {
-    font-size: 16px;
-    animation: bounce-arrow 1.5s ease-in-out infinite;
-  }
-
   .text {
     flex: 1;
     text-align: center;
   }
 
-  @keyframes bounce {
-    0%,
-    20%,
-    50%,
-    80%,
+  @keyframes settle {
+    0% {
+      transform: translateX(-50%) translateY(-6px) scale(1.04);
+    }
     100% {
-      transform: translateX(-50%) translateY(0);
-    }
-    40% {
-      transform: translateX(-50%) translateY(-10px);
-    }
-    60% {
-      transform: translateX(-50%) translateY(-5px);
-    }
-  }
-
-  @keyframes wiggle {
-    from {
-      transform: rotate(-5deg);
-    }
-    to {
-      transform: rotate(5deg);
-    }
-  }
-
-  @keyframes bounce-arrow {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(3px);
+      transform: translateX(-50%) translateY(0) scale(1);
     }
   }
 

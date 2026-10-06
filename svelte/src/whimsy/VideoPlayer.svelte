@@ -9,6 +9,16 @@
   }[] = [];
   let title;
   let activeIndex = 0;
+
+  function getYoutubeId(url: string) {
+    if (url.includes("youtu.be/")) {
+      return url.split("youtu.be/")[1].split(/[?&]/)[0];
+    }
+    if (url.includes("v=")) {
+      return url.split("v=")[1].split("&")[0];
+    }
+    return url;
+  }
 </script>
 
 <Card double {id}>
@@ -26,7 +36,7 @@
           </video>
         {:else if type == "youtube"}
           <iframe
-            src={`https://www.youtube.com/embed/${url.split("v=")[1]}`}
+            src={`https://www.youtube.com/embed/${getYoutubeId(url)}`}
             frameborder="0"
             allowfullscreen
             {title}
