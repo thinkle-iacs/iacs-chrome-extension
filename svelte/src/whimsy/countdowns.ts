@@ -158,6 +158,77 @@ export let countdownData: (RepeatCountdown | CountdownData)[] = [
     target: "2026-06-19T08:05:00",
     countdownStart: "2026-06-11T12:40:00",
   },
+  // 2026-2027 school year
+  {
+    name: "First Day of School",
+    target: "2026-09-02T08:05:00",
+    countdownStart: "2026-08-01T08:05:00",
+  },
+  {
+    name: "Labor Day Weekend",
+    target: "2026-09-03T14:45:00", // Thursday before the long weekend
+    countdownStart: "2026-09-02T08:05:00",
+  },
+  {
+    name: "Indigenous People's Day Weekend",
+    target: "2026-10-09T14:45:00", // Friday before the holiday
+    countdownStart: "2026-09-07T08:05:00",
+  },
+  {
+    name: "Veterans Day",
+    target: "2026-11-10T14:45:00", // Tuesday before the holiday (observed Wed 11/11)
+    countdownStart: "2026-10-28T08:05:00",
+  },
+  {
+    name: "Thanksgiving Break",
+    target: "2026-11-25T14:45:00", // Wednesday before break
+    countdownStart: "2026-11-16T08:05:00",
+  },
+  {
+    name: "Winter Break",
+    target: "2026-12-23T14:45:00", // Wednesday before break
+    countdownStart: "2026-12-14T08:05:00",
+  },
+  {
+    name: "End of Semester 1",
+    target: "2027-01-14T14:45:00", // Thursday before semester change/PD day
+    countdownStart: "2026-08-15T08:05:00",
+  },
+  {
+    name: "Start of Semester 2",
+    target: "2027-01-19T08:05:00", // Tuesday after semester change & MLK Day
+    countdownStart: "2027-01-14T14:45:00",
+  },
+  {
+    name: "February Break",
+    target: "2027-02-12T14:45:00", // Friday before break
+    countdownStart: "2027-02-10T08:05:00",
+  },
+  {
+    name: "April Break",
+    target: "2027-04-16T14:45:00", // Friday before break
+    countdownStart: "2027-04-05T08:05:00",
+  },
+  {
+    name: "Memorial Day Weekend",
+    target: "2027-05-28T14:45:00", // Friday before Memorial Day
+    countdownStart: "2027-05-17T08:05:00",
+  },
+  {
+    name: "Last Day for Seniors!",
+    target: "2027-05-28T14:45:00",
+    countdownStart: "2027-01-01T08:05:00",
+  },
+  {
+    name: "Last Day of School",
+    target: "2027-06-16T12:40:00", // Tentative, early release
+    countdownStart: "2027-05-01T08:05:00",
+  },
+  {
+    name: "Juneteenth Holiday",
+    target: "2027-06-18T08:05:00", // Observed (actual 6/19 falls on a Saturday)
+    countdownStart: "2027-06-12T12:40:00",
+  },
   // Repeating counters...
   {
     name: "The Weekend",
