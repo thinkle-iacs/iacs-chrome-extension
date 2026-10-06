@@ -26,8 +26,8 @@
       issueNumber: 2,
       subtitle: "Homecoming",
       driveUrl:
-        "https://drive.google.com/file/d/1yaEhUu3J3LUK1BFnRNmB-si7zGixAM6-/view?usp=drive_link",
-      youtubeUrl: "https://youtu.be/C0KFJXDak7E",
+        "https://drive.google.com/file/d/19LEJKMfo-m16RcNbKIMyNq7wQxMJqCCA/view?usp=drive_link",
+      youtubeUrl: "https://youtu.be/0aANJjnqmRM",
     },
     {
       volume: 20,
