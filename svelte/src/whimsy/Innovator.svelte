@@ -23,6 +23,14 @@
   const issues: InnovatorIssue[] = [
     {
       volume: 20,
+      issueNumber: 3,
+      subtitle: "Pumpkin Olympics",
+      driveUrl:
+        "https://drive.google.com/file/d/1Bi9tsAwf6cSx5xB6ZyolKC1cIB2wRly0/view?usp=drive_link",
+      youtubeUrl: "https://youtu.be/DesS8xLCOKA",
+    },
+    {
+      volume: 20,
       issueNumber: 2,
       subtitle: "Homecoming",
       driveUrl:
