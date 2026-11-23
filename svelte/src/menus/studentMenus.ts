@@ -158,12 +158,6 @@ export const msmenu: Menuitem[] = [
             title: "Incident Reporting Form",
             link: "https://docs.google.com/forms/d/e/1FAIpQLSe9qasAJbfEcJvF1wzXS4UWC3NSuX_IT0Ep_jwV7Qbr-zVYvQ/viewform",
           },
-          {
-            title: "Counseling Check-In Form",
-            link: "https://forms.gle/Dy7h4yRReG7Etyxf7",
-            detail: "Counseling Check-In Form for Students",
-            icon: "https://img.icons8.com/external-flaticons-lineal-color-flat-icons/344/external-counseling-funeral-service-flaticons-lineal-color-flat-icons.png",
-          },
           //RESTORATIVE_FORM,
         ],
       },
