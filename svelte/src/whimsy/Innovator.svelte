@@ -26,8 +26,8 @@
       issueNumber: 5,
       subtitle: "Student Hour and Staff Profile",
       driveUrl:
-        "https://drive.google.com/file/d/1Onah67SZe6BmsevWg-tZK9bPpS13fnj_/view?usp=drive_link",
-      youtubeUrl: "https://youtu.be/Ls4uQqRuAm4",
+        "https://drive.google.com/file/d/1z7pV0r4Ssd3w69Lt4fefEeBmlgWzk-Fc/view?usp=drive_link",
+      youtubeUrl: "https://youtu.be/YnnE7K64KZA",
     },
     {
       volume: 20,
